@@ -328,8 +328,8 @@ nav {
 #form-status { margin-top: 14px; text-align: center; font-weight: 700; font-size: 15px; }
 
 /* ── FOOTER ── */
-footer { position: relative; margin: 0; padding: 0; line-height: 0; margin-top: 40px; }
-footer img[alt="Grauer Kasten oben abgerundet"] { width: 100%; display: block; }
+footer { position: relative; margin: 0; padding: 0; line-height: 0; margin-top: 40px; background-color: #282828; min-height: 270px; }
+footer::before { content: ''; display: block; width: 110%; margin-left: -5%; height: 105px; background-color: var(--bg); border-radius: 0 0 50% 50%; }
 
 footer p {
     position: absolute;
