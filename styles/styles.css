@@ -1,0 +1,967 @@
+/* Base Styles - Deine originalen Styles */
+nav {display: flex; justify-content: right; gap: 40px; margin: 0px;}
+
+.nav-item :any-link{display: inline-block;text-decoration: none;font-family: 'Inter';
+  font-weight: 900;
+  font-size: 20px;
+color: black}
+
+header {
+    margin: 0px; padding-right: 50px;
+}
+
+.ProjektHeadline {font-size: 200px; 
+    font-family: 'Inter';
+    justify-content: center;
+    display: flex;
+    font-weight: 900;
+    margin-top: 200px;
+    margin-bottom: 0px;
+}
+
+.projekt-controls {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;    
+  gap: 15px;              
+  margin-bottom: 40px;
+}
+
+.projekt-select {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: 20px;
+  text-align: center;
+  border: 2px solid #000;
+  border-radius: 25px;
+  background-color: #D9D9D9;
+  padding: 10px 20px;
+  width: 300px;
+  cursor: pointer;
+  transition: 0.2s ease;  
+}
+
+.projekt-select:hover {
+    transform: translateY(-5px);
+    border-color: #0000008a;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+}
+
+.javabutton {
+  font-size: 50px;
+  font-family: 'Inter';
+  text-align: center;
+  font-weight: 900;
+  margin: 0;
+  border: 2px solid #000;
+  background-color: #D9D9D9;
+  width: 750px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.javabutton:hover {
+  transform: translateY(-5px);
+    border-color: #0000008a;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+}
+
+.text-block {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 2px solid #000000;
+    border-radius: 25px;
+    background-color: #d9d9d9;
+    margin-left: 5px;
+    width: 250px;
+}
+
+.text-block h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.2em;
+    font-family: 'Inter';
+}
+
+.text-block p {
+    margin: 0 0 8px 0;
+    color: #666;
+    font-family: 'Inter';
+}
+
+.status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    border-color: #000000;
+    font-size: 0.9em;
+    font-weight: bold;
+    font-family: 'Inter';
+}
+
+.status.inarbeit {
+    background-color: #FEE42A;
+    color: #000000;
+}
+
+.status.pausiert {
+    background-color: #FF901F;
+    color: #000000;
+}
+
+.status.fertig {
+    background-color: #048017;
+    color: #000000;
+}
+
+main {background-color: #d9d9d9;
+    border: #D9D9D9;
+padding: 0px;
+margin: 0px;}
+
+header {margin: 0px ;
+background-color: #d9d9d9;
+    border: #D9D9D9;}
+
+body {margin: 0px;
+background-color: #d9d9d9;
+    border: #D9D9D9;}
+
+.codedby {margin-top: 4px;
+margin-left: 10px;}
+
+footer {
+    position: relative; 
+    margin: 0;
+    padding: 0;
+    line-height: 0 ;
+}
+
+footer p {
+    position: absolute;
+    bottom: 10px; 
+    left: 10px; 
+    color: white; 
+    margin: 0;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 100;
+}
+
+.footer-links {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 100;
+    padding: 5px 10px;
+}
+
+.coffee-bild {
+    position: absolute;
+    bottom: 10px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    max-width: 300px; 
+    height: auto;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.Dbi {text-align: center;
+font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 100px;
+    margin-top: 15px;
+    margin-bottom: 0px;
+}
+
+.content-section {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin: 40px 20px;
+    padding: 30px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.bildcontainer {
+    flex-shrink: 0;
+}
+
+.content-bild {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.text-container {
+    flex: 1;
+}
+
+.text-container h2 {
+    margin-top: 0;
+    color: #333;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.text-container p {
+    line-height: 1.6;
+    color: #666;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+}
+
+.Hinweis {
+    margin-top: 0;
+    color: #333;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.Hinweistext {
+    line-height: 1.6;
+    color: #666;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    text-decoration: none;
+}
+
+.Bildungbild {margin-left: 200px; 
+margin-right: 200px;}
+
+.github-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 0;
+    padding: 0 20px;
+}
+
+.github-container {
+    text-align: center;
+    max-width: 800px;
+    width: 100%;
+}
+
+.github-chart {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.Kontakt-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+.Kontakt-title {
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    color: #333;
+    margin-bottom: 40px;
+    font-size: 2.5em;
+}
+
+.Kontakt-form {
+    background-color: #AFAFAF; 
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.form {
+    margin-bottom: 25px;
+}
+
+.form label {
+    display: block;
+    margin-bottom: 8px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    color: #000000;
+    font-size: 16px;
+}
+
+.form input,
+.form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+    background-color: #D9D9D9; 
+    font-weight: 900;
+    color: rgba(51, 51, 51, 0.41);
+}
+
+.form input::placeholder,
+.form textarea::placeholder {
+    color: rgba(51, 51, 51, 0.41); 
+}
+
+.form input:focus,
+.form textarea:focus {
+    outline: none;
+    border-color: rgba(51, 51, 51, 0.3);
+    background-color: #E9E9E9;
+}
+
+.form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.senden-btn {
+    width: 100%;
+    background-color: #D9D9D9;
+    color: rgba(51, 51, 51, 0.41);
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.senden-btn:hover {
+    background-color: rgba(51, 51, 51, 0.3);
+}
+
+.Psb {text-align: center;
+font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 50px;
+    margin-top: 15px;
+    margin-bottom: 0px;
+}
+
+.skills-container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+.Sprachen-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.Sprachen-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background-color: #f8f9fa;
+    padding: 0px;
+    border-radius: 12px;
+    border: 2px solid #e9ecef;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.Sprachen-icon {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.Sprachen-iconpy {
+    width: 55px;
+    height: 55px;
+    margin-left: 10px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.Sprachen-iconjar {
+    width: 15%;
+    height: 70px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.Sprachen-bar {
+    flex: 1;
+    height: 20px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.tool-item {
+    background-color: #f8f9fa;
+    padding: 30px 20px;
+    border-radius: 12px;
+    text-align: center;
+    border: 2px solid #e9ecef;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tool-item:hover {
+    transform: translateY(-7px);
+    border-color: #fcfcfc8a;
+    cursor: pointer;
+}
+
+.Sprachen-item:hover {
+    transform: translateY(-7px);
+    border-color: #fcfcfc8a;
+    box-shadow: 0 5px 15px rgba(63, 75, 88, 0.2);
+    cursor: pointer;
+}
+
+.tool-icon {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+.tool-iconin {
+    width: 100%;
+    height: 80px;
+    object-fit: contain;
+}
+
+.tool-iconfig {
+    width: 85%;
+    height: 80px;
+    object-fit: contain;
+}
+
+.Homename {font-size: 80px;
+    font-weight: 900;
+    font-family: 'Inter';
+}
+
+.Homehey {font-weight: 200;
+    font-family: 'Inter';
+font-size: 96px;
+}
+
+.Homeib {font-family: 'Inter';
+    font-size: 56px;
+    font-weight: 200;
+}
+
+.Leerzeichen {color: #D9D9D9;}
+
+.HomeiB {font-family: 'Inter';
+    font-size: 56px;
+    font-weight: 200;
+    padding-left: 180px;
+    width: 100%;
+}
+
+.HomeAbout {font-family: 'Inter';
+    justify-content: center;
+    font-weight: 900;
+    text-align: center;
+}
+
+.HeybisName {margin-right: 116px;}
+
+.Beispiel {
+    padding-right: 1039px;
+}
+
+.Videospiel {
+    color: #32A116;
+    font-family: 'Inter';
+    font-weight: 900;
+    font-size: 90px;
+    padding-right: 20px;
+}
+
+.Java {
+    color: #A94C98;
+    font-weight: 900;
+    font-size: 90px;
+    font-family: 'Inter';
+    padding-left: 20px;
+}
+
+.Html {
+    color: #DB7024;
+    font-family: 'Inter';
+    font-weight: 900;
+    font-size: 90px;
+}
+
+.CSS {
+    color: #E4B10A;
+    font-family: 'Inter';
+    font-weight: 900;
+    font-size: 90px;
+}
+
+.Projekt-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  justify-items: center;
+  margin: 50px auto;
+  max-width: 900px;
+  padding: 0 20px;
+}
+
+.text-block:hover {
+    transform: translateY(-5px);
+    border-color: #0000008a;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+}
+
+.Projekt-grid2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  justify-items: center;
+  margin: 50px auto;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+#Dark {
+    cursor: pointer;
+}
+
+/* ========================================
+   RESPONSIVE MEDIA QUERIES
+   ======================================== */
+
+/* Tablet Landscape (1024px) */
+@media (max-width: 1024px) {
+    .ProjektHeadline {
+        font-size: 120px;
+        margin-top: 100px;
+    }
+    
+    .Homename {
+        font-size: 60px;
+    }
+    
+    .Homehey {
+        font-size: 70px;
+    }
+    
+    .Homeib, .HomeiB {
+        font-size: 40px;
+        padding-left: 100px;
+    }
+    
+    .Videospiel, .Java, .Html, .CSS {
+        font-size: 60px;
+    }
+    
+    .Dbi {
+        font-size: 70px;
+    }
+    
+    .Bildungbild {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+    
+    .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Tablet Portrait (768px) */
+@media (max-width: 768px) {
+    nav {
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 10px 0;
+    }
+    
+    header {
+        padding-right: 20px;
+    }
+    
+    .nav-item :any-link {
+        font-size: 16px;
+    }
+    
+    .ProjektHeadline {
+        font-size: 80px;
+        margin-top: 60px;
+    }
+    
+    .HomeAbout {
+        padding: 0 20px;
+    }
+    
+    .Homename {
+        font-size: 40px;
+    }
+    
+    .Homehey {
+        font-size: 50px;
+    }
+    
+    .Homeib {
+        font-size: 28px;
+    }
+    
+    .HomeiB {
+        font-size: 28px;
+        padding-left: 0;
+    }
+    
+    .HeybisName {
+        margin-right: 0;
+    }
+    
+    .Beispiel {
+        padding-right: 0;
+    }
+    
+    .Videospiel, .Java, .Html, .CSS {
+        font-size: 40px;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+    
+    .Projekt-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .text-block {
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    .javabutton {
+        width: 90%;
+        max-width: 500px;
+        font-size: 35px;
+    }
+    
+    .Dbi {
+        font-size: 50px;
+        padding: 0 20px;
+    }
+    
+    .content-section {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+    
+    .content-bild {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .Psb {
+        font-size: 35px;
+        padding: 0 20px;
+    }
+    
+    .Sprachen-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .Bildungbild {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    
+    .Kontakt-title {
+        font-size: 2em;
+    }
+    
+    .Kontakt-form {
+        padding: 25px;
+    }
+    
+    footer p {
+        font-size: 11px;
+        left: 5px;
+        bottom: 5px;
+    }
+    
+    .footer-links {
+        flex-direction: column;
+        gap: 10px;
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .footer-links a {
+        font-size: 11px;
+    }
+    
+    .coffee-bild {
+        max-width: 200px;
+    }
+}
+
+/* Mobile (480px) */
+@media (max-width: 480px) {
+    header {
+        padding-right: 10px;
+    }
+    
+    .codedby {
+        font-size: 10px;
+        margin-left: 5px;
+    }
+    
+    nav {
+        gap: 10px;
+        padding: 5px;
+    }
+    
+    .nav-item :any-link {
+        font-size: 12px;
+    }
+    
+    .ProjektHeadline {
+        font-size: 50px;
+        margin-top: 40px;
+    }
+    
+    .Homename {
+        font-size: 28px;
+    }
+    
+    .Homehey {
+        font-size: 36px;
+    }
+    
+    .Homeib, .HomeiB {
+        font-size: 20px;
+        padding-left: 0;
+    }
+    
+    .Videospiel, .Java, .Html, .CSS {
+        font-size: 28px;
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+    
+    .Projekt-grid, .Projekt-grid2 {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 0 15px;
+    }
+    
+    .text-block {
+        width: 100%;
+        margin-left: 0;
+    }
+    
+    .projekt-select {
+        width: 90%;
+        font-size: 16px;
+    }
+    
+    .javabutton {
+        width: 95%;
+        font-size: 24px;
+    }
+    
+    .Dbi {
+        font-size: 32px;
+    }
+    
+    .content-section {
+        padding: 15px;
+        margin: 20px 10px;
+    }
+    
+    .text-container h2 {
+        font-size: 20px;
+    }
+    
+    .text-container p {
+        font-size: 14px;
+    }
+    
+    .Psb {
+        font-size: 24px;
+    }
+    
+    .skills-container {
+        padding: 0 15px;
+    }
+    
+    .Sprachen-item {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+    
+    .Sprachen-icon, .Sprachen-iconpy {
+        margin-left: 0;
+    }
+    
+    .tools-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .tool-item {
+        padding: 20px 15px;
+    }
+    
+    .Kontakt-title {
+        font-size: 1.5em;
+    }
+    
+    .Kontakt-container {
+        padding: 0 15px;
+    }
+    
+    .Kontakt-form {
+        padding: 20px;
+    }
+    
+    .Hinweis {
+        font-size: 18px;
+    }
+    
+    .Hinweistext {
+        font-size: 14px;
+    }
+    
+    .form label {
+        font-size: 14px;
+    }
+    
+    .form input, .form textarea {
+        font-size: 14px;
+        padding: 10px;
+    }
+    
+    .senden-btn {
+        font-size: 16px;
+        padding: 12px;
+    }
+    
+    .Bildungbild {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+    .github-section {
+        padding: 0 10px;
+    }
+    
+    footer p {
+        font-size: 9px;
+        padding: 3px 5px;
+    }
+    
+    .footer-links {
+        position: relative;
+        bottom: auto;
+        right: auto;
+        justify-content: center;
+        margin-top: 80px;
+        padding-bottom: 10px;
+    }
+    
+    .footer-links a {
+        font-size: 10px;
+    }
+    
+    .coffee-bild {
+        max-width: 150px;
+        bottom: 45px;
+    }
+}
+
+/* Extra Small (320px) */
+@media (max-width: 320px) {
+    .ProjektHeadline {
+        font-size: 36px;
+    }
+    
+    .Homename {
+        font-size: 22px;
+    }
+    
+    .Homehey {
+        font-size: 28px;
+    }
+    
+    .Homeib, .HomeiB {
+        font-size: 16px;
+    }
+    
+    .Videospiel, .Java, .Html, .CSS {
+        font-size: 22px;
+    }
+    
+    .Dbi {
+        font-size: 26px;
+    }
+    
+    .Psb {
+        font-size: 20px;
+    }
+    
+    .javabutton {
+        font-size: 20px;
+    }
+    
+    .coffee-bild {
+        max-width: 120px;
+    }
+}

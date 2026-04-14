@@ -1,0 +1,19 @@
+.plusknopf button {
+    background-color: blue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.plusknopf button:hover  {
+    background-color: darkblue;
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+.plusknopf button:active {
+    transform: scale(0.95);
+}
+
+

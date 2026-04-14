@@ -1,0 +1,212 @@
+h1 a:any-link{color: black; letter-spacing: 5px;}
+h1 a:any-link{text-align: center; margin-top: 5px; margin-bottom: 0%; font-size: 70px; font-family: Vollkorn SC, sans serif;text-decoration: none;}
+
+p,h2,h3,h4 {font-family: DM Sans, sans-serif ;font-variant: Normal;}
+
+
+header {text-align: center; padding: 20px; color: black;}
+
+nav {display: flex; justify-content: center; gap: 40px; margin-top: 20px;}
+
+.nav-item {display: inline-block;font-family: 'Vollkorn SC', serif; font-variant: small-caps;font-size: 23px; color: black;}
+
+.Startbild {display: block; margin: 0 auto;width:60%;}
+.Startbild2 {display: block; margin: 0 auto;width:100%;}
+
+.Text-unter-Bild {text-align: center; max-width: 550px;display: block;margin: 0 auto;margin-top: 20px; font-size: 20px;}
+
+footer {text-align:right;font-family: 'Vollkorn SC', serif;font-variant: small-caps;}
+
+footer ul {list-style: none; margin: 0;}
+
+footer li {display: inline; margin-left: 20px;}
+
+.alles {display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 20px; max-width: 1200px; margin: 0 auto;}
+
+.bild {display: flex; flex-direction: column;}
+
+.bild h4 {margin-bottom: 0px; font-size: 23px; margin-left: 15%;}
+
+.bild .datum {margin-bottom: 15px; font-size: 14px; margin-left: 17%;}
+
+.bild img {width: 70%; height: auto; margin: 0 auto 10px auto; display: block;}
+
+.bild .Lesezeit {margin-top: 5px; font-size: 16px; text-align: center; width: 100%;}
+
+.blauer-kasten {background-color: #2892C0; border-radius: 15px; padding: 40px; margin: 0px auto; max-width: 1200px;}
+
+:any-link {color: #3b3d4a; line-height: 24px; font-family: DM Sans, sans-serif; box-sizing: border-box; font-style: normal;
+    font-weight: 700; border-radius: transparent; text-decoration: none; }
+img[src*="x"][src$=".png"]{border-radius: 10%;}
+
+
+
+footer {
+    padding-right: 40px;
+    padding-left: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+}
+
+footer {
+	background: #387996;
+	grid-column: 1 / span 3;
+	grid-row: 4;
+}
+
+.Blog {
+    padding: 30px;
+    font-family: 'Vollkorn SC', serif;
+    font-variant: small-caps;
+}
+
+.Blog ul {
+    list-style: none; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.Blog li {
+    flex: 0 1 auto;
+}
+
+.Blog li:first-child {
+    text-align: left;
+    margin-right: auto;
+}
+
+.Blog li:nth-child(2) {
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.Blog li:last-child {
+    text-align: right;
+    margin-left: auto;
+}
+
+.Blog li p,
+.Blog li h2 {
+    margin: 0;
+}
+
+.Blog-Blog {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.seitentitel {
+    text-align: left;
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.blog-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.blog-karte {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: left; 
+    text-align: left; 
+}
+
+.blog-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    margin-left: 25%;
+    text-align: left; 
+    
+}
+
+.bilderlr {
+    width: 100%;
+    display: flex;
+    justify-content: center; 
+}
+
+.bilderlr img {
+    width: 100%;
+    max-width: 300px;
+    height: 200px;
+    display: block;
+}
+
+.blog-beschreibung {
+    margin: 0;
+    line-height: 0.7;
+    text-align: center; 
+    font-size: 22px;
+    white-space: pre-line;
+    text-transform: none;
+    font-variant: normal;
+    color: white;
+    width: 100%; 
+}
+    
+
+.Blog ul {list-style: none; }
+
+.Blog li {display: inline; margin: auto;display: inline-block; padding: 0px 15px; word-spacing: 2px;
+    font-size: 20px;
+    white-space: pre-line; 
+    text-transform: none; 
+    font-variant: normal;
+}
+
+.blauer-kasten2 {
+    background-color: rgba(217,217,217,0.11);
+    border-radius: 0px; 
+    padding: 40px; 
+    margin: 0px auto; 
+    max-width: 1800px;
+}
+body {
+    border: 10px solid #387996;
+    margin: 0%;
+
+}
+main {
+    padding: 40px;
+
+}
+header{
+    padding: 40px;
+}
+
+.blauer-kasten-unteneck {background-color: #2892C0; border-top-left-radius: 15px; border-top-right-radius: 15px; padding: 40px; margin: 0px auto; max-width: 1200px;}
+.blauer-kasten-obeneck {background-color: #2892C0; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; padding: 40px; margin: 0px auto; max-width: 1200px;}
+.Tech-head {font-size: 0px; margin-top: 0%;text-align: center; word-spacing: 2.5px; line-height: 0;}
+
+html {
+    scroll-behavior: smooth;
+}
+
+a {
+    color: #3b3d4a;
+}
+
+a:visited {
+    color: #3b3d4a;
+}
+
+.blog-title a,
+.blog-title a:visited,
+.blog-title a:hover {
+    color: black !important;
+}
+
