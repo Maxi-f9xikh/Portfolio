@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/styles.css">
+    <title>Kontaktiere mich – Maximilian Stickel</title>
+</head>
+<body>
+    <header>
+        <p class="codedby">© coded by Maximilian Stickel</p>
+        <nav>
+            <div class="nav-item"><a href="index.html">Home</a></div>
+            <div class="nav-item"><a href="bildung.html">Bildung</a></div>
+            <div class="nav-item"><a href="index.html#scroll-Projekte">Projekte</a></div>
+            <div class="nav-item"><a href="ueber-mich.html">Über mich</a></div>
+            <div class="nav-item"><a href="faehigkeiten.html">Fähigkeiten</a></div>
+            <div class="nav-item"><a href="kontaktiere-mich.html">Kontaktiere mich</a></div>
+            <span id="Dark">
+                <div class="nav-item">
+                    <img src="images/Darkmode.png" alt="Darkmode an machen?" class="nav-item">
+                </div>
+            </span>
+        </nav>
+    </header>
+
+    <br>
+    <hr>
+
+    <main>
+        <div class="Kontakt-container">
+            <h1 class="Kontakt-title">Kontaktiere mich</h1>
+
+            <div class="Kontakt-form">
+                <div class="form">
+                    <label for="name">Dein Name:</label>
+                    <input type="text" id="name" placeholder="Vollen Namen eingeben" required>
+                </div>
+
+                <div class="form">
+                    <label for="email">Deine Email:</label>
+                    <input type="email" id="email" placeholder="Email eingeben" required>
+                </div>
+
+                <div class="form">
+                    <label for="message">Deine Nachricht:</label>
+                    <textarea id="message" placeholder="Nachricht eingeben" rows="5" required></textarea>
+                </div>
+
+                <button type="button" class="senden-btn" id="send-btn" onclick="sendEmail()">
+                    Nachricht senden
+                </button>
+                <p id="form-status"></p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <img src="images/Footerbild.png" alt="Grauer Kasten oben abgerundet" style="width: 100%;">
+            <p>© 2025 Maximilian Stickel. All Rights Reserved.</p>
+            <div class="footer-links">
+                <a href="impressum.html">Impressum</a>
+                <a href="datenschutz.html">Datenschutz</a>
+            </div>
+            <a href="https://buymeacoffee.com/Maxi1" target="_blank" rel="noopener noreferrer">
+                <img src="images/bmacoffe.png" alt="buy me a coffe! " class="coffee-bild">
+            </a>
+        </div>
+    </footer>
+
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="js/index.js"></script>
+    <script>
+        // ─────────────────────────────────────────────────────────────
+        // EMAILJS SETUP – ANLEITUNG:
+        //
+        // 1. Geh auf https://emailjs.com und erstelle einen kostenlosen Account
+        // 2. Klick "Add New Service" → wähle dein Email-Konto (Gmail, iCloud, etc.)
+        //    → kopiere die "Service ID" und ersetze 'DEINE_SERVICE_ID' unten
+        // 3. Klick "Email Templates" → "Create New Template"
+        //    Füge im Template diese Variablen ein:
+        //      Von:     {{from_name}} ({{from_email}})
+        //      Betreff: Neue Nachricht von {{from_name}}
+        //      Text:    {{message}}
+        //    → kopiere die "Template ID" und ersetze 'DEINE_TEMPLATE_ID' unten
+        // 4. Klick "Account" → "General" → kopiere den "Public Key"
+        //    und ersetze 'DEIN_PUBLIC_KEY' unten
+        // ─────────────────────────────────────────────────────────────
+
+        const EMAILJS_PUBLIC_KEY  = 'DEIN_PUBLIC_KEY';   // ← hier eintragen
+        const EMAILJS_SERVICE_ID  = 'DEINE_SERVICE_ID';  // ← hier eintragen
+        const EMAILJS_TEMPLATE_ID = 'DEINE_TEMPLATE_ID'; // ← hier eintragen
+
+        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+        function sendEmail() {
+            const name    = document.getElementById('name').value.trim();
+            const email   = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            const status  = document.getElementById('form-status');
+            const btn     = document.getElementById('send-btn');
+
+            if (!name || !email || !message) {
+                status.style.color = '#FF901F';
+                status.textContent = 'Bitte alle Felder ausfüllen.';
+                return;
+            }
+
+            btn.disabled    = true;
+            btn.textContent = 'Wird gesendet…';
+            status.textContent = '';
+
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                from_name:  name,
+                from_email: email,
+                message:    message,
+                to_email:   'maximilianlennox@icloud.com'
+            }).then(() => {
+                status.style.color = '#048017';
+                status.textContent = '✓ Nachricht erfolgreich gesendet!';
+                btn.textContent    = 'Nachricht senden';
+                btn.disabled       = false;
+                document.getElementById('name').value    = '';
+                document.getElementById('email').value   = '';
+                document.getElementById('message').value = '';
+            }).catch((err) => {
+                console.error('EmailJS Fehler:', err);
+                status.style.color = '#cc0000';
+                status.textContent = 'Fehler beim Senden. Bitte versuche es später nochmal.';
+                btn.textContent    = 'Nachricht senden';
+                btn.disabled       = false;
+            });
+        }
+    </script>
+</body>
+</html>
