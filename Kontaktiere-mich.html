@@ -75,25 +75,11 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="js/index.js"></script>
     <script>
-        // ─────────────────────────────────────────────────────────────
-        // EMAILJS SETUP – ANLEITUNG:
-        //
-        // 1. Geh auf https://emailjs.com und erstelle einen kostenlosen Account
-        // 2. Klick "Add New Service" → wähle dein Email-Konto (Gmail, iCloud, etc.)
-        //    → kopiere die "Service ID" und ersetze 'DEINE_SERVICE_ID' unten
-        // 3. Klick "Email Templates" → "Create New Template"
-        //    Füge im Template diese Variablen ein:
-        //      Von:     {{from_name}} ({{from_email}})
-        //      Betreff: Neue Nachricht von {{from_name}}
-        //      Text:    {{message}}
-        //    → kopiere die "Template ID" und ersetze 'DEINE_TEMPLATE_ID' unten
-        // 4. Klick "Account" → "General" → kopiere den "Public Key"
-        //    und ersetze 'DEIN_PUBLIC_KEY' unten
-        // ─────────────────────────────────────────────────────────────
 
-        const EMAILJS_PUBLIC_KEY  = 'DEIN_PUBLIC_KEY';   // ← hier eintragen
-        const EMAILJS_SERVICE_ID  = 'DEINE_SERVICE_ID';  // ← hier eintragen
-        const EMAILJS_TEMPLATE_ID = 'DEINE_TEMPLATE_ID'; // ← hier eintragen
+
+        const EMAILJS_PUBLIC_KEY  = 'k2jTJt4fLlSKf3Axl';   // ← hier eintragen
+        const EMAILJS_SERVICE_ID  = 'service_qz8ek5o';  // ← hier eintragen
+        const EMAILJS_TEMPLATE_ID = 'template_ely5dtl'; // ← hier eintragen
 
         emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
@@ -118,7 +104,7 @@
                 from_name:  name,
                 from_email: email,
                 message:    message,
-                to_email:   'maximilianlennox@icloud.com'
+                to_email:   'red7creeeper@gmail.com'
             }).then(() => {
                 status.style.color = '#048017';
                 status.textContent = '✓ Nachricht erfolgreich gesendet!';

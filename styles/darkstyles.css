@@ -3,7 +3,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 :root {
-    --bg: #1e1e1e;
+    --bg: #282828;
     --card-bg: #2c2c2c;
     --text: #ededed;
     --text-muted: #aaa;
