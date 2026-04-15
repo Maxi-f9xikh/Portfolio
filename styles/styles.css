@@ -22,6 +22,7 @@ body {
     color: var(--text);
     font-family: 'Inter', sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
 }
 
 /* ── HEADER / NAV ── */
@@ -89,17 +90,17 @@ nav {
 /* ── HERO / HOME ── */
 .Homename {font-size: 80px;
     font-weight: 900;
-    font-family: 'Inter';
+    font-family: 'Inter', sans-serif;
 
 }
 
 .Homehey {font-weight: 200;
-    font-family: 'Inter';
+    font-family: 'Inter', sans-serif;
 font-size: 96px;
 
 }
 
-.Homeib {font-family: 'Inter';
+.Homeib {font-family: 'Inter', sans-serif;
     font-size: 56px;
     font-weight: 200;
 }
@@ -107,7 +108,7 @@ font-size: 96px;
 .Leerzeichen {color: #D9D9D9;
 }
 
-.HomeiB {font-family: 'Inter';
+.HomeiB {font-family: 'Inter', sans-serif;
     font-size: 56px;
     font-weight: 200;
     padding-left: 180px;
@@ -147,10 +148,10 @@ font-size: 96px;
 
 
 
-.Videospiel { color: #32A116; font-weight: 900; font-size: 86px; font-family: 'Inter'; padding-right: 16px; }
-.Java       { color: #A94C98; font-weight: 900; font-size: 86px; font-family: 'Inter'; padding-left: 16px; }
-.Html       { color: #DB7024; font-weight: 900; font-size: 86px; font-family: 'Inter'; }
-.CSS        { color: #E4B10A; font-weight: 900; font-size: 86px; font-family: 'Inter'; margin-left: 10px; }
+.Videospiel { color: #32A116; font-weight: 900; font-size: 86px; font-family: 'Inter', sans-serif; padding-right: 16px; }
+.Java       { color: #A94C98; font-weight: 900; font-size: 86px; font-family: 'Inter', sans-serif; padding-left: 16px; }
+.Html       { color: #DB7024; font-weight: 900; font-size: 86px; font-family: 'Inter', sans-serif; }
+.CSS        { color: #E4B10A; font-weight: 900; font-size: 86px; font-family: 'Inter', sans-serif; margin-left: 10px; }
 
 /* ── PROJEKTE ── */
 .ProjektHeadline {
@@ -289,6 +290,10 @@ font-size: 96px;
 .Bildungbild img {
     border-radius: 12px;
     border: 2px solid var(--border);
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 /* ── GITHUB ── */

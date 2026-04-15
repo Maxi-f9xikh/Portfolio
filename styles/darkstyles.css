@@ -22,6 +22,7 @@ body {
     color: var(--text);
     font-family: 'Inter', sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
 }
 
 /* ── HEADER / NAV ── */
@@ -105,10 +106,10 @@ nav {
 
 .Leerzeichen { color: var(--bg); }
 
-.Videospiel { color: #32A116; font-weight: 900; font-size: 86px; font-family: 'Inter'; padding-right: 16px; }
-.Java       { color: #A94C98; font-weight: 900; font-size: 86px; font-family: 'Inter'; padding-left: 16px; }
-.Html       { color: #DB7024; font-weight: 900; font-size: 86px; font-family: 'Inter'; }
-.CSS        { color: #E4B10A; font-weight: 900; font-size: 86px; font-family: 'Inter'; margin-left: 10px; }
+.Videospiel { color: #32A116; font-weight: 900; font-size: 86px; font-family: 'Inter', sans-serif; padding-right: 16px; }
+.Java       { color: #A94C98; font-weight: 900; font-size: 86px; font-family: 'Inter', sans-serif; padding-left: 16px; }
+.Html       { color: #DB7024; font-weight: 900; font-size: 86px; font-family: 'Inter', sans-serif; }
+.CSS        { color: #E4B10A; font-weight: 900; font-size: 86px; font-family: 'Inter', sans-serif; margin-left: 10px; }
 
 /* ── PROJEKTE ── */
 .ProjektHeadline {
@@ -213,7 +214,7 @@ nav {
     max-width: 1200px;
 }
 
-.Bildungbild img { border-radius: 12px; border: 2px solid var(--border); }
+.Bildungbild img { border-radius: 12px; border: 2px solid var(--border); max-width: 100%; width: 100%; height: auto; display: block; }
 
 /* ── GITHUB ── */
 .github-section {
