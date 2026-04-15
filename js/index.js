@@ -55,13 +55,19 @@ const darkBtn = document.getElementById('Dark');
 
 function applyStylesheet() {
     let link = document.querySelector('link[data-theme]');
-    if (!link) {
-        link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.setAttribute('data-theme', 'true');
-        document.head.appendChild(link);
+    if (darkmode) {
+        // Dark Mode: darkstyles.css als Override hinzufügen
+        if (!link) {
+            link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.setAttribute('data-theme', 'true');
+            document.head.appendChild(link);
+        }
+        link.href = 'styles/darkstyles.css?v=2';
+    } else {
+        // Light Mode: Dark-Override entfernen
+        if (link) link.remove();
     }
-    link.href = darkmode ? 'styles/darkstyles.css' : 'styles/styles.css';
 }
 
 function updateImages() {

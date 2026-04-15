@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;600;700;900&display=swap');
+/* Fonts werden über <link> im HTML geladen */
 
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -12,6 +12,7 @@
     --accent: #1a1a1a;
     --radius: 16px;
     --shadow: 0 4px 20px rgba(0,0,0,0.12);
+    --hover-bg: rgba(0,0,0,0.08);
 }
 
 html { scroll-behavior: smooth; }
@@ -20,7 +21,7 @@ body {
     margin: 0;
     background-color: var(--bg);
     color: var(--text);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', 'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
     overflow-x: hidden;
 }
@@ -59,7 +60,7 @@ nav {
 .nav-item a {
     display: inline-block;
     text-decoration: none;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', 'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif;
     font-weight: 700;
     font-size: 15px;
     color: var(--text);
@@ -69,7 +70,7 @@ nav {
 }
 
 .nav-item a:hover {
-    background: rgba(0,0,0,0.08);
+    background: var(--hover-bg);
 }
 
 #Dark {
@@ -88,75 +89,52 @@ nav {
 #Dark:hover img { transform: rotate(20deg); }
 
 /* ── HERO / HOME ── */
-.Homename {font-size: 80px;
+.HomeAbout {
+    font-family: 'Inter', 'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif;
     font-weight: 900;
-    font-family: 'Inter', sans-serif;
-
+    text-align: center;
+    padding: 60px 60px 20px 60px;
 }
 
-.Homehey {font-weight: 200;
-    font-family: 'Inter', sans-serif;
-font-size: 96px;
-
+.HeybisName {
+    margin-right: 116px;
 }
 
-.Homeib {font-family: 'Inter', sans-serif;
+.Homename {
+    font-size: 80px;
+    font-weight: 900;
+}
+
+.Homehey {
+    font-weight: 200;
+    font-size: 96px;
+}
+
+.Homeib {
     font-size: 56px;
     font-weight: 200;
 }
 
-.Leerzeichen {color: #D9D9D9;
+.Leerzeichen {
+    color: var(--bg);
 }
 
-.HomeiB {font-family: 'Inter', sans-serif;
+.HomeiB {
     font-size: 56px;
     font-weight: 200;
     padding-left: 180px;
     width: 100%;
 }
 
-.HomeAbout {font-family: 'Inter';
-    justify-content: center;
-    font-weight: 900;
-    text-align: center;
-
-.HeybisName {margin-right: 116px;
-}
-
-
-}
-.Beispiel {
-    padding-right: 1039px;
-}
-
-.Videospiel {
-    color: #32A116;
-    font-family: 'Inter';
-    font-weight: 900;
-    font-size: 90px;
-    padding-right: 20px;
-}
-
-.Java {
-    color: #A94C98;
-    font-weight: 900;
-    font-size: 90px;
-    font-family: 'Inter';
-    padding-left: 20px;
-
-}
-
-
-
-.Videospiel { color: #32A116; font-weight: 900; font-size: 86px; font-family: 'Inter', sans-serif; padding-right: 16px; }
-.Java       { color: #A94C98; font-weight: 900; font-size: 86px; font-family: 'Inter', sans-serif; padding-left: 16px; }
-.Html       { color: #DB7024; font-weight: 900; font-size: 86px; font-family: 'Inter', sans-serif; }
-.CSS        { color: #E4B10A; font-weight: 900; font-size: 86px; font-family: 'Inter', sans-serif; margin-left: 10px; }
+.Videospiel { color: #32A116; font-weight: 900; font-size: 86px; padding-right: 16px; }
+.Java       { color: #A94C98; font-weight: 900; font-size: 86px; padding-left: 16px; }
+.Html       { color: #DB7024; font-weight: 900; font-size: 86px; }
+.CSS        { color: #E4B10A; font-weight: 900; font-size: 86px; margin-left: 10px; }
 
 /* ── PROJEKTE ── */
 .ProjektHeadline {
     font-size: clamp(80px, 14vw, 180px);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', 'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif;
     font-weight: 900;
     text-align: center;
     margin: 60px 0 10px 0;
@@ -211,7 +189,6 @@ font-size: 96px;
 .text-block h3 {
     margin: 0 0 8px 0;
     font-size: 1.1em;
-    font-family: 'Inter', sans-serif;
     font-weight: 700;
     color: var(--text);
 }
@@ -219,7 +196,6 @@ font-size: 96px;
 .text-block p {
     margin: 0 0 12px 0;
     color: var(--text-muted);
-    font-family: 'Inter', sans-serif;
     font-size: 0.9em;
 }
 
@@ -229,7 +205,6 @@ font-size: 96px;
     border-radius: 20px;
     font-size: 0.8em;
     font-weight: 700;
-    font-family: 'Inter', sans-serif;
     letter-spacing: 0.3px;
 }
 .status.fertig  { background-color: #048017; color: #fff; }
@@ -239,7 +214,7 @@ font-size: 96px;
 /* ── SECTION TITLES ── */
 .Dbi, .Psb {
     text-align: center;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', 'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif;
     font-weight: 900;
     color: var(--text);
     margin: 40px 0 10px;
@@ -269,7 +244,6 @@ font-size: 96px;
 .text-container h2 {
     margin-top: 0;
     color: var(--text);
-    font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 22px;
 }
@@ -277,7 +251,6 @@ font-size: 96px;
 .text-container p {
     line-height: 1.7;
     color: var(--text-muted);
-    font-family: 'Inter', sans-serif;
 }
 
 /* ── BILDUNG ── */
@@ -382,7 +355,6 @@ font-size: 96px;
 
 .Kontakt-title {
     text-align: center;
-    font-family: 'Inter', sans-serif;
     font-weight: 900;
     color: var(--text);
     margin-bottom: 10px;
@@ -392,7 +364,6 @@ font-size: 96px;
 .Hinweis {
     margin-top: 0;
     color: var(--text);
-    font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 20px;
 }
@@ -400,7 +371,6 @@ font-size: 96px;
 .Hinweistext {
     line-height: 1.6;
     color: var(--text-muted);
-    font-family: 'Inter', sans-serif;
     font-weight: 400;
     text-decoration: none;
 }
@@ -418,7 +388,6 @@ font-size: 96px;
 .form label {
     display: block;
     margin-bottom: 7px;
-    font-family: 'Inter', sans-serif;
     font-weight: 700;
     color: var(--text);
     font-size: 15px;
@@ -430,7 +399,7 @@ font-size: 96px;
     padding: 11px 14px;
     border: 2px solid var(--border);
     border-radius: 10px;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', 'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif;
     font-size: 15px;
     background-color: var(--bg);
     color: var(--text);
@@ -456,7 +425,7 @@ font-size: 96px;
     padding: 14px;
     border: none;
     border-radius: 10px;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', 'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif;
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
@@ -470,7 +439,6 @@ font-size: 96px;
     margin-top: 14px;
     text-align: center;
     font-weight: 700;
-    font-family: 'Inter', sans-serif;
     font-size: 15px;
 }
 
@@ -493,7 +461,7 @@ footer p {
     margin: 0;
     padding: 4px 10px;
     font-size: 13px;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', 'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif;
     font-weight: 300;
     line-height: 1.4;
 }
@@ -511,7 +479,6 @@ footer p {
     color: #fff;
     text-decoration: none;
     font-size: 13px;
-    font-family: 'Inter', sans-serif;
     font-weight: 300;
     padding: 4px 8px;
     transition: opacity 0.2s;
@@ -532,7 +499,6 @@ footer p {
 /* ── IMPRESSUM / DATENSCHUTZ ── */
 .Impressumm h1, .Impressumm h2 {
     color: var(--text);
-    font-family: 'Inter', sans-serif;
     font-weight: 900;
     font-size: 22px;
     text-align: center;
@@ -540,7 +506,6 @@ footer p {
 
 .Impressumm p {
     color: var(--text);
-    font-family: 'Inter', sans-serif;
     font-size: 16px;
     text-align: center;
     line-height: 1.6;
@@ -548,7 +513,6 @@ footer p {
 
 .Datentitel {
     color: var(--text);
-    font-family: 'Inter', sans-serif;
     font-weight: 900;
     font-size: 32px;
     text-align: center;
@@ -559,7 +523,6 @@ footer p {
 
 .Datenlayout h1, .Datenlayout h2, .Datenlayout h3, .Datenlayout h4 {
     color: var(--text);
-    font-family: 'Inter', sans-serif;
     font-weight: 900;
     font-size: 22px;
     text-align: center;
@@ -568,7 +531,6 @@ footer p {
 
 .Datenlayout p, .Datenlayout li {
     color: var(--text);
-    font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-size: 15px;
     text-align: center;
