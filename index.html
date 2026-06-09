@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;600;700;900&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="fonts/fonts.css">
     <link rel="stylesheet" href="styles/styles.css?v=2">
     <link rel="icon" type="image/png" href="images/Projekte.png">
@@ -32,14 +32,23 @@
 
 
     <main>
-        <div class="hero">
-            <p class="hero-greeting">Hey, ich bin</p>
-            <h1 class="hero-name">Maximilian Stickel</h1>
-            <p class="hero-sub">Hobby-Programmierer — <span class="accent">Java</span>, HTML/CSS, Unity &amp; Minecraft Mods</p>
-            <p class="hero-desc">Hier kannst du sehen, woran ich gerade arbeite und was ich bereits fertiggestellt habe.</p>
+        <div class="hero-full">
+            <canvas class="hero-canvas" id="hero-canvas"></canvas>
+            <div class="hero-content">
+                <span class="hero-badge">&lt;developer /&gt;</span>
+                <h1 class="hero-title">Maximilian<br>Stickel</h1>
+                <div class="hero-typewriter">
+                    <span id="typed-text"></span><span class="cursor-blink">_</span>
+                </div>
+                <div class="hero-actions">
+                    <a href="#scroll-Projekte" class="btn btn-primary">Projekte ansehen</a>
+                    <a href="kontaktiere-mich.html" class="btn btn-outline">Kontakt</a>
+                </div>
+            </div>
+            <div class="scroll-hint"><div class="scroll-line"></div>scroll</div>
         </div>
 
-        <div id="scroll-Projekte">
+        <div id="scroll-Projekte" class="fade-up">
             <h1 class="ProjektHeadline">Projekte:</h1>
             <div id="projekte_rein" class="Projekt-grid"></div>
         </div>
@@ -59,5 +68,6 @@
     </footer>
 
     <script src="js/index.js"></script>
+    <script src="js/effects.js"></script>
 </body>
 </html>
