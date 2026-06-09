@@ -72,9 +72,8 @@ function applyStylesheet() {
 
 function updateImages() {
     const map = [
-        ['img[alt="Grauer Kasten oben abgerundet"]', 'images/Footerbild_dark.png',  'images/Footerbild.png'],
-        ['img[alt="Bildungs Zeitstrahl!"]',           'images/Bildung_dark.png',     'images/Bildung.png'],
-        ['img[alt="buy me a coffe! "]',               'images/bmacoffe_dark.png',    'images/bmacoffe.png'],
+        ['img[alt="Bildungs Zeitstrahl!"]', 'images/Bildung_dark.png',     'images/Bildung.png'],
+        ['img[alt="buy me a coffe! "]',     'images/bmacoffe_dark.png',    'images/bmacoffe.png'],
     ];
     map.forEach(([selector, darkSrc, lightSrc]) => {
         const el = document.querySelector(selector);

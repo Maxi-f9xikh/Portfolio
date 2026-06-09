@@ -473,56 +473,61 @@ nav {
 
 /* ── FOOTER ── */
 footer {
-    position: relative;
-    margin: 0;
+    background: var(--header-bg);
+    border-top: 1px solid var(--border);
+    margin-top: 80px;
     padding: 0;
-    line-height: 0;
-    margin-top: 40px;
+    position: static;
+    line-height: normal;
 }
 
-footer img[alt="Grauer Kasten oben abgerundet"] { width: 100%; display: block; }
+.footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
 
-footer p {
-    position: absolute;
-    bottom: 12px;
-    left: 14px;
-    color: #fff;
-    margin: 0;
-    padding: 4px 10px;
+.footer-copy {
+    color: var(--text-muted);
     font-size: 13px;
-    font-family: 'Inter', 'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif;
     font-weight: 300;
+    margin: 0;
     line-height: 1.4;
+    font-family: 'Inter', system-ui, sans-serif;
 }
 
 .footer-links {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
+    position: static;
     display: flex;
     gap: 16px;
-    line-height: 1;
 }
 
 .footer-links a {
-    color: #fff;
+    color: var(--text-muted);
     text-decoration: none;
     font-size: 13px;
     font-weight: 300;
     padding: 4px 8px;
-    transition: opacity 0.2s;
+    transition: color 0.2s;
 }
 
-.footer-links a:hover { opacity: 0.6; }
+.footer-links a:hover { color: var(--accent); }
+
+.footer-coffee {
+    display: flex;
+    align-items: center;
+}
 
 .coffee-bild {
-    position: absolute;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    max-width: 280px;
+    position: static;
+    transform: none;
+    max-width: 140px;
     height: auto;
-    line-height: 0;
 }
 
 /* ── IMPRESSUM / DATENSCHUTZ ── */
