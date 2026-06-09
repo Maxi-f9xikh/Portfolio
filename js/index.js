@@ -32,7 +32,10 @@ function renderProjekte(containerId, featuredOnly) {
 
     container.innerHTML = '';
 
-    ProjektArray.forEach(([name, beschreibung, status, featured, link, type = 'default']) => {
+    const statusOrder = { fertig: 0, inarbeit: 1, pausiert: 2 };
+    const sorted = [...ProjektArray].sort((a, b) => (statusOrder[a[2]] ?? 3) - (statusOrder[b[2]] ?? 3));
+
+    sorted.forEach(([name, beschreibung, status, featured, link, type = 'default']) => {
         if (featuredOnly && !featured) return;
 
         const statusText = getStatusText(status);
