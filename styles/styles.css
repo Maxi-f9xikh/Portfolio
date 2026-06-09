@@ -317,6 +317,7 @@ nav {
 }
 
 .ProjektHeadline {
+  text-align: center;
   font-size: clamp(40px, 6vw, 80px);
   font-weight: 900;
   letter-spacing: -3px;
