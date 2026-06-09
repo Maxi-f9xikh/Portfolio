@@ -304,6 +304,72 @@ function initHeroParticles() {
     setInterval(() => spawnParticle(), 800);
 }
 
+// ── PROJECT FILTER ────────────────────────────
+function initProjectFilter() {
+    const btns = document.querySelectorAll('.filter-btn');
+    if (!btns.length) return;
+
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.dataset.filter;
+            document.querySelectorAll('.projekt-link').forEach(link => {
+                const card = link.querySelector('.projekt-card');
+                const type = card ? card.dataset.type : '';
+                if (filter === 'all' || type === filter) {
+                    link.classList.remove('hidden');
+                } else {
+                    link.classList.add('hidden');
+                }
+            });
+        });
+    });
+}
+
+// ── CURSEFORGE STATS ──────────────────────────
+async function fetchCurseForgeStats() {
+    const el = document.getElementById('stat-downloads');
+    if (!el) return;
+
+    const mods = [
+        'minecraft/mc-mods/boat-fix',
+        'minecraft/mc-mods/underwater-torch',
+        'minecraft/mc-mods/all-stacks-to-67'
+    ];
+
+    try {
+        const results = await Promise.allSettled(
+            mods.map(slug => fetch(`https://api.cfwidget.com/${slug}`).then(r => r.json()))
+        );
+        const total = results.reduce((sum, r) => {
+            if (r.status === 'fulfilled' && r.value?.downloads?.total) {
+                return sum + r.value.downloads.total;
+            }
+            return sum;
+        }, 0);
+
+        if (total > 0) {
+            // Animate the number
+            let start = 0;
+            const duration = 1500;
+            const startTime = performance.now();
+            const step = (now) => {
+                const p = Math.min((now - startTime) / duration, 1);
+                const eased = 1 - Math.pow(1 - p, 3);
+                el.textContent = Math.floor(eased * total).toLocaleString('de-DE');
+                if (p < 1) requestAnimationFrame(step);
+                else el.textContent = total.toLocaleString('de-DE');
+            };
+            requestAnimationFrame(step);
+        } else {
+            el.textContent = '500+';
+        }
+    } catch {
+        el.textContent = '500+';
+    }
+}
+
 // ── INIT ALL ──────────────────────────────────
 function initEffects() {
     initPageTransitions();
@@ -320,6 +386,8 @@ function initEffects() {
     initNavScroll();
     initMagneticButtons();
     initStaggerGrid();
+    initProjectFilter();
+    fetchCurseForgeStats();
 }
 
 if (document.readyState === 'loading') {

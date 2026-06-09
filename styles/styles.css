@@ -299,8 +299,12 @@ nav {
 /* ── PROJEKT CARDS ── */
 .Projekt-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
+  justify-content: center;
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 2rem 2rem;
 }
 
 .Projekt-grid-featured {
@@ -430,7 +434,147 @@ nav {
     gap: 1.5rem;
     max-width: 1100px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 1rem 2rem 2rem;
+}
+
+/* ── FILTER BAR ── */
+.filter-bar {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 1.5rem 2rem 0.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+.filter-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 0.45rem 1.1rem;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.filter-btn:hover {
+    border-color: var(--blue);
+    color: var(--text);
+}
+.filter-btn.active {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: #fff;
+}
+.projekt-link.hidden {
+    display: none;
+}
+
+/* ── WIP SECTION ── */
+.wip-section {
+    padding: 3rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+.wip-inner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+}
+.wip-inner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(67,97,238,0.05), transparent 60%);
+    pointer-events: none;
+}
+.wip-label {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--blue);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+}
+.wip-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 8px #22c55e;
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(1.3); }
+}
+.wip-cards {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+.wip-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--surface-2, rgba(255,255,255,0.03));
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    flex: 1;
+    min-width: 200px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.wip-card:hover {
+    border-color: var(--blue);
+    box-shadow: 0 0 20px rgba(67,97,238,0.1);
+}
+.wip-icon { font-size: 1.8rem; }
+.wip-title { font-weight: 700; font-size: 1rem; color: var(--text); }
+.wip-desc  { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+/* ── STATS SECTION ── */
+.stats-section {
+    padding: 1rem 2rem 3rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+.stat-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+}
+.stat-item:hover {
+    border-color: var(--blue);
+    transform: translateY(-3px);
+}
+.stat-number {
+    font-size: 2rem;
+    font-weight: 900;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--blue);
+    letter-spacing: -1px;
+    margin-bottom: 0.25rem;
+}
+.stat-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
 }
 
 /* ── ÜBER MICH ── */
@@ -935,7 +1079,7 @@ main { padding-top: 60px; flex: 1; }
   .hero-full { padding: 80px 32px 60px; }
   .scroll-hint { left: 32px; }
   .projects-section, .page-section { padding: 80px 32px; }
-  .Projekt-grid { padding: 0; }
+  .Projekt-grid { padding: 1rem; }
   .Projekt-grid-featured { padding: 0 32px 48px; }
   .github-section { padding: 2rem 1.5rem; }
   .skills-container { padding: 40px 32px 60px; }
@@ -947,7 +1091,7 @@ main { padding-top: 60px; flex: 1; }
 @media (max-width: 640px) {
   .hero-title { letter-spacing: -1px; }
   .hero-full { padding: 80px 24px 60px; }
-  .Projekt-grid { grid-template-columns: 1fr; }
+  .Projekt-grid { grid-template-columns: 1fr; padding: 1rem; }
   .Projekt-grid-featured { grid-template-columns: 1fr; padding: 0 24px 40px; }
   .Sprachen-grid { grid-template-columns: 1fr; }
   .tools-grid { grid-template-columns: repeat(2, 1fr); }

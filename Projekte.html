@@ -29,16 +29,19 @@
     </header>
 
     <main>
-        <div class="hero">
-            <p class="hero-greeting">Hey, ich bin</p>
-            <h1 class="hero-name">Maximilian Stickel</h1>
-            <p class="hero-sub">Hobby-Programmierer — <span class="accent">Java</span>, HTML/CSS, Unity &amp; Minecraft Mods</p>
-            <p class="hero-desc">Hier kannst du sehen, woran ich gerade arbeite und was ich bereits fertiggestellt habe.</p>
+        <div class="projekte-hero">
+            <h1>Projekte</h1>
+            <p>Hobby-Programmierer — Java, HTML/CSS, Unity &amp; Minecraft Mods</p>
         </div>
 
         <div id="scroll-Projekte">
-            <h1 class="ProjektHeadline">Projekte:</h1>
-            <div id="projekte_rein" class="Projekt-grid"></div>
+            <div class="filter-bar fade-up">
+                <button class="filter-btn active" data-filter="all">Alle</button>
+                <button class="filter-btn" data-filter="minecraft">⛏️ Minecraft</button>
+                <button class="filter-btn" data-filter="unity">👾 Unity</button>
+                <button class="filter-btn" data-filter="web">🌐 Web</button>
+            </div>
+            <div id="projekte_rein" class="Projekt-grid projekte-grid"></div>
         </div>
     </main>
 
