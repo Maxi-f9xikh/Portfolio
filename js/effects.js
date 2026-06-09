@@ -213,19 +213,29 @@ function initStaggerGrid() {
 function initPageTransitions() {
     document.body.style.opacity = '0';
     document.body.style.transition = 'opacity 0.35s ease';
-    // Fade in on load
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
             document.body.style.opacity = '1';
         });
     });
-    // Fade out before navigating
+
     document.addEventListener('click', e => {
         const a = e.target.closest('a');
         if (!a) return;
         const href = a.getAttribute('href');
         if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto')) return;
         if (a.target === '_blank') return;
+
+        // Check if this is a same-page hash navigation (e.g. index.html#section)
+        const targetPage = href.split('#')[0];
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        const isSamePage = (targetPage === currentPage || targetPage === '');
+
+        if (isSamePage) {
+            // Don't fade — just scroll
+            return;
+        }
+
         e.preventDefault();
         document.body.style.opacity = '0';
         setTimeout(() => { window.location.href = href; }, 350);
@@ -234,7 +244,7 @@ function initPageTransitions() {
 
 // ── ANIMATED COUNTERS ─────────────────────────
 function initCounters() {
-    const els = document.querySelectorAll('[data-count], .stat-number');
+    const els = document.querySelectorAll('[data-count]');
     if (!els.length) return;
 
     const obs = new IntersectionObserver(entries => {
@@ -383,9 +393,50 @@ async function pollCurseForgeStats() {
     setInterval(fetchCurseForgeStats, 5 * 60 * 1000);
 }
 
+// ── FAVICON ───────────────────────────────────
+function initFavicon() {
+    if (document.querySelector('link[rel="icon"]')) return;
+    const link = document.createElement('link');
+    link.rel = 'icon';
+    link.href = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%234361ee'/%3E%3Ctext y='74' x='50' text-anchor='middle' font-size='60' font-family='system-ui%2Csans-serif' fill='white' font-weight='900'%3EMS%3C/text%3E%3C/svg%3E";
+    document.head.appendChild(link);
+}
+
+// ── ACTIVE NAV ────────────────────────────────
+function initActiveNav() {
+    const current = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('nav a').forEach(a => {
+        const href = a.getAttribute('href') || '';
+        const page = href.split('#')[0].split('/').pop();
+        if (page === current || (current === 'index.html' && page === '')) {
+            a.classList.add('nav-active');
+        }
+    });
+}
+
+// ── BACK TO TOP ───────────────────────────────
+function initBackToTop() {
+    const btn = document.createElement('button');
+    btn.className = 'back-to-top';
+    btn.setAttribute('aria-label', 'Nach oben scrollen');
+    btn.innerHTML = '↑';
+    document.body.appendChild(btn);
+
+    window.addEventListener('scroll', () => {
+        btn.classList.toggle('visible', window.scrollY > 300);
+    }, { passive: true });
+
+    btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
 // ── INIT ALL ──────────────────────────────────
 function initEffects() {
     initPageTransitions();
+    initFavicon();
+    initActiveNav();
+    initBackToTop();
     initCounters();
     initCardSpotlight();
     initHeroParticles();
