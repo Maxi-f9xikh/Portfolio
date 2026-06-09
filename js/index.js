@@ -6,8 +6,10 @@ const ProjektArray = [
     ["Javaskript",                 "Taschenrechner in JavaScript",                   "fertig",  false, "Projekte/Javaskript/index.html",                        "web"],
     ["innerhtml_test",             "Druckplatten-Test in JavaScript",                "fertig",  false, "Projekte/innerhtml_test/index.html",                    "web"],
     ["Horror Game",                "Unity Horror Game – in Entwicklung",             "inarbeit",true,  "#",                                                     "unity"],
-    ["Ultimate Apple Mod",         "Viele neue Minecraft-Äpfel",                "pausiert",false, "#",                                                     "minecraft"],
+    ["Ultimate Apple Mod",         "Viele neue Minecraft-Äpfel",                "inarbeit",false, "#",                                                     "minecraft"],
     ["Recraft – Minecraft Mod","Fertige Items zurückcraften",              "pausiert",false, "#",                                                     "minecraft"],
+    ["Underwater Torch", "Ermöglicht das Platzieren von Fackeln unter Wasser", "fertig", false, "https://www.curseforge.com/minecraft/mc-mods/underwater-torch", "minecraft"],
+    ["All Stacks to 67", "Stapelt alle Items auf maximal 67", "fertig", false, "https://www.curseforge.com/minecraft/mc-mods/all-stacks-to-67", "minecraft"],
 ];
 
 function getStatusText(status) {
