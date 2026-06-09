@@ -1,12 +1,13 @@
 // ── PROJEKT-ARRAY ──────────────────────────────────────────────────
-// Format: [Name, Beschreibung, Status, Featured, Link]
+// Format: [Name, Beschreibung, Status, Featured, Link, Type]
 const ProjektArray = [
-    ["Nextblog",              "Ein Blogpost Website",                 "fertig",  false, "Projekte/nextblog/index.html"],
-    ["Javaskript",            "Ein Taschenrechner",                   "fertig",  false, "Projekte/Javaskript/index.html"],
-    ["innerhtml_test",        "Druckplatte Test",                     "fertig",  false, "Projekte/innerhtml_test/index.html"],
-    ["Boatfix - Minecraft Mod", "Fixt dem Bug im Boot zu essen",      "fertig",  true,  "https://www.curseforge.com/minecraft/mc-mods/boat-fix"],
-    ["Ultimate Apple Mod",    "Viele neue Minecraft \u00C4pfel",      "pausiert",false, "#"],
-    ["Recraft - Minecraft Mod","Fertige Items zur\u00FCckcraften",    "pausiert",false, "#"]
+    ["Boatfix – Minecraft Mod",   "Fixt den bekannten Bug beim Essen im Boot",      "fertig",  true,  "https://www.curseforge.com/minecraft/mc-mods/boat-fix", "minecraft"],
+    ["Nextblog",                   "Blog-Website mit Dark/Light Mode",               "fertig",  false, "Projekte/nextblog/index.html",                          "web"],
+    ["Javaskript",                 "Taschenrechner in JavaScript",                   "fertig",  false, "Projekte/Javaskript/index.html",                        "web"],
+    ["innerhtml_test",             "Druckplatten-Test in JavaScript",                "fertig",  false, "Projekte/innerhtml_test/index.html",                    "web"],
+    ["Horror Game",                "Unity Horror Game – in Entwicklung",             "inarbeit",true,  "#",                                                     "unity"],
+    ["Ultimate Apple Mod",         "Viele neue Minecraft-Äpfel",                "pausiert",false, "#",                                                     "minecraft"],
+    ["Recraft – Minecraft Mod","Fertige Items zurückcraften",              "pausiert",false, "#",                                                     "minecraft"],
 ];
 
 function getStatusText(status) {
@@ -18,31 +19,46 @@ function getStatusText(status) {
     }
 }
 
+function getProjectIcon(type) {
+    const icons = { minecraft: '⛏️', unity: '👾', web: '🌐' };
+    return icons[type] || '💻';
+}
+
 function renderProjekte(containerId, featuredOnly) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
     container.innerHTML = '';
 
-    ProjektArray.forEach(([name, beschreibung, status, featured, link]) => {
+    ProjektArray.forEach(([name, beschreibung, status, featured, link, type = 'default']) => {
         if (featuredOnly && !featured) return;
 
         const statusText = getStatusText(status);
+        const icon = getProjectIcon(type);
         const karte = document.createElement('a');
         karte.href = link;
-        karte.className = 'projekt-link';
+        karte.className = 'projekt-link fade-up';
         if (link.startsWith('http')) {
             karte.target = '_blank';
             karte.rel = 'noopener noreferrer';
         }
         karte.innerHTML = `
-            <div class="text-block">
-                <h3>${name}</h3>
-                <p>${beschreibung}</p>
-                <span class="status ${status}">${statusText}</span>
+            <div class="projekt-card" data-type="${type}">
+                <div class="projekt-card-header">
+                    <span class="projekt-card-icon">${icon}</span>
+                </div>
+                <div class="projekt-card-body">
+                    <h3>${name}</h3>
+                    <p>${beschreibung}</p>
+                    <span class="status ${status}">${statusText}</span>
+                </div>
             </div>`;
         container.appendChild(karte);
     });
+
+    // Re-run scroll animations after dynamic render
+    if (typeof initScrollAnimations === 'function') initScrollAnimations();
+    if (typeof initCardTilt === 'function') initCardTilt();
 }
 
 renderProjekte('projekte_rein', false);
