@@ -187,6 +187,28 @@ function initNavScroll() {
     }, { passive: true });
 }
 
+// ── MAGNETIC BUTTONS ──────────────────────────
+function initMagneticButtons() {
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('mousemove', e => {
+            const r = btn.getBoundingClientRect();
+            const x = (e.clientX - r.left - r.width  / 2) * 0.25;
+            const y = (e.clientY - r.top  - r.height / 2) * 0.25;
+            btn.style.transform = `translate(${x}px, ${y}px)`;
+        });
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = '';
+        });
+    });
+}
+
+// ── STAGGER GRID ──────────────────────────────
+function initStaggerGrid() {
+    document.querySelectorAll('.projekt-link').forEach((el, i) => {
+        el.style.transitionDelay = `${i * 60}ms`;
+    });
+}
+
 // ── INIT ALL ──────────────────────────────────
 function initEffects() {
     initCursorGlow();
@@ -197,6 +219,8 @@ function initEffects() {
     initSkillBars();
     initParallax();
     initNavScroll();
+    initMagneticButtons();
+    initStaggerGrid();
 }
 
 if (document.readyState === 'loading') {
