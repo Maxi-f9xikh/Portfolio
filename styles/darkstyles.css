@@ -1,16 +1,15 @@
 /*
- * DARK MODE – Überschreibt NUR die Farb-Variablen aus styles.css.
- * Das gesamte Layout kommt aus styles.css und ist in beiden Modi identisch.
+ * DARK MODE – Überschreibt nur die Farb-Variablen aus styles.css.
  */
-
 :root {
-    --bg: #282828;
-    --card-bg: #2c2c2c;
-    --text: #ededed;
-    --text-muted: #aaa;
-    --border: #444;
-    --header-bg: #1e1e1e;
-    --accent: #ededed;
-    --shadow: 0 4px 20px rgba(0,0,0,0.4);
-    --hover-bg: rgba(255,255,255,0.08);
+    --bg: #0c0c14;
+    --card-bg: #141420;
+    --text: #e8e8f0;
+    --text-muted: #7878a0;
+    --border: #1e1e30;
+    --header-bg: #0a0a12;
+    --accent: #4361ee;
+    --accent-hover: #6981f5;
+    --shadow: 0 4px 24px rgba(0,0,0,0.5);
+    --hover-bg: rgba(67,97,238,0.08);
 }

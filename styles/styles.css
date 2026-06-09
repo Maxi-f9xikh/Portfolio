@@ -3,16 +3,17 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 :root {
-    --bg: #d9d9d9;
-    --card-bg: #c8c8c8;
-    --text: #1a1a1a;
-    --text-muted: #555;
-    --border: #aaa;
-    --header-bg: #d9d9d9;
-    --accent: #1a1a1a;
-    --radius: 16px;
-    --shadow: 0 4px 20px rgba(0,0,0,0.12);
-    --hover-bg: rgba(0,0,0,0.08);
+    --bg: #f5f5f7;
+    --card-bg: #e8e8ed;
+    --text: #1a1a2e;
+    --text-muted: #555570;
+    --border: #c8c8d8;
+    --header-bg: #ececf0;
+    --accent: #4361ee;
+    --accent-hover: #3050dd;
+    --radius: 12px;
+    --shadow: 0 4px 20px rgba(0,0,0,0.10);
+    --hover-bg: rgba(67,97,238,0.07);
 }
 
 html { scroll-behavior: smooth; }
