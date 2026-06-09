@@ -377,6 +377,12 @@ async function fetchCurseForgeStats() {
     }
 }
 
+async function pollCurseForgeStats() {
+    await fetchCurseForgeStats();
+    // Re-fetch every 5 minutes (CurseForge itself batches updates ~every 10-60 min)
+    setInterval(fetchCurseForgeStats, 5 * 60 * 1000);
+}
+
 // ── INIT ALL ──────────────────────────────────
 function initEffects() {
     initPageTransitions();
@@ -394,7 +400,7 @@ function initEffects() {
     initMagneticButtons();
     initStaggerGrid();
     initProjectFilter();
-    fetchCurseForgeStats();
+    pollCurseForgeStats();
 }
 
 if (document.readyState === 'loading') {
