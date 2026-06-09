@@ -477,8 +477,6 @@ footer {
     border-top: 1px solid var(--border);
     margin-top: 80px;
     padding: 0;
-    position: static;
-    line-height: normal;
 }
 
 .footer-inner {
@@ -502,7 +500,6 @@ footer {
 }
 
 .footer-links {
-    position: static;
     display: flex;
     gap: 16px;
 }
@@ -524,8 +521,6 @@ footer {
 }
 
 .coffee-bild {
-    position: static;
-    transform: none;
     max-width: 140px;
     height: auto;
 }
