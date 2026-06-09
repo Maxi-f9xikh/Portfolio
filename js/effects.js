@@ -209,8 +209,107 @@ function initStaggerGrid() {
     });
 }
 
+// ── PAGE TRANSITIONS ──────────────────────────
+function initPageTransitions() {
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.35s ease';
+    // Fade in on load
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            document.body.style.opacity = '1';
+        });
+    });
+    // Fade out before navigating
+    document.addEventListener('click', e => {
+        const a = e.target.closest('a');
+        if (!a) return;
+        const href = a.getAttribute('href');
+        if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto')) return;
+        if (a.target === '_blank') return;
+        e.preventDefault();
+        document.body.style.opacity = '0';
+        setTimeout(() => { window.location.href = href; }, 350);
+    });
+}
+
+// ── ANIMATED COUNTERS ─────────────────────────
+function initCounters() {
+    const els = document.querySelectorAll('[data-count], .stat-number');
+    if (!els.length) return;
+
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            const el = e.target;
+            const target = parseInt(el.dataset.count || el.textContent, 10);
+            if (isNaN(target)) return;
+            let start = 0;
+            const duration = 1200;
+            const step = timestamp => {
+                if (!start) start = timestamp;
+                const progress = Math.min((timestamp - start) / duration, 1);
+                el.textContent = Math.floor(progress * target);
+                if (progress < 1) requestAnimationFrame(step);
+                else el.textContent = target;
+            };
+            requestAnimationFrame(step);
+            obs.unobserve(el);
+        });
+    }, { threshold: 0.5 });
+
+    els.forEach(el => obs.observe(el));
+}
+
+// ── CARD SPOTLIGHT ────────────────────────────
+function initCardSpotlight() {
+    document.querySelectorAll('.projekt-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const r = card.getBoundingClientRect();
+            const x = e.clientX - r.left;
+            const y = e.clientY - r.top;
+            card.style.setProperty('--sx', x + 'px');
+            card.style.setProperty('--sy', y + 'px');
+            card.classList.add('spotlight-active');
+        });
+        card.addEventListener('mouseleave', () => {
+            card.classList.remove('spotlight-active');
+        });
+    });
+}
+
+// ── HERO PARTICLES ────────────────────────────
+function initHeroParticles() {
+    const hero = document.querySelector('.hero-full');
+    if (!hero) return;
+
+    function spawnParticle() {
+        const p = document.createElement('div');
+        p.className = 'hero-particle';
+        const size = 2 + Math.random() * 3;
+        const startX = Math.random() * 100;
+        const duration = 4000 + Math.random() * 6000;
+        const delay = Math.random() * 3000;
+        Object.assign(p.style, {
+            width: size + 'px',
+            height: size + 'px',
+            left: startX + '%',
+            animationDuration: duration + 'ms',
+            animationDelay: delay + 'ms'
+        });
+        hero.appendChild(p);
+        p.addEventListener('animationend', () => p.remove());
+    }
+
+    for (let i = 0; i < 18; i++) spawnParticle();
+    setInterval(() => spawnParticle(), 800);
+}
+
 // ── INIT ALL ──────────────────────────────────
 function initEffects() {
+    initPageTransitions();
+    initCounters();
+    initCardSpotlight();
+    initHeroParticles();
     initCursorGlow();
     initHeroCanvas();
     initTypewriter();
