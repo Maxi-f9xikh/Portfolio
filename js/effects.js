@@ -168,6 +168,25 @@ function initSkillBars() {
     bars.forEach(b => obs.observe(b));
 }
 
+// ── PARALLAX HERO ─────────────────────────────
+function initParallax() {
+    const hero = document.querySelector('.hero-full');
+    if (!hero) return;
+    window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        hero.style.backgroundPositionY = y * 0.4 + 'px';
+    }, { passive: true });
+}
+
+// ── NAV SCROLL EFFECT ─────────────────────────
+function initNavScroll() {
+    const nav = document.querySelector('header');
+    if (!nav) return;
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+}
+
 // ── INIT ALL ──────────────────────────────────
 function initEffects() {
     initCursorGlow();
@@ -176,6 +195,8 @@ function initEffects() {
     initScrollAnimations();
     initCardTilt();
     initSkillBars();
+    initParallax();
+    initNavScroll();
 }
 
 if (document.readyState === 'loading') {
