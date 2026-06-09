@@ -407,7 +407,9 @@ function initActiveNav() {
     const current = window.location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('nav a').forEach(a => {
         const href = a.getAttribute('href') || '';
-        const page = href.split('#')[0].split('/').pop();
+        // Skip section links (e.g. index.html#scroll-Projekte) — not page links
+        if (href.includes('#')) return;
+        const page = href.split('/').pop();
         if (page === current || (current === 'index.html' && page === '')) {
             a.classList.add('nav-active');
         }
