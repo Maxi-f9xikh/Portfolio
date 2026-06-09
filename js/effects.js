@@ -328,9 +328,29 @@ function initProjectFilter() {
 }
 
 // ── CURSEFORGE STATS ──────────────────────────
+// Hardcoded fallback totals (updated 2026-06-09):
+// Boatfix: 4288 · Underwater Torch: 85 · All Stacks to 67: 14
+const CF_FALLBACK_TOTAL = 4387;
+
+function animateStatNumber(el, total) {
+    const duration = 1500;
+    const startTime = performance.now();
+    const step = (now) => {
+        const p = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.floor(eased * total).toLocaleString('de-DE');
+        if (p < 1) requestAnimationFrame(step);
+        else el.textContent = total.toLocaleString('de-DE');
+    };
+    requestAnimationFrame(step);
+}
+
 async function fetchCurseForgeStats() {
     const el = document.getElementById('stat-downloads');
     if (!el) return;
+
+    // Show fallback immediately so it's never empty
+    animateStatNumber(el, CF_FALLBACK_TOTAL);
 
     const mods = [
         'minecraft/mc-mods/boat-fix',
@@ -340,33 +360,23 @@ async function fetchCurseForgeStats() {
 
     try {
         const results = await Promise.allSettled(
-            mods.map(slug => fetch(`https://api.cfwidget.com/${slug}`).then(r => r.json()))
+            mods.map(slug => fetch(`https://api.cfwidget.com/${slug}`, {
+                headers: { 'Accept': 'application/json' }
+            }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }))
         );
-        const total = results.reduce((sum, r) => {
+        const liveTotal = results.reduce((sum, r) => {
             if (r.status === 'fulfilled' && r.value?.downloads?.total) {
                 return sum + r.value.downloads.total;
             }
             return sum;
         }, 0);
 
-        if (total > 0) {
-            // Animate the number
-            let start = 0;
-            const duration = 1500;
-            const startTime = performance.now();
-            const step = (now) => {
-                const p = Math.min((now - startTime) / duration, 1);
-                const eased = 1 - Math.pow(1 - p, 3);
-                el.textContent = Math.floor(eased * total).toLocaleString('de-DE');
-                if (p < 1) requestAnimationFrame(step);
-                else el.textContent = total.toLocaleString('de-DE');
-            };
-            requestAnimationFrame(step);
-        } else {
-            el.textContent = '500+';
+        // Only update if live data is higher than fallback
+        if (liveTotal > CF_FALLBACK_TOTAL) {
+            animateStatNumber(el, liveTotal);
         }
     } catch {
-        el.textContent = '500+';
+        // Fallback already shown — do nothing
     }
 }
 
