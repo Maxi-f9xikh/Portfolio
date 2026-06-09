@@ -328,9 +328,10 @@ function initProjectFilter() {
 }
 
 // ── CURSEFORGE STATS ──────────────────────────
-// Hardcoded fallback totals (updated 2026-06-09):
-// Boatfix: 4288 · Underwater Torch: 85 · All Stacks to 67: 14
+// Fallback totals (updated 2026-06-09) used while live fetch loads
 const CF_FALLBACK_TOTAL = 4387;
+const CF_API_KEY  = '$2a$10$18EzVoXptI4IRb80MWRly.mrE5Qt.pEb9hm510WZCJMcjQF0X4bEu';
+const CF_MOD_IDS  = [1286312, 1539858, 1532694]; // boat-fix, underwater-torch, all-stacks-to-67
 
 function animateStatNumber(el, total) {
     const duration = 1500;
@@ -349,34 +350,30 @@ async function fetchCurseForgeStats() {
     const el = document.getElementById('stat-downloads');
     if (!el) return;
 
-    // Show fallback immediately so it's never empty
+    // Show fallback immediately — replaced if live fetch succeeds
     animateStatNumber(el, CF_FALLBACK_TOTAL);
-
-    const mods = [
-        'minecraft/mc-mods/boat-fix',
-        'minecraft/mc-mods/underwater-torch',
-        'minecraft/mc-mods/all-stacks-to-67'
-    ];
 
     try {
         const results = await Promise.allSettled(
-            mods.map(slug => fetch(`https://api.cfwidget.com/${slug}`, {
-                headers: { 'Accept': 'application/json' }
-            }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }))
+            CF_MOD_IDS.map(id =>
+                fetch(`https://api.curseforge.com/v1/mods/${id}`, {
+                    headers: { 'x-api-key': CF_API_KEY, 'Accept': 'application/json' }
+                }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+            )
         );
+
         const liveTotal = results.reduce((sum, r) => {
-            if (r.status === 'fulfilled' && r.value?.downloads?.total) {
-                return sum + r.value.downloads.total;
+            if (r.status === 'fulfilled' && r.value?.data?.downloadCount) {
+                return sum + r.value.data.downloadCount;
             }
             return sum;
         }, 0);
 
-        // Only update if live data is higher than fallback
-        if (liveTotal > CF_FALLBACK_TOTAL) {
+        if (liveTotal > 0) {
             animateStatNumber(el, liveTotal);
         }
     } catch {
-        // Fallback already shown — do nothing
+        // Fallback already shown — nothing to do
     }
 }
 
