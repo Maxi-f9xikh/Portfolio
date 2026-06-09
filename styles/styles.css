@@ -449,8 +449,8 @@ nav {
 
 .senden-btn {
     width: 100%;
-    background-color: var(--text);
-    color: var(--bg);
+    background-color: var(--accent);
+    color: #ffffff;
     padding: 14px;
     border: none;
     border-radius: 10px;
@@ -458,10 +458,10 @@ nav {
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.senden-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+.senden-btn:hover { background-color: var(--accent-hover); transform: translateY(-2px); }
 .senden-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
 #form-status {
