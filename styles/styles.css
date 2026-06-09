@@ -320,6 +320,33 @@ nav {
 .Sprachen-iconpy { width: 52px; height: 52px; object-fit: contain; flex-shrink: 0; }
 .Sprachen-iconjar { width: 15%; height: 65px; object-fit: contain; flex-shrink: 0; }
 
+.skill-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text);
+    flex: 1;
+    margin-left: 4px;
+}
+
+.skill-level {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin-left: auto;
+}
+
+.skill-level .bar {
+    width: 32px;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--border);
+    transition: background 0.2s;
+}
+
+.skill-level .bar.filled {
+    background: var(--accent);
+}
+
 .tools-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
