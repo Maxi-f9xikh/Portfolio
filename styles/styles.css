@@ -332,6 +332,8 @@ nav {
   will-change: transform;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  max-width: 320px;
 }
 .projekt-card.spotlight-active::after {
   content: '';
@@ -423,9 +425,10 @@ nav {
 }
 .projekte-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
+    justify-content: center;
     gap: 1.5rem;
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: 2rem;
 }
@@ -914,6 +917,17 @@ header.scrolled {
 hr { border: none; border-top: 1px solid var(--border); margin: 0; }
 
 main { padding-top: 60px; flex: 1; }
+
+/* ── STICKY FOOTER: flex-grow for pages without <main> ── */
+.Impressumm,
+.Datenlayout,
+.impressum-content,
+.page-content,
+.content-wrapper,
+.Inhalt,
+.inhalt {
+    flex: 1;
+}
 
 /* ── RESPONSIVE ── */
 @media (max-width: 960px) {
