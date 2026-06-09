@@ -91,47 +91,47 @@ nav {
 #Dark:hover img { transform: rotate(20deg); }
 
 /* ── HERO / HOME ── */
-.HomeAbout {
-    font-family: 'Inter', 'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif;
+.hero {
+    padding: 80px 60px 20px;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.hero-greeting {
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--text-muted);
+    margin: 0 0 4px;
+}
+
+.hero-name {
+    font-size: clamp(52px, 8vw, 96px);
     font-weight: 900;
-    text-align: center;
-    padding: 60px 60px 20px 60px;
+    color: var(--text);
+    margin: 0 0 24px;
+    line-height: 1.05;
+    letter-spacing: -2px;
 }
 
-.HeybisName {
-    margin-right: 116px;
+.hero-sub {
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin: 0 0 12px;
 }
 
-.Homename {
-    font-size: 80px;
-    font-weight: 900;
+.hero-desc {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--text-muted);
+    margin: 0;
+    max-width: 480px;
 }
 
-.Homehey {
-    font-weight: 200;
-    font-size: 96px;
+.accent {
+    color: var(--accent);
+    font-weight: 600;
 }
-
-.Homeib {
-    font-size: 56px;
-    font-weight: 200;
-}
-
-.Leerzeichen {
-    color: var(--bg);
-}
-
-.HomeiB {
-    font-size: 56px;
-    font-weight: 200;
-    padding-left: 180px;
-    width: 100%;
-}
-
-.Videospiel { color: #32A116; font-weight: 900; font-size: 86px; padding-right: 16px; }
-.Java       { color: #A94C98; font-weight: 900; font-size: 86px; padding-left: 16px; }
-.Html       { color: #DB7024; font-weight: 900; font-size: 86px; }
-.CSS        { color: #E4B10A; font-weight: 900; font-size: 86px; margin-left: 10px; }
 
 /* ── PROJEKTE ── */
 .ProjektHeadline {
@@ -549,12 +549,10 @@ hr {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
-    .HomeAbout { padding: 30px 20px; }
-    .Homehey { font-size: 56px; }
-    .Homeib, .HomeiB { font-size: 32px; }
-    .Homename { font-size: 46px; }
-    .HomeiB { padding-left: 0; }
-    .Videospiel, .Java, .Html, .CSS { font-size: 52px; }
+    .hero { padding: 40px 20px 20px; }
+    .hero-name { font-size: clamp(40px, 12vw, 64px); }
+    .hero-sub { font-size: 16px; }
+    .hero-desc { font-size: 14px; }
     .Projekt-grid { grid-template-columns: repeat(2, 1fr); }
     .Sprachen-grid { grid-template-columns: 1fr; }
     .tools-grid { grid-template-columns: repeat(2, 1fr); }
