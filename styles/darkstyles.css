@@ -1,15 +1,25 @@
-/*
- * DARK MODE – Überschreibt nur die Farb-Variablen aus styles.css.
- */
+/* DARK MODE — overrides colour variables only. All layout from styles.css. */
 :root {
-    --bg: #0c0c14;
-    --card-bg: #141420;
-    --text: #e8e8f0;
-    --text-muted: #7878a0;
-    --border: #1e1e30;
-    --header-bg: #0a0a12;
-    --accent: #4361ee;
-    --accent-hover: #6981f5;
-    --shadow: 0 4px 24px rgba(0,0,0,0.5);
-    --hover-bg: rgba(67,97,238,0.08);
+  --bg:          #080c12;
+  --surface:     #0d1117;
+  --surface-2:   #161b22;
+  --text:        #e6edf3;
+  --text-muted:  #8b949e;
+  --text-subtle: #484f58;
+  --blue:        #4361ee;
+  --blue-light:  #748ffc;
+  --blue-glow:   rgba(67,97,238,0.2);
+  --blue-border: rgba(67,97,238,0.3);
+  --red:         #e63946;
+  --red-glow:    rgba(230,57,70,0.2);
+  --green:       #3fb950;
+  --border:      rgba(255,255,255,0.06);
 }
+
+/* Dark mode header override */
+header {
+  background: rgba(8,12,18,0.85);
+}
+
+/* Canvas more visible in dark */
+.hero-canvas { opacity: 1; }
