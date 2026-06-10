@@ -451,7 +451,6 @@ function initMobileNav() {
         btn.classList.remove('active');
         btn.setAttribute('aria-label', 'Menü öffnen');
         btn.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
     }
 
     btn.addEventListener('click', e => {
@@ -460,10 +459,14 @@ function initMobileNav() {
         btn.classList.toggle('active', isOpen);
         btn.setAttribute('aria-label', isOpen ? 'Menü schließen' : 'Menü öffnen');
         btn.setAttribute('aria-expanded', String(isOpen));
-        document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
     nav.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+
+    // Close on dark-mode toggle tap
+    const dark = header.querySelector('#Dark');
+    if (dark) dark.addEventListener('click', close);
+
     document.addEventListener('click', e => { if (!header.contains(e.target)) close(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
     window.addEventListener('resize', () => { if (window.innerWidth > 768) close(); });
