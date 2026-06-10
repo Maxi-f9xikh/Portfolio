@@ -2,8 +2,8 @@
 // Format: [Name, Beschreibung, Status, Featured, Link, Type]
 const ProjektArray = [
     ["Boatfix – Minecraft Mod",   "Fixt den bekannten Bug beim Essen im Boot",      "fertig",  true,  "https://www.curseforge.com/minecraft/mc-mods/boat-fix", "minecraft"],
-    ["Nextblog",                   "Blog-Website mit Dark/Light Mode",               "fertig",  false, "Projekte/nextblog/index.html",                          "web"],
-    ["Javaskript",                 "Taschenrechner in JavaScript",                   "fertig",  false, "Projekte/Javaskript/index.html",                        "web"],
+    ["Nextblog Test",              "Erster Website-Test",                            "fertig",  false, "Projekte/nextblog/index.html",                          "web"],
+    ["Javaskript Test",            "Taschenrechner-Test in JavaScript",               "fertig",  false, "Projekte/Javaskript/index.html",                        "web"],
     ["innerhtml_test",             "Druckplatten-Test in JavaScript",                "fertig",  false, "Projekte/innerhtml_test/index.html",                    "web"],
     ["Horror Game",                "Unity Horror Game – in Entwicklung",             "inarbeit",true,  "#",                                                     "unity"],
     ["Ultimate Apple Mod",         "Viele neue Minecraft-Äpfel",                "inarbeit",false, "#",                                                     "minecraft"],
