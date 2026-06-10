@@ -1211,8 +1211,37 @@ main { padding-top: 60px; flex: 1; }
         touch-action: manipulation;
         -webkit-tap-highlight-color: var(--blue-glow);
     }
-    #Dark { width: 100%; }
-    #Dark .nav-item { padding: 0.5rem 1rem; }
+    /* Dark mode toggle — separator + emoji label */
+    #Dark {
+        width: 100%;
+        border-top: 1px solid var(--border);
+        margin-top: 0.5rem;
+        padding-top: 0.25rem;
+    }
+    #Dark .nav-item {
+        display: flex !important;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.75rem;
+        padding: 0.7rem 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+    }
+    #Dark .nav-item:hover { background: var(--blue-glow); }
+    #Dark img { display: none; }
+    #Dark .nav-item::before {
+        content: '🌙';
+        font-size: 1.15rem;
+        line-height: 1;
+    }
+    #Dark .nav-item::after {
+        content: 'Dark Mode';
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        white-space: nowrap;
+    }
 
     /* ── Hero ── */
     .hero-full {
