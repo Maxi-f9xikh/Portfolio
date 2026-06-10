@@ -1116,6 +1116,24 @@ main { padding-top: 60px; flex: 1; }
     flex: 1;
 }
 
+/* ── MOBILE DARK TOGGLE (in header) ── */
+.mobile-dark-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    padding: 8px 6px;
+    border-radius: 8px;
+    transition: background 0.2s;
+    flex-shrink: 0;
+    line-height: 1;
+    color: var(--text);
+}
+.mobile-dark-btn:hover { background: var(--blue-glow); }
+
 /* ── HAMBURGER BUTTON ── */
 .nav-toggle {
     display: none;
@@ -1168,6 +1186,7 @@ main { padding-top: 60px; flex: 1; }
 @media (max-width: 768px) {
     /* ── Hamburger: show button, collapse nav ── */
     .nav-toggle { display: flex; }
+    .mobile-dark-btn { display: flex; }
     .codedby { display: none; }
     header {
         padding: 0 1rem;
@@ -1211,37 +1230,8 @@ main { padding-top: 60px; flex: 1; }
         touch-action: manipulation;
         -webkit-tap-highlight-color: var(--blue-glow);
     }
-    /* Dark mode toggle — separator + emoji label */
-    #Dark {
-        width: 100%;
-        border-top: 1px solid var(--border);
-        margin-top: 0.5rem;
-        padding-top: 0.25rem;
-    }
-    #Dark .nav-item {
-        display: flex !important;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 0.75rem;
-        padding: 0.7rem 1rem;
-        border-radius: 8px;
-        cursor: pointer;
-        width: 100%;
-    }
-    #Dark .nav-item:hover { background: var(--blue-glow); }
-    #Dark img { display: none; }
-    #Dark .nav-item::before {
-        content: '🌙';
-        font-size: 1.15rem;
-        line-height: 1;
-    }
-    #Dark .nav-item::after {
-        content: 'Dark Mode';
-        font-size: 0.95rem;
-        font-weight: 500;
-        color: var(--text-muted);
-        white-space: nowrap;
-    }
+    /* Dark mode toggle — hidden from dropdown (button is in header) */
+    nav #Dark { display: none; }
 
     /* ── Hero ── */
     .hero-full {
@@ -1291,7 +1281,7 @@ main { padding-top: 60px; flex: 1; }
         grid-template-columns: 1fr;
         padding: 2rem 1.25rem 0;
         gap: 1.5rem;
-        text-align: center;
+        text-align: left;
     }
     .avatar-circle { margin: 0 auto; }
     .content-bild  { margin: 0 auto; display: block; }

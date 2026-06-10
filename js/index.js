@@ -43,7 +43,7 @@ function renderProjekte(containerId, featuredOnly) {
         const karte = document.createElement('a');
         karte.href = link;
         karte.className = 'projekt-link fade-up';
-        if (link.startsWith('http')) {
+        if (link !== '#') {
             karte.target = '_blank';
             karte.rel = 'noopener noreferrer';
         }

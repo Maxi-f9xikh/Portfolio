@@ -439,12 +439,36 @@ function initMobileNav() {
     const nav    = header ? header.querySelector('nav') : null;
     if (!nav) return;
 
+    // Hamburger button
     const btn = document.createElement('button');
     btn.className = 'nav-toggle';
     btn.setAttribute('aria-label', 'Menü öffnen');
     btn.setAttribute('aria-expanded', 'false');
     btn.innerHTML = '<span></span><span></span><span></span>';
     header.appendChild(btn);
+
+    // Mobile dark mode button (shown in header on mobile, hidden on desktop via CSS)
+    const mobileDark = document.createElement('button');
+    mobileDark.className = 'mobile-dark-btn';
+    mobileDark.setAttribute('aria-label', 'Dark/Light Mode');
+    const isDarkNow = () => document.body.classList.contains('dark-mode');
+    mobileDark.textContent = isDarkNow() ? '☀️' : '🌙';
+    header.appendChild(mobileDark); // after hamburger → right side of header
+
+    mobileDark.addEventListener('click', e => {
+        e.stopPropagation();
+        const darkEl = document.getElementById('Dark');
+        if (darkEl) darkEl.click();
+        setTimeout(() => { mobileDark.textContent = isDarkNow() ? '☀️' : '🌙'; }, 10);
+    });
+
+    // Keep mobile icon in sync when dark mode toggled elsewhere
+    document.body.addEventListener('classChange', () => {
+        mobileDark.textContent = isDarkNow() ? '☀️' : '🌙';
+    });
+    new MutationObserver(() => {
+        mobileDark.textContent = isDarkNow() ? '☀️' : '🌙';
+    }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
     function close() {
         nav.classList.remove('nav-open');
@@ -462,10 +486,6 @@ function initMobileNav() {
     });
 
     nav.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
-
-    // Close on dark-mode toggle tap
-    const dark = header.querySelector('#Dark');
-    if (dark) dark.addEventListener('click', close);
 
     document.addEventListener('click', e => { if (!header.contains(e.target)) close(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
