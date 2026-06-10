@@ -1052,6 +1052,31 @@ footer {
 
 .footer-copy { color: var(--text-subtle); font-size: 12px; font-weight: 300; margin: 0; }
 
+.footer-social {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+}
+.social-link {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 0.35rem 0.7rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.social-link svg { flex-shrink: 0; }
+.social-link:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--blue-glow);
+}
+
 .footer-links { display: flex; gap: 4px; }
 
 .footer-links a {
