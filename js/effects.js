@@ -452,23 +452,24 @@ function initMobileNav() {
     mobileDark.className = 'mobile-dark-btn';
     mobileDark.setAttribute('aria-label', 'Dark/Light Mode');
     const isDarkNow = () => document.body.classList.contains('dark-mode');
-    mobileDark.textContent = isDarkNow() ? '☀️' : '🌙';
+    const updateMobileIcon = () => {
+        mobileDark.innerHTML = isDarkNow()
+            ? '<img src="images/light_mode.png" alt="Light mode" style="width:22px;height:22px;opacity:0.6;">'
+            : '<img src="images/Darkmode.png" alt="Dark mode" style="width:22px;height:22px;opacity:0.6;">';
+    };
+    updateMobileIcon();
     header.appendChild(mobileDark); // after hamburger → right side of header
 
     mobileDark.addEventListener('click', e => {
         e.stopPropagation();
         const darkEl = document.getElementById('Dark');
         if (darkEl) darkEl.click();
-        setTimeout(() => { mobileDark.textContent = isDarkNow() ? '☀️' : '🌙'; }, 10);
+        setTimeout(() => updateMobileIcon(), 10);
     });
 
     // Keep mobile icon in sync when dark mode toggled elsewhere
-    document.body.addEventListener('classChange', () => {
-        mobileDark.textContent = isDarkNow() ? '☀️' : '🌙';
-    });
-    new MutationObserver(() => {
-        mobileDark.textContent = isDarkNow() ? '☀️' : '🌙';
-    }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    document.body.addEventListener('classChange', () => updateMobileIcon());
+    new MutationObserver(() => updateMobileIcon()).observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
     function close() {
         nav.classList.remove('nav-open');
