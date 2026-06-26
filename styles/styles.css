@@ -383,6 +383,8 @@ nav {
   position: relative;
   width: 100%;
   max-width: 320px;
+  display: flex;
+  flex-direction: column;
 }
 .projekt-card.spotlight-active::after {
   content: '';
@@ -425,7 +427,7 @@ nav {
   filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
 }
 
-.projekt-card-body { padding: 18px 20px; }
+.projekt-card-body { padding: 18px 20px; display: flex; flex-direction: column; flex: 1; }
 
 .projekt-card-body h3 {
   font-size: 15px;
@@ -439,6 +441,7 @@ nav {
   color: var(--text-muted);
   line-height: 1.5;
   margin-bottom: 14px;
+  flex: 1;
 }
 
 .status {
