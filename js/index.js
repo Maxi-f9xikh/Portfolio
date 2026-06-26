@@ -10,7 +10,7 @@ const ProjektArray = [
     ["Recraft – Minecraft Mod","Fertige Items zurückcraften",              "pausiert",false, "#",                                                     "minecraft"],
     ["Underwater Torch", "Ermöglicht das Platzieren von Fackeln unter Wasser", "fertig", false, "https://www.curseforge.com/minecraft/mc-mods/underwater-torch", "minecraft"],
     ["All Stacks to 67", "Stapelt alle Items auf maximal 67", "fertig", false, "https://www.curseforge.com/minecraft/mc-mods/all-stacks-to-67", "minecraft"],
-    ["Place on Path (PoP)", "Verhindert, dass Dirt/Gras-Pfade zu normalem Dirt werden, wenn du Blöcke, Pflanzen oder Laternen darauf platzierst – mit automatischer Wiederherstellung beim Entfernen.", "fertig", false, "https://www.curseforge.com/minecraft/mc-mods/place-on-path-pop", "minecraft"],
+    ["Place on Path (PoP)", "Lets you place any block on a path and the path stays.", "fertig", false, "https://www.curseforge.com/minecraft/mc-mods/place-on-path-pop", "minecraft"],
 ];
 
 function getStatusText(status) {
