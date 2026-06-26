@@ -369,7 +369,7 @@ nav {
   margin-bottom: 0;
 }
 
-.projekt-link { text-decoration: none; color: inherit; display: block; }
+.projekt-link { text-decoration: none; color: inherit; display: flex; }
 
 .projekt-card {
   background: var(--surface);
@@ -385,6 +385,7 @@ nav {
   max-width: 320px;
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 .projekt-card.spotlight-active::after {
   content: '';
