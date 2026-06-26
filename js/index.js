@@ -1,16 +1,17 @@
 // ── PROJEKT-ARRAY ──────────────────────────────────────────────────
 // Format: [Name, Beschreibung, Status, Featured, Link, Type]
+// Format: [Name, Beschreibung, Status, Featured, CurseForgeLink, Type, ModrinthLink?]
 const ProjektArray = [
-    ["Boatfix – Minecraft Mod",   "Fixt den bekannten Bug beim Essen im Boot",      "fertig",  true,  "https://www.curseforge.com/minecraft/mc-mods/boat-fix", "minecraft"],
-    ["Nextblog Test",              "Erster Website-Test",                            "fertig",  false, "Projekte/nextblog/index.html",                          "web"],
-    ["Javaskript Test",            "Taschenrechner-Test in JavaScript",               "fertig",  false, "Projekte/Javaskript/index.html",                        "web"],
-    ["innerhtml_test",             "Druckplatten-Test in JavaScript",                "fertig",  false, "Projekte/innerhtml_test/index.html",                    "web"],
-    ["Horror Game",                "Unity Horror Game – in Entwicklung",             "inarbeit",true,  "#",                                                     "unity"],
-    ["Ultimate Apple Mod",         "Viele neue Minecraft-Äpfel",                "inarbeit",false, "#",                                                     "minecraft"],
-    ["Recraft – Minecraft Mod","Fertige Items zurückcraften",              "pausiert",false, "#",                                                     "minecraft"],
-    ["Underwater Torch", "Ermöglicht das Platzieren von Fackeln unter Wasser", "fertig", false, "https://www.curseforge.com/minecraft/mc-mods/underwater-torch", "minecraft"],
-    ["All Stacks to 67", "Stapelt alle Items auf maximal 67", "fertig", false, "https://www.curseforge.com/minecraft/mc-mods/all-stacks-to-67", "minecraft"],
-    ["Place on Path (PoP)", "Lets you place any block on a path and the path stays.", "fertig", false, "https://www.curseforge.com/minecraft/mc-mods/place-on-path-pop", "minecraft"],
+    ["Nextblog Test",           "Erster Website-Test",                                    "fertig",   false, "Projekte/nextblog/index.html",                                  "web"],
+    ["Javaskript Test",         "Taschenrechner-Test in JavaScript",                      "fertig",   false, "Projekte/Javaskript/index.html",                                "web"],
+    ["innerhtml_test",          "Druckplatten-Test in JavaScript",                        "fertig",   false, "Projekte/innerhtml_test/index.html",                            "web"],
+    ["Boatfix – Minecraft Mod", "Fixt den bekannten Bug beim Essen im Boot",              "fertig",   true,  "https://www.curseforge.com/minecraft/mc-mods/boat-fix",         "minecraft", "https://modrinth.com/mod/boatfix"],
+    ["Underwater Torch",        "Ermöglicht das Platzieren von Fackeln unter Wasser",    "fertig",   false, "https://www.curseforge.com/minecraft/mc-mods/underwater-torch", "minecraft", "https://modrinth.com/mod/underwater-torch"],
+    ["All Stacks to 67",        "Stapelt alle Items auf maximal 67",                      "fertig",   false, "https://www.curseforge.com/minecraft/mc-mods/all-stacks-to-67", "minecraft", "https://modrinth.com/mod/all-stacks-to-67"],
+    ["Place on Path (PoP)",     "Lets you place any block on a path and the path stays.", "fertig",   false, "https://www.curseforge.com/minecraft/mc-mods/place-on-path-pop","minecraft"],
+    ["Horror Game",             "Unity Horror Game – in Entwicklung",                     "inarbeit", true,  "#",                                                             "unity"],
+    ["Ultimate Apple Mod",      "Viele neue Minecraft-Äpfel",                            "inarbeit", false, "#",                                                             "minecraft"],
+    ["Recraft – Minecraft Mod", "Fertige Items zurückcraften",                            "pausiert", false, "#",                                                             "minecraft"],
 ];
 
 function getStatusText(status) {
@@ -36,20 +37,25 @@ function renderProjekte(containerId, featuredOnly) {
     const statusOrder = { fertig: 0, inarbeit: 1, pausiert: 2 };
     const sorted = [...ProjektArray].sort((a, b) => (statusOrder[a[2]] ?? 3) - (statusOrder[b[2]] ?? 3));
 
-    sorted.forEach(([name, beschreibung, status, featured, link, type = 'default']) => {
+    sorted.forEach(([name, beschreibung, status, featured, link, type = 'default', modrinthLink = null]) => {
         if (featuredOnly && !featured) return;
 
+        const hasPlatformChoice = !!(modrinthLink && link && link !== '#');
         const statusText = getStatusText(status);
         const icon = getProjectIcon(type);
-        const karte = document.createElement('a');
-        karte.href = link;
+
+        const karte = hasPlatformChoice
+            ? document.createElement('div')
+            : document.createElement('a');
         karte.className = 'projekt-link fade-up';
-        if (link !== '#') {
-            karte.target = '_blank';
-            karte.rel = 'noopener noreferrer';
+
+        if (!hasPlatformChoice) {
+            if (link !== '#') { karte.href = link; karte.target = '_blank'; karte.rel = 'noopener noreferrer'; }
+            else { karte.href = '#'; }
         }
+
         karte.innerHTML = `
-            <div class="projekt-card" data-type="${type}">
+            <div class="projekt-card${hasPlatformChoice ? ' has-platform-choice' : ''}" data-type="${type}">
                 <div class="projekt-card-header">
                     <span class="projekt-card-icon">${icon}</span>
                 </div>
@@ -58,17 +64,40 @@ function renderProjekte(containerId, featuredOnly) {
                     <p>${beschreibung}</p>
                     <span class="status ${status}">${statusText}</span>
                 </div>
+                ${hasPlatformChoice ? `
+                <div class="platform-overlay">
+                    <span class="platform-overlay-hint">Open on</span>
+                    <a href="${link}" target="_blank" rel="noopener noreferrer" class="platform-btn platform-cf">CurseForge</a>
+                    <a href="${modrinthLink}" target="_blank" rel="noopener noreferrer" class="platform-btn platform-mr">Modrinth</a>
+                </div>` : ''}
             </div>`;
+
+        if (hasPlatformChoice) {
+            karte.addEventListener('click', () => {
+                const overlay = karte.querySelector('.platform-overlay');
+                const isActive = overlay.classList.contains('active');
+                document.querySelectorAll('.platform-overlay.active').forEach(o => o.classList.remove('active'));
+                if (!isActive) overlay.classList.add('active');
+            });
+            karte.querySelectorAll('.platform-btn').forEach(btn => btn.addEventListener('click', e => e.stopPropagation()));
+        }
+
         container.appendChild(karte);
     });
 
-    // Re-run scroll animations after dynamic render
     if (typeof initScrollAnimations === 'function') initScrollAnimations();
     if (typeof initCardTilt === 'function') initCardTilt();
 }
 
 renderProjekte('projekte_rein', false);
 renderProjekte('projekte_rein_featured', true);
+
+// Close platform overlays when clicking outside
+document.addEventListener('click', e => {
+    if (!e.target.closest('.has-platform-choice')) {
+        document.querySelectorAll('.platform-overlay.active').forEach(o => o.classList.remove('active'));
+    }
+});
 
 
 // ── DARKMODE ────────────────────────────────────────────────────────
