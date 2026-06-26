@@ -395,8 +395,11 @@ nav {
 }
 
 .projekt-card:hover {
-  border-color: var(--blue-border);
-  box-shadow: 0 0 0 1px var(--blue-border), 0 16px 40px rgba(67,97,238,0.08);
+  border-color: rgba(67,97,238,0.5);
+  box-shadow:
+    0 0 0 1px rgba(67,97,238,0.35),
+    0 8px 30px rgba(67,97,238,0.18),
+    0 24px 60px rgba(67,97,238,0.10);
 }
 
 .projekt-card-header {
@@ -406,6 +409,27 @@ nav {
   justify-content: center;
   position: relative;
   overflow: hidden;
+  transition: filter 0.35s ease;
+}
+.projekt-card:hover .projekt-card-header {
+  filter: brightness(1.18) saturate(1.1);
+}
+
+/* Shimmer sweep on hover */
+.projekt-card-header::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.14), transparent);
+  transform: skewX(-15deg) translateX(-100%);
+  transition: transform 0.65s ease;
+  pointer-events: none;
+}
+.projekt-card:hover .projekt-card-header::after {
+  transform: skewX(-15deg) translateX(500%);
 }
 
 .projekt-card[data-type="minecraft"] .projekt-card-header {
@@ -424,6 +448,11 @@ nav {
 .projekt-card-icon {
   font-size: 2rem;
   filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+.projekt-card:hover .projekt-card-icon {
+  transform: scale(1.14) translateY(-3px);
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,0.45));
 }
 
 /* ── PLATFORM CHOICE OVERLAY ── */
