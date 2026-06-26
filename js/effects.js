@@ -341,7 +341,7 @@ function initProjectFilter() {
 // Fallback totals (updated 2026-06-09) used while live fetch loads
 const CF_FALLBACK_TOTAL = 4387;
 const CF_API_KEY  = '$2a$10$18EzVoXptI4IRb80MWRly.mrE5Qt.pEb9hm510WZCJMcjQF0X4bEu';
-const CF_MOD_IDS  = [1286312, 1539858, 1532694]; // boat-fix, underwater-torch, all-stacks-to-67
+const CF_MOD_IDS  = [1286312, 1539858, 1532694, 1586696]; // boat-fix, underwater-torch, all-stacks-to-67, place-on-path
 
 function animateStatNumber(el, total) {
     const duration = 1500;
