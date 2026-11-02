@@ -234,7 +234,7 @@ function renderRecs() {
             <div class="tile-meta">Weil ich <span class="accent">${esc(r.because)}</span> mochte</div>
             <div class="tile-on">${providerHTML(r.on)}</div>
         </button>`).join('') || '<p class="dash-empty">Keine Vorschläge.</p>';
-    $('dash-rec-sub').textContent = `Läuft auf ${dash.data.providers.map(p => p[0]).join(', ')}`;
+    $('dash-rec-sub').textContent = `Läuft auf ${dash.data.providers.map(p => p[0]).join(', ')} · Verfügbarkeit: JustWatch`;
 }
 
 // ── DIARY ─────────────────────────────────────
