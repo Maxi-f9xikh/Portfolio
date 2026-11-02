@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: letterboxd-feed
+  group: data-commit
   cancel-in-progress: false
 
 jobs:
@@ -32,5 +32,6 @@ jobs:
             echo "Nothing new."
           else
             git commit -m "chore: update Letterboxd feed"
+            git pull --rebase
             git push
           fi

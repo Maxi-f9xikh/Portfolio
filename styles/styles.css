@@ -1459,3 +1459,6 @@ main { padding-top: calc(60px + env(safe-area-inset-top)); flex: 1; }
     85%  { opacity: 0.15; }
     100% { opacity: 0; transform: translateY(-100vh) scale(0.3); }
 }
+
+/* ── CONTACT FORM BOT TRAP (hidden from people, visible to bots) ── */
+.hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }

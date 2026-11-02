@@ -305,10 +305,13 @@ function initProjectFilter() {
 }
 
 // ── CURSEFORGE STATS ──────────────────────────
-// Fallback totals (updated 2026-06-09) used while live fetch loads
-const CF_FALLBACK_TOTAL = 4387;
-const CF_API_KEY  = '$2a$10$18EzVoXptI4IRb80MWRly.mrE5Qt.pEb9hm510WZCJMcjQF0X4bEu';
-const CF_MOD_IDS  = [1286312, 1539858, 1532694, 1586696]; // boat-fix, underwater-torch, all-stacks-to-67, place-on-path
+// Download counts come from data/curseforge.json, refreshed every 3 h by a GitHub Action
+// (tools/curseforge_stats.py) — the API key stays a GitHub secret and is never in this file.
+const CF_FALLBACK_TOTAL = 16312;   // updated 2026-11-02, shown if the file can't be loaded
+const CF_STATS_URLS = [
+    'https://raw.githubusercontent.com/Maxi-f9xikh/Portfolio/main/data/curseforge.json',
+    'data/curseforge.json',
+];
 
 function animateStatNumber(el, total) {
     const duration = 1500;
@@ -323,41 +326,29 @@ function animateStatNumber(el, total) {
     requestAnimationFrame(step);
 }
 
+let cfShownTotal = null;
+
 async function fetchCurseForgeStats() {
     const el = document.getElementById('stat-downloads');
     if (!el) return;
 
-    // Show fallback immediately — replaced if live fetch succeeds
-    animateStatNumber(el, CF_FALLBACK_TOTAL);
-
-    try {
-        const results = await Promise.allSettled(
-            CF_MOD_IDS.map(id =>
-                fetch(`https://api.curseforge.com/v1/mods/${id}`, {
-                    headers: { 'x-api-key': CF_API_KEY, 'Accept': 'application/json' }
-                }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-            )
-        );
-
-        const liveTotal = results.reduce((sum, r) => {
-            if (r.status === 'fulfilled' && r.value?.data?.downloadCount) {
-                return sum + r.value.data.downloadCount;
-            }
-            return sum;
-        }, 0);
-
-        if (liveTotal > 0) {
-            animateStatNumber(el, liveTotal);
-        }
-    } catch {
-        // Fallback already shown — nothing to do
+    let total = null;
+    for (const url of CF_STATS_URLS) {
+        try {
+            const r = await fetch(url, { cache: 'no-cache' });
+            if (r.ok) { total = (await r.json()).total; break; }
+        } catch { /* try the next source */ }
+    }
+    total = total || CF_FALLBACK_TOTAL;
+    if (total !== cfShownTotal) {
+        cfShownTotal = total;
+        animateStatNumber(el, total);
     }
 }
 
 async function pollCurseForgeStats() {
     await fetchCurseForgeStats();
-    // Re-fetch every 5 minutes (CurseForge itself batches updates ~every 10-60 min)
-    setInterval(fetchCurseForgeStats, 5 * 60 * 1000);
+    setInterval(fetchCurseForgeStats, 15 * 60 * 1000);
 }
 
 // ── FAVICON ───────────────────────────────────
