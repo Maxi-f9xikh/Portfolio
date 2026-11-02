@@ -96,7 +96,9 @@ function renderStats() {
         [fmtNum(s.episodesLogged), 'Folgen im Tagebuch'],
         [fmtNum(dash.data.films.filter(f => f.liked).length), 'Lieblingsfilme ♥'],
     ]);
-    $('dash-updated').textContent = `Stand: ${parseDay(dash.data.generated).toLocaleDateString('de-DE')}`;
+    const lb = dash.feedTime ? new Date(dash.feedTime) : null;
+    $('dash-updated').textContent = `Serien: Stand ${parseDay(dash.data.generated).toLocaleDateString('de-DE')}`
+        + (lb ? ` · Filme: live von Letterboxd, ${lb.toLocaleDateString('de-DE')} ${lb.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}` : '');
 }
 
 // ── CURRENTLY WATCHING ────────────────────────
@@ -485,6 +487,12 @@ async function loadReviews() {
     if (dash.reviews) return dash.reviews;
     try { dash.reviews = await (await fetch('data/reviews.json', { cache: 'no-cache' })).json(); }
     catch { dash.reviews = {}; }
+    // Add reviews from the live Letterboxd feed that the build doesn't have yet
+    for (const [key, list] of Object.entries(dash.extraReviews || {})) {
+        const have = dash.reviews[key] ||= [];
+        for (const r of list) if (!have.some(h => h.date === r.date)) have.push(r);
+        have.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    }
     return dash.reviews;
 }
 
@@ -601,6 +609,76 @@ function initModal() {
     });
 }
 
+// ── LIVE LETTERBOXD (updated by GitHub Actions every 30 min) ──
+const FEED_URLS = [
+    'https://raw.githubusercontent.com/Maxi-f9xikh/Portfolio/main/data/letterboxd-feed.json',
+    'data/letterboxd-feed.json',   // copy on the server as fallback
+];
+
+async function loadLetterboxdFeed() {
+    for (const url of FEED_URLS) {
+        try {
+            const r = await fetch(url, { cache: 'no-cache' });
+            if (r.ok) return await r.json();
+        } catch { /* try the next source */ }
+    }
+    return null;
+}
+
+/* Merge feed entries newer than the build into films + diary; returns films that need TMDB details */
+function mergeLetterboxdFeed(feed) {
+    const d = dash.data;
+    const added = [];
+    dash.extraReviews = {};
+    const inDiary = new Set(d.diary.filter(e => e.type === 'film').map(e => `${e.tmdb}|${e.date}`));
+    for (const e of [...feed.entries].reverse()) {   // oldest → newest, latest rating wins
+        if (!e.tmdb || !e.date) continue;
+        let film = dash.filmById.get(e.tmdb);
+        const isNewEntry = !inDiary.has(`${e.tmdb}|${e.date}`);
+        if (!film) {
+            film = { tmdb: e.tmdb, title: e.title, year: e.year, poster: null, genres: [], runtime: 0,
+                     rating: e.rating, liked: e.liked, watched: e.date, logged: true, views: 1 };
+            d.films.push(film);
+            dash.filmById.set(e.tmdb, film);
+            added.push(film);
+        } else if (isNewEntry) {
+            film.views += 1;
+        }
+        if (e.rating != null) film.rating = e.rating;
+        film.liked = film.liked || e.liked;
+        if (e.date > (film.watched || '')) film.watched = e.date;
+        if (isNewEntry) {
+            d.diary.push({ type: 'film', tmdb: e.tmdb, title: e.title, date: e.date, rating: e.rating, rewatch: e.rewatch, review: !!e.review });
+            inDiary.add(`${e.tmdb}|${e.date}`);
+        }
+        if (e.review) (dash.extraReviews[`film-${e.tmdb}`] ||= []).push({ date: e.date, rating: e.rating, text: e.review });
+    }
+    d.diary.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    d.films.sort((a, b) => (b.watched || '').localeCompare(a.watched || ''));
+
+    // Film numbers follow the merged data
+    const year = String(new Date().getFullYear());
+    const rated = d.films.filter(f => f.rating != null);
+    Object.assign(d.stats, {
+        films: d.films.length,
+        filmsThisYear: new Set(d.diary.filter(e => e.type === 'film' && (e.date || '').startsWith(year)).map(e => e.tmdb)).size,
+        filmAvg: rated.reduce((a, f) => a + f.rating, 0) / Math.max(1, rated.length),
+    });
+    if (feed.fetched > d.generated) dash.feedTime = feed.fetched;
+    return added;
+}
+
+async function completeNewFilms(films) {
+    if (!films.length) return;
+    await pool(films, 4, async f => {
+        const det = await tmdbGet(`/movie/${f.tmdb}`);
+        if (!det) return;
+        Object.assign(f, { poster: det.poster_path, genres: (det.genres || []).map(g => g.name), runtime: det.runtime || 0 });
+    });
+    renderDiary();
+    if (dash.lib.kind === 'films') renderLibrary();
+}
+
 // ── INIT ──────────────────────────────────────
 async function initDashboard() {
     try {
@@ -611,6 +689,8 @@ async function initDashboard() {
     }
     dash.data.films.forEach(f => dash.filmById.set(f.tmdb, f));
     dash.data.shows.forEach(s => dash.showById.set(s.tmdb, s));
+    const feed = await loadLetterboxdFeed();
+    const newFilms = feed ? mergeLetterboxdFeed(feed) : [];
 
     renderStats();
     renderWatching();
@@ -628,6 +708,7 @@ async function initDashboard() {
     initViews();
     initModal();
     initCalendarToggles();
+    completeNewFilms(newFilms);
     renderEpisodes();
     renderMovies();
 }

@@ -1,0 +1,36 @@
+name: Letterboxd feed
+
+# Keeps data/letterboxd-feed.json in sync with the public Letterboxd RSS feed.
+# The dashboard reads it from raw.githubusercontent.com, so no server upload is needed.
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: letterboxd-feed
+  cancel-in-progress: false
+
+jobs:
+  feed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python tools/letterboxd_feed.py
+      - name: Commit if the feed changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/letterboxd-feed.json
+          if git diff --cached --quiet; then
+            echo "Nothing new."
+          else
+            git commit -m "chore: update Letterboxd feed"
+            git push
+          fi
