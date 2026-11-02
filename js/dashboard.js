@@ -487,8 +487,7 @@ function initLibraryControls() {
 // ── DETAIL MODAL ──────────────────────────────
 async function loadReviews() {
     if (dash.reviews) return dash.reviews;
-    try { dash.reviews = await (await fetch('data/reviews.json', { cache: 'no-cache' })).json(); }
-    catch { dash.reviews = {}; }
+    dash.reviews = await loadData('reviews.json') || {};
     // Add reviews from the live Letterboxd feed that the build doesn't have yet
     for (const [key, list] of Object.entries(dash.extraReviews || {})) {
         const have = dash.reviews[key] ||= [];
@@ -612,14 +611,13 @@ function initModal() {
     });
 }
 
-// ── LIVE LETTERBOXD (updated by GitHub Actions every 30 min) ──
-const FEED_URLS = [
-    'https://raw.githubusercontent.com/Maxi-f9xikh/Portfolio/main/data/letterboxd-feed.json',
-    'data/letterboxd-feed.json',   // copy on the server as fallback
-];
+// ── DATA SOURCES ──────────────────────────────
+// Newest data comes straight from GitHub (pushed after every update, Letterboxd feed every 30 min),
+// the copy on the server is the fallback.
+const GITHUB_DATA = 'https://raw.githubusercontent.com/Maxi-f9xikh/Portfolio/main/data/';
 
-async function loadLetterboxdFeed() {
-    for (const url of FEED_URLS) {
+async function loadData(file) {
+    for (const url of [GITHUB_DATA + file, 'data/' + file]) {
         try {
             const r = await fetch(url, { cache: 'no-cache' });
             if (r.ok) return await r.json();
@@ -627,6 +625,9 @@ async function loadLetterboxdFeed() {
     }
     return null;
 }
+
+// ── LIVE LETTERBOXD (updated by GitHub Actions every 30 min) ──
+const loadLetterboxdFeed = () => loadData('letterboxd-feed.json');
 
 /* Merge feed entries newer than the build into films + diary; returns films that need TMDB details */
 function mergeLetterboxdFeed(feed) {
@@ -684,9 +685,8 @@ async function completeNewFilms(films) {
 
 // ── INIT ──────────────────────────────────────
 async function initDashboard() {
-    try {
-        dash.data = await (await fetch('data/dashboard.json', { cache: 'no-cache' })).json();
-    } catch (e) {
+    dash.data = await loadData('dashboard.json');
+    if (!dash.data) {
         $('dash-stats').innerHTML = '<p class="dash-empty">Die Daten konnten nicht geladen werden.</p>';
         return;
     }
