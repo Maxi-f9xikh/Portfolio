@@ -2,6 +2,6 @@
 // Must stay a plain, blocking <script src> in <head> (document.write only works there).
 try {
     if (localStorage.getItem('darkMode') === 'true') {
-        document.write('<link rel="stylesheet" href="styles/darkstyles.css?v=2" data-theme="true">');
+        document.write('<link rel="stylesheet" href="styles/darkstyles.css?v=3" data-theme="true">');
     }
 } catch (e) { /* storage blocked → light mode */ }

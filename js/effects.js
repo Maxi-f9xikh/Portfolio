@@ -168,16 +168,6 @@ function initSkillBars() {
     bars.forEach(b => obs.observe(b));
 }
 
-// ── PARALLAX HERO ─────────────────────────────
-function initParallax() {
-    const hero = document.querySelector('.hero-full');
-    if (!hero) return;
-    window.addEventListener('scroll', () => {
-        const y = window.scrollY;
-        hero.style.backgroundPositionY = y * 0.4 + 'px';
-    }, { passive: true });
-}
-
 // ── NAV SCROLL EFFECT ─────────────────────────
 function initNavScroll() {
     const nav = document.querySelector('header');
@@ -185,21 +175,6 @@ function initNavScroll() {
     window.addEventListener('scroll', () => {
         nav.classList.toggle('scrolled', window.scrollY > 60);
     }, { passive: true });
-}
-
-// ── MAGNETIC BUTTONS ──────────────────────────
-function initMagneticButtons() {
-    document.querySelectorAll('.btn').forEach(btn => {
-        btn.addEventListener('mousemove', e => {
-            const r = btn.getBoundingClientRect();
-            const x = (e.clientX - r.left - r.width  / 2) * 0.25;
-            const y = (e.clientY - r.top  - r.height / 2) * 0.25;
-            btn.style.transform = `translate(${x}px, ${y}px)`;
-        });
-        btn.addEventListener('mouseleave', () => {
-            btn.style.transform = '';
-        });
-    });
 }
 
 // ── STAGGER GRID ──────────────────────────────
@@ -252,33 +227,6 @@ function initCardSpotlight() {
             card.classList.remove('spotlight-active');
         });
     });
-}
-
-// ── HERO PARTICLES ────────────────────────────
-function initHeroParticles() {
-    const hero = document.querySelector('.hero-full');
-    if (!hero) return;
-
-    function spawnParticle() {
-        const p = document.createElement('div');
-        p.className = 'hero-particle';
-        const size = 2 + Math.random() * 3;
-        const startX = Math.random() * 100;
-        const duration = 4000 + Math.random() * 6000;
-        const delay = Math.random() * 3000;
-        Object.assign(p.style, {
-            width: size + 'px',
-            height: size + 'px',
-            left: startX + '%',
-            animationDuration: duration + 'ms',
-            animationDelay: delay + 'ms'
-        });
-        hero.appendChild(p);
-        p.addEventListener('animationend', () => p.remove());
-    }
-
-    for (let i = 0; i < 18; i++) spawnParticle();
-    setInterval(() => spawnParticle(), 800);
 }
 
 // ── PROJECT FILTER ────────────────────────────
@@ -408,12 +356,11 @@ function initMobileNav() {
     // Mobile dark mode button (shown in header on mobile, hidden on desktop via CSS)
     const mobileDark = document.createElement('button');
     mobileDark.className = 'mobile-dark-btn';
-    mobileDark.setAttribute('aria-label', 'Dark/Light Mode');
     const isDarkNow = () => document.body.classList.contains('dark-mode');
     const updateMobileIcon = () => {
-        mobileDark.innerHTML = isDarkNow()
-            ? '<img src="images/light_mode.png" alt="Light mode" style="width:22px;height:22px;opacity:0.6;">'
-            : '<img src="images/Darkmode.png" alt="Dark mode" style="width:22px;height:22px;opacity:0.6;">';
+        const dark = isDarkNow();
+        mobileDark.innerHTML = `<img src="images/${dark ? 'light_mode' : 'Darkmode'}.png" alt="" style="width:22px;height:22px;opacity:0.6;">`;
+        mobileDark.setAttribute('aria-label', dark ? 'Hellmodus einschalten' : 'Dunkelmodus einschalten');
     };
     updateMobileIcon();
     header.appendChild(mobileDark); // after hamburger → right side of header
@@ -459,16 +406,13 @@ function initEffects() {
     initBackToTop();
     initCounters();
     initCardSpotlight();
-    initHeroParticles();
     initCursorGlow();
     initHeroCanvas();
     initTypewriter();
     initScrollAnimations();
     initCardTilt();
     initSkillBars();
-    initParallax();
     initNavScroll();
-    initMagneticButtons();
     initStaggerGrid();
     initProjectFilter();
     pollCurseForgeStats();

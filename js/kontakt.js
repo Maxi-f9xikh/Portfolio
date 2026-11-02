@@ -70,4 +70,7 @@ function sendEmail() {
     });
 }
 
-document.getElementById('send-btn').addEventListener('click', sendEmail);
+document.getElementById('contact-form').addEventListener('submit', e => {
+    e.preventDefault();
+    sendEmail();
+});

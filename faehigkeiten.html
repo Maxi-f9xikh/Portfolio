@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <link rel="stylesheet" href="fonts/fonts.css?v=2">
-    <link rel="stylesheet" href="styles/styles.css?v=15">
-    <script src="js/theme-init.js"></script>
+    <link rel="stylesheet" href="styles/styles.css?v=16">
+    <script src="js/theme-init.js?v=2"></script>
     <title>Fähigkeiten – Maximilian Stickel</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%234361ee'/%3E%3Ctext y='74' x='50' text-anchor='middle' font-size='60' font-family='system-ui%2Csans-serif' fill='white' font-weight='900'%3EMS%3C/text%3E%3C/svg%3E">
     <meta name="description" content="Skills und Tools: Java, HTML, CSS, Python, C# und mehr.">
@@ -19,6 +19,7 @@
     <meta name="twitter:description" content="Skills und Tools: Java, HTML, CSS, Python, C# und mehr.">
 </head>
 <body>
+    <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
     <header>
         <p class="codedby">© coded by Maximilian Stickel</p>
         <nav>
@@ -29,75 +30,76 @@
             <div class="nav-item"><a href="faehigkeiten.html">Fähigkeiten</a></div>
             <div class="nav-item"><a href="dashboard.html">Dashboard</a></div>
             <div class="nav-item"><a href="kontaktiere-mich.html">Kontaktiere mich</a></div>
-            <span id="Dark">
-                <div class="nav-item">
-                    <img src="images/Darkmode.png" alt="Darkmode an machen?" class="nav-item">
-                </div>
-            </span>
+            <button type="button" id="Dark" class="theme-toggle" aria-label="Dunkelmodus einschalten"><img src="images/Darkmode.png" alt="" class="nav-item"></button>
         </nav>
     </header>
 
     <hr>
 
-    <main>
+    <main id="inhalt">
         <div class="skills-container fade-up">
-            <h1 class="Psb">Programmiersprachen und wie gut ich sie beherrsche:</h1>
+            <h1 class="Psb">Sprachen und wie gut ich sie beherrsche:</h1>
 
             <div class="Sprachen-grid">
                 <div class="Sprachen-item">
                     <img src="images/html.png" alt="HTML" class="Sprachen-icon">
                     <span class="skill-name">HTML</span>
-                    <div class="skill-level">
+                    <div class="skill-level" role="img" aria-label="HTML: Sicher, 4 von 5">
                         <span class="bar filled"></span>
                         <span class="bar filled"></span>
                         <span class="bar filled"></span>
                         <span class="bar filled"></span>
                         <span class="bar"></span>
                     </div>
+                    <span class="skill-word">Sicher</span>
                 </div>
                 <div class="Sprachen-item">
                     <img src="images/phython.png" alt="Python" class="Sprachen-iconpy">
                     <span class="skill-name">Python</span>
-                    <div class="skill-level">
+                    <div class="skill-level" role="img" aria-label="Python: Einsteiger, 1 von 5">
                         <span class="bar filled"></span>
                         <span class="bar"></span>
                         <span class="bar"></span>
                         <span class="bar"></span>
                         <span class="bar"></span>
                     </div>
+                    <span class="skill-word">Einsteiger</span>
                 </div>
                 <div class="Sprachen-item">
                     <img src="images/java.png" alt="Java" class="Sprachen-iconjar">
                     <span class="skill-name">Java</span>
-                    <div class="skill-level">
+                    <div class="skill-level" role="img" aria-label="Java: Sicher, 4 von 5">
                         <span class="bar filled"></span>
                         <span class="bar filled"></span>
                         <span class="bar filled"></span>
                         <span class="bar filled"></span>
                         <span class="bar"></span>
                     </div>
+                    <span class="skill-word">Sicher</span>
                 </div>
                 <div class="Sprachen-item">
                     <img src="images/css.png" alt="CSS" class="Sprachen-icon">
                     <span class="skill-name">CSS</span>
-                    <div class="skill-level">
+                    <div class="skill-level" role="img" aria-label="CSS: Fortgeschritten, 3 von 5">
                         <span class="bar filled"></span>
                         <span class="bar filled"></span>
                         <span class="bar filled"></span>
                         <span class="bar"></span>
                         <span class="bar"></span>
                     </div>
+                    <span class="skill-word">Fortgeschritten</span>
                 </div>
                 <div class="Sprachen-item">
-                    <span class="skill-emoji-icon">⚙️</span>
+                    <span class="skill-emoji-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 6-6 6 6 6M16 6l6 6-6 6"/></svg></span>
                     <span class="skill-name">C#</span>
-                    <div class="skill-level">
+                    <div class="skill-level" role="img" aria-label="C#: Fortgeschritten, 3 von 5">
                         <span class="bar filled"></span>
                         <span class="bar filled"></span>
                         <span class="bar filled"></span>
                         <span class="bar"></span>
                         <span class="bar"></span>
                     </div>
+                    <span class="skill-word">Fortgeschritten</span>
                 </div>
             </div>
 
@@ -124,7 +126,7 @@
         <div class="footer-inner">
             <p class="footer-copy">© 2026 Maximilian Stickel. All Rights Reserved.</p>
             <a href="https://buymeacoffee.com/Maxi1" target="_blank" rel="noopener noreferrer" class="footer-coffee">
-                <img src="images/bmacoffe.png" alt="buy me a coffe! " class="coffee-bild">
+                <img src="images/bmacoffe.png" alt="Buy me a coffee" class="coffee-bild">
             </a>
             <div class="footer-social">
                 <a href="https://github.com/Maxi-f9xikh" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">
@@ -143,7 +145,7 @@
         </div>
     </footer>
 
-    <script src="js/index.js?v=3"></script>
-    <script src="js/effects.js?v=5"></script>
+    <script src="js/index.js?v=4"></script>
+    <script src="js/effects.js?v=6"></script>
 </body>
 </html>

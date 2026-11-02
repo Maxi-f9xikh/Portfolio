@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <link rel="stylesheet" href="fonts/fonts.css?v=2">
-    <link rel="stylesheet" href="styles/styles.css?v=15">
-    <script src="js/theme-init.js"></script>
+    <link rel="stylesheet" href="styles/styles.css?v=16">
+    <script src="js/theme-init.js?v=2"></script>
     <title>Über mich – Maximilian Stickel</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%234361ee'/%3E%3Ctext y='74' x='50' text-anchor='middle' font-size='60' font-family='system-ui%2Csans-serif' fill='white' font-weight='900'%3EMS%3C/text%3E%3C/svg%3E">
     <meta name="description" content="17-jähriger Hobby-Entwickler aus Cuxhaven. Java, HTML/CSS, Unity C# und Minecraft Mods.">
@@ -19,6 +19,7 @@
     <meta name="twitter:description" content="17-jähriger Hobby-Entwickler aus Cuxhaven. Java, HTML/CSS, Unity C# und Minecraft Mods.">
 </head>
 <body>
+    <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
     <header>
         <p class="codedby">© coded by Maximilian Stickel</p>
         <nav>
@@ -29,11 +30,7 @@
             <div class="nav-item"><a href="faehigkeiten.html">Fähigkeiten</a></div>
             <div class="nav-item"><a href="dashboard.html">Dashboard</a></div>
             <div class="nav-item"><a href="kontaktiere-mich.html">Kontaktiere mich</a></div>
-            <span id="Dark">
-                <div class="nav-item">
-                    <img src="images/Darkmode.png" alt="Darkmode an machen?" class="nav-item">
-                </div>
-            </span>
+            <button type="button" id="Dark" class="theme-toggle" aria-label="Dunkelmodus einschalten"><img src="images/Darkmode.png" alt="" class="nav-item"></button>
         </nav>
     </header>
 
@@ -41,7 +38,7 @@
 
     <h1 class="Dbi">Das bin ich:</h1>
 
-    <main>
+    <main id="inhalt">
         <div class="content-section fade-up">
             <div class="bildcontainer">
                 <div class="avatar-circle">MS</div>
@@ -70,7 +67,7 @@
         <div class="footer-inner">
             <p class="footer-copy">© 2026 Maximilian Stickel. All Rights Reserved.</p>
             <a href="https://buymeacoffee.com/Maxi1" target="_blank" rel="noopener noreferrer" class="footer-coffee">
-                <img src="images/bmacoffe.png" alt="buy me a coffe! " class="coffee-bild">
+                <img src="images/bmacoffe.png" alt="Buy me a coffee" class="coffee-bild">
             </a>
             <div class="footer-social">
                 <a href="https://github.com/Maxi-f9xikh" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">
@@ -89,7 +86,7 @@
         </div>
     </footer>
 
-    <script src="js/index.js?v=3"></script>
-    <script src="js/effects.js?v=5"></script>
+    <script src="js/index.js?v=4"></script>
+    <script src="js/effects.js?v=6"></script>
 </body>
 </html>

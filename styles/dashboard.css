@@ -41,7 +41,7 @@ body.dark-mode { --series-2: #d95926; }
   transition: color 0.2s, border-color 0.2s;
 }
 .dash-nav a:hover { color: var(--text); }
-.dash-nav a.active { color: var(--blue); border-bottom-color: var(--blue); }
+.dash-nav a.active { color: var(--blue-text); border-bottom-color: var(--blue); }
 .dash-view { animation: view-in 0.25s ease; }
 @keyframes view-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 .dash-updated {
@@ -70,7 +70,7 @@ body.dark-mode { --series-2: #d95926; }
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--blue);
+  color: var(--blue-text);
   margin-bottom: 0.75rem;
 }
 .dash-empty { color: var(--text-subtle); font-size: 0.9rem; padding: 0.5rem 0; }
@@ -162,7 +162,7 @@ body.dark-mode { --series-2: #d95926; }
   overflow: hidden;
 }
 .tile-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-.tile-meta .accent { color: var(--blue); font-weight: 600; }
+.tile-meta .accent { color: var(--blue-text); font-weight: 600; }
 .tile-on { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
 .provider {
   display: inline-flex; align-items: center; gap: 4px;
@@ -193,7 +193,7 @@ body.dark-mode { --series-2: #d95926; }
   margin: 0.9rem 0 0.4rem;
 }
 .cal-day:first-child { margin-top: 0; }
-.cal-day.today { color: var(--blue); }
+.cal-day.today { color: var(--blue-text); }
 .cal-item {
   display: flex;
   align-items: center;
@@ -228,7 +228,7 @@ body.dark-mode { --series-2: #d95926; }
   text-transform: uppercase;
   letter-spacing: 0.04em;
   background: var(--blue-glow);
-  color: var(--blue);
+  color: var(--blue-text);
   vertical-align: 1px;
 }
 
@@ -428,7 +428,7 @@ body.dark-mode { --series-2: #d95926; }
 .modal-review { padding: 12px 14px; border-radius: 10px; background: var(--surface-2); margin-bottom: 8px; font-size: 14px; white-space: pre-line; }
 .review-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
 .modal-links { display: flex; gap: 8px; flex-wrap: wrap; }
-.modal-links a { font-size: 13px; color: var(--blue); text-decoration: none; }
+.modal-links a { font-size: 13px; color: var(--blue-text); text-decoration: none; }
 .modal-links a:hover { text-decoration: underline; }
 
 /* ── RESPONSIVE ── */

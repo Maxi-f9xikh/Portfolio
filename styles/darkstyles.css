@@ -5,9 +5,12 @@
   --surface-2:   #161b22;
   --text:        #e6edf3;
   --text-muted:  #8b949e;
-  --text-subtle: #484f58;
+  --text-subtle: #7d8590;   /* ≥ 4.5:1 on all dark surfaces */
   --blue:        #4361ee;
   --blue-light:  #748ffc;
+  --blue-text:   #748ffc;
+  --red-text:    #f47067;
+  --amber-text:  #d29922;
   --blue-glow:   rgba(67,97,238,0.2);
   --blue-border: rgba(67,97,238,0.3);
   --red:         #e63946;

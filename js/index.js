@@ -23,9 +23,17 @@ function getStatusText(status) {
     }
 }
 
+// Line icons (SVG) instead of emoji, they follow the text colour
+const PROJECT_ICONS = {
+    minecraft: '<g transform="rotate(-45 12 12)"><path d="M4 8.5c4-3.5 12-3.5 16 0"/><path d="M12 6.5V21"/></g>',
+    unity: '<rect x="2" y="6" width="20" height="12" rx="4"/><path d="M6.5 12h4M8.5 10v4"/><path d="M15 11h.01M17.5 13.5h.01"/>',
+    web: '<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/>',
+    default: '<path d="m8 6-6 6 6 6M16 6l6 6-6 6"/>'
+};
+
 function getProjectIcon(type) {
-    const icons = { minecraft: '⛏️', unity: '👾', web: '🌐' };
-    return icons[type] || '💻';
+    const paths = PROJECT_ICONS[type] || PROJECT_ICONS.default;
+    return `<svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
 }
 
 function renderProjekte(containerId, featuredOnly) {
@@ -114,7 +122,7 @@ function applyStylesheet() {
             link.setAttribute('data-theme', 'true');
             document.head.appendChild(link);
         }
-        link.href = 'styles/darkstyles.css?v=2';
+        link.href = 'styles/darkstyles.css?v=3';
     } else {
         // Light Mode: Dark-Override entfernen
         if (link) link.remove();
@@ -124,7 +132,7 @@ function applyStylesheet() {
 function updateImages() {
     const map = [
         ['img[alt="Bildungs Zeitstrahl!"]', 'images/Bildung_dark.png',     'images/Bildung.png'],
-        ['img[alt="buy me a coffe! "]',     'images/bmacoffe_dark.png',    'images/bmacoffe.png'],
+        ['img.coffee-bild',                 'images/bmacoffe_dark.png',    'images/bmacoffe.png'],
     ];
     map.forEach(([selector, darkSrc, lightSrc]) => {
         const el = document.querySelector(selector);
@@ -134,9 +142,9 @@ function updateImages() {
 
 function updateDarkBtn() {
     if (!darkBtn) return;
-    darkBtn.innerHTML = darkmode
-        ? `<div class="nav-item"><img src="images/light_mode.png" alt="Lightmode an machen?" class="nav-item"></div>`
-        : `<div class="nav-item"><img src="images/Darkmode.png"   alt="Darkmode an machen?"  class="nav-item"></div>`;
+    darkBtn.innerHTML = `<img src="images/${darkmode ? 'light_mode' : 'Darkmode'}.png" alt="" class="nav-item">`;
+    darkBtn.setAttribute('aria-label', darkmode ? 'Hellmodus einschalten' : 'Dunkelmodus einschalten');
+    darkBtn.setAttribute('aria-pressed', String(darkmode));
 }
 
 function applyDarkmode() {
