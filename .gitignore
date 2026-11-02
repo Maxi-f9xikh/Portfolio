@@ -1,0 +1,5 @@
+js/tmdb-config.js
+# raw exports + API cache (only data/dashboard.json is published)
+data/letterboxd/
+data/serializd.json
+data/cache/

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://image.tmdb.org">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/fonts.css">
+    <link rel="stylesheet" href="styles/styles.css?v=13">
+    <link rel="stylesheet" href="styles/dashboard.css?v=1">
+    <title>Was ich schaue – Maximilian Stickel</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%234361ee'/%3E%3Ctext y='74' x='50' text-anchor='middle' font-size='60' font-family='system-ui%2Csans-serif' fill='white' font-weight='900'%3EMS%3C/text%3E%3C/svg%3E">
+    <meta name="description" content="Alle Filme und Serien, die ich geschaut habe – mit meinen Bewertungen, neuen Folgen und Vorschlägen.">
+    <meta name="theme-color" content="#4361ee">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Was ich schaue – Maximilian Stickel">
+    <meta property="og:description" content="Alle Filme und Serien, die ich geschaut habe – mit meinen Bewertungen, neuen Folgen und Vorschlägen.">
+    <meta property="og:site_name" content="Maximilian Stickel">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Was ich schaue – Maximilian Stickel">
+    <meta name="twitter:description" content="Alle Filme und Serien, die ich geschaut habe – mit meinen Bewertungen, neuen Folgen und Vorschlägen.">
+</head>
+<body>
+    <header>
+        <p class="codedby">&copy; coded by Maximilian Stickel</p>
+        <nav>
+            <div class="nav-item"><a href="index.html">Home</a></div>
+            <div class="nav-item"><a href="bildung.html">Bildung</a></div>
+            <div class="nav-item"><a href="index.html#scroll-Projekte">Projekte</a></div>
+            <div class="nav-item"><a href="ueber-mich.html">&Uuml;ber mich</a></div>
+            <div class="nav-item"><a href="faehigkeiten.html">F&auml;higkeiten</a></div>
+            <div class="nav-item"><a href="dashboard.html">Dashboard</a></div>
+            <div class="nav-item"><a href="kontaktiere-mich.html">Kontaktiere mich</a></div>
+            <span id="Dark">
+                <div class="nav-item">
+                    <img src="images/Darkmode.png" alt="Darkmode an machen?" class="nav-item">
+                </div>
+            </span>
+        </nav>
+    </header>
+
+    <main class="dash">
+        <div class="projekte-hero">
+            <h1>Was ich schaue</h1>
+            <p>Filme von Letterboxd, Serien von Serializd – mit meinen Bewertungen, neuen Folgen und Vorschlägen.</p>
+            <p class="dash-updated" id="dash-updated"></p>
+        </div>
+
+        <section class="dash-section" aria-label="Statistiken">
+            <div class="stats-grid dash-stats" id="dash-stats"></div>
+        </section>
+
+        <section class="dash-section">
+            <div class="dash-head">
+                <h2>Gerade dabei</h2>
+                <span class="dash-sub">Serien, die ich gerade schaue</span>
+            </div>
+            <div class="dash-row" id="dash-watching"></div>
+        </section>
+
+        <section class="dash-section">
+            <div class="dash-head">
+                <h2>Demnächst</h2>
+                <span class="dash-sub">Neue Folgen meiner Serien und neue Filme</span>
+            </div>
+            <div class="dash-upcoming">
+                <div>
+                    <h3 class="dash-h3">Neue Folgen</h3>
+                    <div class="dash-calendar" id="dash-episodes"><p class="dash-empty">Lädt …</p></div>
+                </div>
+                <div>
+                    <h3 class="dash-h3">Neue Filme</h3>
+                    <div class="dash-calendar" id="dash-movies"><p class="dash-empty">Lädt …</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="dash-section">
+            <div class="dash-head">
+                <h2>Für mich</h2>
+                <span class="dash-sub" id="dash-rec-sub">Passend zu meinem Geschmack</span>
+            </div>
+            <div class="filter-bar dash-tabs" role="tablist" id="dash-rec-tabs">
+                <button class="filter-btn active" data-kind="shows" role="tab" aria-selected="true">Serien</button>
+                <button class="filter-btn" data-kind="films" role="tab" aria-selected="false">Filme</button>
+            </div>
+            <div class="dash-row" id="dash-recs"></div>
+        </section>
+
+        <section class="dash-section">
+            <div class="dash-head">
+                <h2>Zuletzt geschaut</h2>
+            </div>
+            <ol class="dash-diary" id="dash-diary"></ol>
+        </section>
+
+        <section class="dash-section">
+            <div class="dash-head">
+                <h2>Statistiken</h2>
+            </div>
+            <div class="dash-charts">
+                <figure class="dash-chart dash-chart-wide">
+                    <figcaption>Aktivität der letzten 12 Monate</figcaption>
+                    <div class="dash-legend">
+                        <span><i style="background:var(--blue)"></i>Filme</span>
+                        <span><i style="background:var(--series-2)"></i>Folgen</span>
+                    </div>
+                    <div class="dash-chart-body" id="chart-activity"></div>
+                </figure>
+                <figure class="dash-chart">
+                    <figcaption>Meine Filmbewertungen <small>Letterboxd, von 5</small></figcaption>
+                    <div class="dash-chart-body" id="chart-films"></div>
+                </figure>
+                <figure class="dash-chart">
+                    <figcaption>Meine Folgenbewertungen <small>Serializd, von 10</small></figcaption>
+                    <div class="dash-chart-body" id="chart-episodes"></div>
+                </figure>
+            </div>
+            <div class="dash-genres" id="dash-genres"></div>
+        </section>
+
+        <section class="dash-section" id="bibliothek">
+            <div class="dash-head">
+                <h2>Bibliothek</h2>
+                <span class="dash-sub" id="dash-lib-count"></span>
+            </div>
+            <div class="filter-bar dash-tabs" role="tablist" id="dash-lib-tabs">
+                <button class="filter-btn active" data-kind="films" role="tab" aria-selected="true">Filme</button>
+                <button class="filter-btn" data-kind="shows" role="tab" aria-selected="false">Serien</button>
+                <button class="filter-btn" data-kind="watchlist" role="tab" aria-selected="false">Watchlist</button>
+            </div>
+            <div class="dash-controls">
+                <input type="search" id="dash-search" placeholder="Suchen …" aria-label="Titel suchen">
+                <select id="dash-status" aria-label="Status">
+                    <option value="all">Alle</option>
+                    <option value="watching">Gerade dabei</option>
+                    <option value="watched">Gesehen</option>
+                    <option value="paused">Pausiert</option>
+                    <option value="dropped">Abgebrochen</option>
+                </select>
+                <select id="dash-sort" aria-label="Sortieren">
+                    <option value="recent">Zuletzt geschaut</option>
+                    <option value="rating">Beste Bewertung</option>
+                    <option value="title">Titel A–Z</option>
+                    <option value="year">Neueste zuerst</option>
+                </select>
+            </div>
+            <div class="dash-grid" id="dash-library"></div>
+            <button class="filter-btn dash-more" id="dash-more" hidden>Mehr anzeigen</button>
+        </section>
+
+        <p class="dash-attribution">
+            <img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg" alt="TMDB" width="80" height="11">
+            Poster und Film-/Seriendaten von TMDB. Dieses Produkt nutzt die TMDB API, ist aber nicht von TMDB unterstützt oder zertifiziert.
+        </p>
+    </main>
+
+    <dialog class="dash-modal" id="dash-modal" aria-labelledby="dash-modal-title">
+        <button class="dash-modal-close" id="dash-modal-close" aria-label="Schließen">&times;</button>
+        <div id="dash-modal-body"></div>
+    </dialog>
+
+    <footer>
+        <div class="footer-inner">
+            <p class="footer-copy">© 2026 Maximilian Stickel. All Rights Reserved.</p>
+            <a href="https://buymeacoffee.com/Maxi1" target="_blank" rel="noopener noreferrer" class="footer-coffee">
+                <img src="images/bmacoffe.png" alt="buy me a coffe! " class="coffee-bild">
+            </a>
+            <div class="footer-social">
+                <a href="https://github.com/Maxi-f9xikh" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                    <span>Maxi-f9xikh</span>
+                </a>
+                <a href="https://letterboxd.com/maxxi187/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Letterboxd">
+                    <span>Letterboxd</span>
+                </a>
+                <a href="https://www.serializd.com/user/Maxxi187" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Serializd">
+                    <span>Serializd</span>
+                </a>
+            </div>
+            <div class="footer-links">
+                <a href="impressum.html">Impressum</a>
+                <a href="datenschutz.html">Datenschutz</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/index.js?v=3"></script>
+    <script src="js/tmdb-config.js"></script>
+    <script src="js/dashboard.js?v=1"></script>
+    <script src="js/effects.js?v=3"></script>
+</body>
+</html>
