@@ -52,7 +52,11 @@ function posterHTML(path, title, size = 'w185', badge = '', flag = '') {
 }
 const thumb = path => path ? `<img src="${IMG}w92${path}" alt="" loading="lazy">` : '<span class="cal-thumb"></span>';
 
-const showScore = s => s.rating ?? s.avgEpisode;   // 1–10
+// Poster badge: Serializd show/season rating, else episode average in half stars (0.5–5)
+const showScore = s => s.badge;
+// "★★★★ 4/5 · 8,8/10" — stars plus the exact score from my review when there is one
+const ratingHTML = (stars5, score10) => stars5 == null ? '' :
+    `${starsHTML(stars5)}<span class="score">${fmt10(stars5)}/5${score10 != null ? ` · ${fmt10(score10)}/10` : ''}</span>`;
 
 async function tmdbGet(path, params = {}) {
     if (typeof TMDB_API_KEY === 'undefined' || !TMDB_API_KEY || TMDB_API_KEY.startsWith('HIER')) return null;
@@ -91,7 +95,8 @@ function renderStats() {
     $('dash-stats').innerHTML = tilesHTML(tiles);
     $('dash-averages').innerHTML = tilesHTML([
         [`${fmt10(s.filmAvg)}<small>/5</small>`, 'Ø Filmbewertung'],
-        [`${fmt10(s.episodeAvg)}<small>/10</small>`, 'Ø Folgenbewertung'],
+        [`${fmt10(s.episodeAvg)}<small>/5</small>`, 'Ø Folge (Sterne)'],
+        [`${fmt10(s.episodeScoreAvg)}<small>/10</small>`, 'Ø Folge (meine Note)'],
         [fmtNum(dash.data.films.filter(f => f.rating != null).length), 'Filme bewertet'],
         [fmtNum(s.episodesLogged), 'Folgen im Tagebuch'],
         [fmtNum(dash.data.films.filter(f => f.liked).length), 'Lieblingsfilme ♥'],
@@ -112,7 +117,7 @@ function renderWatching() {
     $('dash-watching').innerHTML = shows.map(s => {
         const last = lastEpisode(s.tmdb);
         const score = showScore(s);
-        const badge = score ? `<span class="star">★</span> ${fmt10(score / 2)}` : '';
+        const badge = score ? `<span class="star">★</span> ${fmt10(score)}` : '';
         const sub = last ? `<span class="accent">S${last.s}E${last.e}</span> · ${relDay(last.date)}` : 'Noch nicht bewertet';
         return `<button class="tile" data-kind="show" data-id="${s.tmdb}">
             ${posterHTML(s.poster, s.name, 'w185', badge)}
@@ -224,7 +229,7 @@ function renderRecs() {
     const recs = dash.data.recommendations[dash.recKind];
     const kind = dash.recKind === 'films' ? 'rec-film' : 'rec-show';
     $('dash-recs').innerHTML = recs.map(r => `<button class="tile" data-kind="${kind}" data-id="${r.tmdb}">
-            ${posterHTML(r.poster, r.title, 'w185', `<span class="star">★</span> ${fmt10(r.vote)}`)}
+            ${posterHTML(r.poster, r.title, 'w185', `TMDB ${fmt10(r.vote)}`)}
             <div class="tile-title">${esc(r.title)}</div>
             <div class="tile-meta">Weil ich <span class="accent">${esc(r.because)}</span> mochte</div>
             <div class="tile-on">${providerHTML(r.on)}</div>
@@ -244,9 +249,7 @@ function renderDiary() {
         else if (e.type === 'episode') sub = `S${e.s}E${e.e}${e.ep ? ' · ' + e.ep : ''}`;
         else if (e.type === 'season') sub = `Staffel ${e.s} komplett`;
         else sub = 'Ganze Serie';
-        const rating = e.rating == null ? '' : isFilm
-            ? starsHTML(e.rating)
-            : `${starsHTML(e.rating / 2)}<span class="score">${e.rating}/10</span>`;
+        const rating = ratingHTML(e.rating, isFilm ? null : e.score);
         const pills = (e.rewatch ? '<span class="pill">Rewatch</span>' : '') + (e.review ? '<span class="pill">Review</span>' : '');
         return `<li class="diary-item" tabindex="0" data-kind="${isFilm ? 'film' : 'show'}" data-id="${e.tmdb}">
             ${thumb(poster)}
@@ -370,10 +373,9 @@ function renderCharts() {
     columnChart($('chart-films'), filmBuckets.map(b => fmt10(b)), [
         { label: 'Filme', color: 'var(--blue)', values: filmBuckets.map(b => d.films.filter(f => f.rating === b).length) },
     ], { height: 170, tipTitle: l => `${l} von 5 Sternen` });
-    const epBuckets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    columnChart($('chart-episodes'), epBuckets.map(String), [
-        { label: 'Folgen', color: 'var(--blue)', values: epBuckets.map(b => d.diary.filter(e => e.type === 'episode' && e.rating === b).length) },
-    ], { height: 170, tipTitle: l => `${l} von 10` });
+    columnChart($('chart-episodes'), filmBuckets.map(b => fmt10(b)), [
+        { label: 'Folgen', color: 'var(--blue)', values: filmBuckets.map(b => d.diary.filter(e => e.type === 'episode' && e.rating === b).length) },
+    ], { height: 170, tipTitle: l => `${l} von 5 Sternen` });
 
     // Top genres across films and shows I've watched
     const genres = new Map();
@@ -392,7 +394,7 @@ function libraryItems() {
         items = d.films.map(f => ({ kind: 'film', id: f.tmdb, title: f.title, year: f.year, poster: f.poster, score: f.rating, date: f.watched, liked: f.liked }));
     } else if (kind === 'shows') {
         items = d.shows.filter(s => s.status !== 'watchlist' && (status === 'all' || s.status === status))
-            .map(s => ({ kind: 'show', id: s.tmdb, title: s.name, year: s.year, poster: s.poster, score: showScore(s) == null ? null : showScore(s) / 2, date: s.lastWatched, status: s.status }));
+            .map(s => ({ kind: 'show', id: s.tmdb, title: s.name, year: s.year, poster: s.poster, score: showScore(s), date: s.lastWatched, status: s.status }));
     } else {
         items = [
             ...d.watchlist.films.map(f => ({ kind: 'film', id: f.tmdb, title: f.title, year: f.year, poster: f.poster, flag: 'Film' })),
@@ -528,12 +530,13 @@ async function openModal(kind, id) {
         meta.push(STATUS_LABEL[s.status] || 'Watchlist');
         if (s.seasons) meta.push(`${s.seasons} Staffel${s.seasons > 1 ? 'n' : ''}`);
         if (s.networks.length) meta.push(s.networks.join(', '));
-        if (s.rating != null) ratings += ratingBox('Serializd', `${starsHTML(s.rating / 2)}<span class="score">${s.rating}/10</span>`);
-        if (s.avgEpisode != null) ratings += ratingBox(s.episodesRated === 1 ? '1 Folge' : `Ø ${s.episodesRated} Folgen`, `${starsHTML(s.avgEpisode / 2)}<span class="score">${fmt10(s.avgEpisode)}/10</span>`);
+        if (s.stars != null) ratings += ratingBox('Serializd · Serie', ratingHTML(s.stars, s.score));
+        if (s.avgScore != null) ratings += ratingBox(`Ø meine Note · ${s.scoreCount} Folge${s.scoreCount === 1 ? '' : 'n'}`, `<span class="score" style="margin:0">${fmt10(s.avgScore)}/10</span>`);
+        else if (s.avgStars != null) ratings += ratingBox(`Ø ${s.episodesRated} Folge${s.episodesRated === 1 ? '' : 'n'}`, ratingHTML(Math.round(s.avgStars * 2) / 2));
         const seasons = Object.entries(s.seasonRatings);
         if (seasons.length) {
             sections += `<div class="modal-section"><h4>Staffeln</h4><div class="season-chips">${seasons.map(([n, r]) =>
-                `<span>S${n} <span class="stars">${stars(r / 2)}</span> <span class="score">${r}/10</span></span>`).join('')}</div></div>`;
+                `<span>S${n} ${ratingHTML(r.stars, r.score)}</span>`).join('')}</div></div>`;
         }
         const live = dash.live.get('show-' + id);
         const next = live ? live.next_episode_to_air : (s.next && { air_date: s.next.date, season_number: s.next.s, episode_number: s.next.e });
@@ -588,7 +591,7 @@ async function openModal(kind, id) {
     } else if (kind === 'show') {
         revs = d.diary.filter(e => e.tmdb === id && e.review && reviews[`sz-${e.id}`]).slice(0, 10).map(e => {
             const what = e.type === 'episode' ? `S${e.s}E${e.e}` : e.type === 'season' ? `Staffel ${e.s}` : 'Serie';
-            return reviewHTML(`${what} · ${relDay(e.date)}${e.rating ? ' · ' + starsHTML(e.rating / 2) + `<span class="score">${e.rating}/10</span>` : ''}`, reviews[`sz-${e.id}`]);
+            return reviewHTML(`${what} · ${relDay(e.date)}${e.rating ? ' · ' + ratingHTML(e.rating, e.score) : ''}`, reviews[`sz-${e.id}`]);
         });
     }
     if (revs.length) $('dash-modal-reviews').innerHTML = `<h4>Meine Reviews</h4>${revs.join('')}`;

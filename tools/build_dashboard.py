@@ -15,6 +15,7 @@ import json
 import re
 import sys
 import time
+import unicodedata
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -225,13 +226,20 @@ def build_shows():
     shows, review_texts = [], {}
     for sid, det in zip(ids, details):
         det = det or {}
-        entries = by_show.get(sid, [])
-        ep_ratings = [e["rating"] for e in entries if e["e"] is not None and e["rating"]]
-        show_rating = next((e["rating"] for e in entries if e["s"] is None and e["e"] is None and e["rating"]), None)
-        season_ratings = {}
+        entries = by_show.get(sid, [])   # newest first
+        episodes = [e for e in entries if e["e"] is not None and e["rating"]]
+        ep_scores = [score10(e.get("review")) for e in episodes]
+        ep_scores = [x for x in ep_scores if x is not None]
+        show_entry = next((e for e in entries if e["s"] is None and e["e"] is None and e["rating"]), None)
+        seasons = {}
         for e in entries:
             if e["s"] is not None and e["e"] is None and e["rating"]:
-                season_ratings.setdefault(str(e["s"]), e["rating"])
+                seasons.setdefault(str(e["s"]), {"stars": stars(e["rating"]), "score": score10(e.get("review"))})
+        avg_stars = sum(stars(e["rating"]) for e in episodes) / len(episodes) if episodes else None
+        # Poster badge: a real Serializd rating (show, else latest season), else the episode average in half stars
+        newest_season = next((e for e in entries if e["s"] is not None and e["e"] is None and e["rating"]), None)
+        badge = (stars(show_entry["rating"]) if show_entry else stars(newest_season["rating"]) if newest_season
+                 else round(avg_stars * 2) / 2 if avg_stars else None)
         nxt = det.get("next_episode_to_air")
         shows.append({
             "tmdb": sid,
@@ -247,10 +255,14 @@ def build_shows():
             "episodes": det.get("number_of_episodes"),
             "runtime": (det.get("episode_run_time") or [None])[0] or (det.get("last_episode_to_air") or {}).get("runtime") or 40,
             "networks": [n["name"] for n in det.get("networks", [])][:2],
-            "rating": show_rating,
-            "seasonRatings": season_ratings,
-            "avgEpisode": round(sum(ep_ratings) / len(ep_ratings), 2) if ep_ratings else None,
-            "episodesRated": len(ep_ratings),
+            "stars": stars(show_entry["rating"]) if show_entry else None,
+            "score": score10(show_entry.get("review")) if show_entry else None,
+            "seasonRatings": seasons,
+            "badge": badge,
+            "avgStars": round(avg_stars, 2) if avg_stars else None,
+            "avgScore": round(sum(ep_scores) / len(ep_scores), 1) if ep_scores else None,
+            "scoreCount": len(ep_scores),
+            "episodesRated": len(episodes),
             "lastWatched": max((e["date"] for e in entries), default=None),
             "next": {"date": nxt["air_date"], "s": nxt["season_number"], "e": nxt["episode_number"],
                      "name": nxt["name"]} if nxt else None,
@@ -261,9 +273,27 @@ def build_shows():
 
     diary = [{"type": "episode" if e["e"] is not None else ("season" if e["s"] is not None else "show"),
               "tmdb": e["show"], "id": e["id"], "title": e["name"], "s": e["s"], "e": e["e"], "ep": e["ep"],
-              "date": e["date"], "rating": e["rating"], "rewatch": e["rewatch"], "review": bool(e.get("review"))}
+              "date": e["date"], "rating": stars(e["rating"]), "score": score10(e.get("review")),
+              "rewatch": e["rewatch"], "review": bool(e.get("review"))}
              for e in s["diary"]]
     return shows, diary, review_texts
+
+
+def stars(serializd_rating):
+    """Serializd stores half stars as 1–10; the site shows them as 0.5–5 like Letterboxd."""
+    return serializd_rating / 2 if serializd_rating else None
+
+
+SCORE10 = re.compile(r"(\d{1,2}(?:[.,]\d{1,2})?)\s*/\s*10\b")
+
+
+def score10(review):
+    """The exact score I write into my Serializd reviews, e.g. '4/5 8.8/10' → 8.8.
+    NFKC turns styled digits like '𝟖.𝟏/𝟏𝟎' into plain ones first."""
+    text = unicodedata.normalize("NFKC", review or "")
+    found = [float(x.replace(",", ".")) for x in SCORE10.findall(text)]
+    found = [x for x in found if 0 <= x <= 10]
+    return found[-1] if found else None
 
 
 # ── RECOMMENDATIONS ──────────────────────────────
@@ -326,9 +356,9 @@ def main():
     providers = my_provider_ids()
     film_seeds = [(f["tmdb"], f["rating"], f["title"]) for f in sorted(films, key=lambda f: -(f["rating"] or 0))
                   if f["tmdb"] and (f["rating"] or 0) >= 4][:30]
-    show_seeds = [(s["tmdb"], (s["rating"] or s["avgEpisode"] or 0) / 2, s["name"]) for s in
-                  sorted(shows, key=lambda s: -((s["rating"] or s["avgEpisode"] or 0)))
-                  if (s["rating"] or s["avgEpisode"] or 0) >= 8][:30]
+    taste = lambda s: s["stars"] or s["avgStars"] or 0   # 0.5–5
+    show_seeds = [(s["tmdb"], taste(s), s["name"]) for s in sorted(shows, key=lambda s: -taste(s))
+                  if taste(s) >= 4][:30]
     seen_films = {f["tmdb"] for f in films} | {f["tmdb"] for f in film_watchlist}
     seen_shows = {s["tmdb"] for s in shows}
     rec_films = recommend("movie", film_seeds, seen_films, providers)
@@ -354,6 +384,9 @@ def main():
             "filmAvg": round(sum(f["rating"] for f in films if f["rating"]) / max(1, sum(1 for f in films if f["rating"])), 2),
             "episodeAvg": round(sum(e["rating"] for e in show_diary if e["type"] == "episode" and e["rating"])
                                 / max(1, sum(1 for e in show_diary if e["type"] == "episode" and e["rating"])), 2),
+            # average of the exact x/10 scores written in my reviews
+            "episodeScoreAvg": round(sum(e["score"] for e in show_diary if e["type"] == "episode" and e["score"] is not None)
+                                     / max(1, sum(1 for e in show_diary if e["type"] == "episode" and e["score"] is not None)), 1),
         },
         "providers": sorted({v["name"]: v["logo"] for v in providers.values() if v["logo"]}.items()),
         "films": sorted(films, key=lambda f: f["watched"] or "", reverse=True),

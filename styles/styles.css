@@ -41,6 +41,10 @@ body::after {
 
 html { scroll-behavior: smooth; }
 
+/* Smooth cross-fade between pages, done by the browser (no hiding/delay in JS) */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.18s; }
+
 body {
   background: var(--bg);
   color: var(--text);

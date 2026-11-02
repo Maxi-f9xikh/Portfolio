@@ -209,39 +209,6 @@ function initStaggerGrid() {
     });
 }
 
-// ── PAGE TRANSITIONS ──────────────────────────
-function initPageTransitions() {
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.35s ease';
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            document.body.style.opacity = '1';
-        });
-    });
-
-    document.addEventListener('click', e => {
-        const a = e.target.closest('a');
-        if (!a) return;
-        const href = a.getAttribute('href');
-        if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto')) return;
-        if (a.target === '_blank') return;
-
-        // Check if this is a same-page hash navigation (e.g. index.html#section)
-        const targetPage = href.split('#')[0];
-        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-        const isSamePage = (targetPage === currentPage || targetPage === '');
-
-        if (isSamePage) {
-            // Don't fade — just scroll
-            return;
-        }
-
-        e.preventDefault();
-        document.body.style.opacity = '0';
-        setTimeout(() => { window.location.href = href; }, 350);
-    });
-}
-
 // ── ANIMATED COUNTERS ─────────────────────────
 function initCounters() {
     const els = document.querySelectorAll('[data-count]');
@@ -496,7 +463,6 @@ function initMobileNav() {
 // ── INIT ALL ──────────────────────────────────
 function initEffects() {
     initMobileNav();
-    initPageTransitions();
     initFavicon();
     initActiveNav();
     initBackToTop();
