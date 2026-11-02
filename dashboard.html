@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="fonts/fonts.css">
     <link rel="stylesheet" href="styles/styles.css?v=13">
-    <link rel="stylesheet" href="styles/dashboard.css?v=1">
+    <link rel="stylesheet" href="styles/dashboard.css?v=3">
     <title>Was ich schaue – Maximilian Stickel</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%234361ee'/%3E%3Ctext y='74' x='50' text-anchor='middle' font-size='60' font-family='system-ui%2Csans-serif' fill='white' font-weight='900'%3EMS%3C/text%3E%3C/svg%3E">
     <meta name="description" content="Alle Filme und Serien, die ich geschaut habe – mit meinen Bewertungen, neuen Folgen und Vorschlägen.">
@@ -42,114 +42,131 @@
     </header>
 
     <main class="dash">
-        <div class="projekte-hero">
+        <div class="projekte-hero dash-hero">
             <h1>Was ich schaue</h1>
             <p>Filme von Letterboxd, Serien von Serializd – mit meinen Bewertungen, neuen Folgen und Vorschlägen.</p>
             <p class="dash-updated" id="dash-updated"></p>
         </div>
 
-        <section class="dash-section" aria-label="Statistiken">
+        <section class="dash-section" aria-label="Kennzahlen">
             <div class="stats-grid dash-stats" id="dash-stats"></div>
         </section>
 
-        <section class="dash-section">
-            <div class="dash-head">
-                <h2>Gerade dabei</h2>
-                <span class="dash-sub">Serien, die ich gerade schaue</span>
+        <div class="dash-nav" role="navigation" aria-label="Dashboard-Bereiche">
+            <div class="dash-nav-inner" role="tablist" id="dash-nav">
+                <a href="#uebersicht" role="tab" data-view="uebersicht">Übersicht</a>
+                <a href="#filme" role="tab" data-view="filme">Filme</a>
+                <a href="#serien" role="tab" data-view="serien">Serien</a>
+                <a href="#watchlist" role="tab" data-view="watchlist">Watchlist</a>
+                <a href="#fuer-mich" role="tab" data-view="fuer-mich">Für mich</a>
+                <a href="#statistiken" role="tab" data-view="statistiken">Statistiken</a>
             </div>
-            <div class="dash-row" id="dash-watching"></div>
-        </section>
+        </div>
 
-        <section class="dash-section">
-            <div class="dash-head">
-                <h2>Demnächst</h2>
-                <span class="dash-sub">Neue Folgen meiner Serien und neue Filme</span>
-            </div>
-            <div class="dash-upcoming">
-                <div>
-                    <h3 class="dash-h3">Neue Folgen</h3>
-                    <div class="dash-calendar" id="dash-episodes"><p class="dash-empty">Lädt …</p></div>
+        <!-- ÜBERSICHT -->
+        <div class="dash-view" data-view="uebersicht" role="tabpanel">
+            <section class="dash-section">
+                <div class="dash-head">
+                    <h2>Gerade dabei</h2>
+                    <span class="dash-sub">Serien, die ich gerade schaue</span>
                 </div>
-                <div>
-                    <h3 class="dash-h3">Neue Filme</h3>
-                    <div class="dash-calendar" id="dash-movies"><p class="dash-empty">Lädt …</p></div>
+                <div class="dash-row" id="dash-watching"></div>
+            </section>
+
+            <section class="dash-section">
+                <div class="dash-head">
+                    <h2>Demnächst</h2>
+                    <span class="dash-sub">Neue Folgen meiner Serien und neue Filme</span>
                 </div>
-            </div>
-        </section>
-
-        <section class="dash-section">
-            <div class="dash-head">
-                <h2>Für mich</h2>
-                <span class="dash-sub" id="dash-rec-sub">Passend zu meinem Geschmack</span>
-            </div>
-            <div class="filter-bar dash-tabs" role="tablist" id="dash-rec-tabs">
-                <button class="filter-btn active" data-kind="shows" role="tab" aria-selected="true">Serien</button>
-                <button class="filter-btn" data-kind="films" role="tab" aria-selected="false">Filme</button>
-            </div>
-            <div class="dash-row" id="dash-recs"></div>
-        </section>
-
-        <section class="dash-section">
-            <div class="dash-head">
-                <h2>Zuletzt geschaut</h2>
-            </div>
-            <ol class="dash-diary" id="dash-diary"></ol>
-        </section>
-
-        <section class="dash-section">
-            <div class="dash-head">
-                <h2>Statistiken</h2>
-            </div>
-            <div class="dash-charts">
-                <figure class="dash-chart dash-chart-wide">
-                    <figcaption>Aktivität der letzten 12 Monate</figcaption>
-                    <div class="dash-legend">
-                        <span><i style="background:var(--blue)"></i>Filme</span>
-                        <span><i style="background:var(--series-2)"></i>Folgen</span>
+                <div class="dash-upcoming">
+                    <div class="dash-panel">
+                        <h3 class="dash-h3">Neue Folgen</h3>
+                        <div class="dash-calendar" id="dash-episodes"><p class="dash-empty">Lädt …</p></div>
                     </div>
-                    <div class="dash-chart-body" id="chart-activity"></div>
-                </figure>
-                <figure class="dash-chart">
-                    <figcaption>Meine Filmbewertungen <small>Letterboxd, von 5</small></figcaption>
-                    <div class="dash-chart-body" id="chart-films"></div>
-                </figure>
-                <figure class="dash-chart">
-                    <figcaption>Meine Folgenbewertungen <small>Serializd, von 10</small></figcaption>
-                    <div class="dash-chart-body" id="chart-episodes"></div>
-                </figure>
-            </div>
-            <div class="dash-genres" id="dash-genres"></div>
-        </section>
+                    <div class="dash-panel">
+                        <h3 class="dash-h3">Neue Filme</h3>
+                        <div class="dash-calendar" id="dash-movies"><p class="dash-empty">Lädt …</p></div>
+                    </div>
+                </div>
+            </section>
 
-        <section class="dash-section" id="bibliothek">
-            <div class="dash-head">
-                <h2>Bibliothek</h2>
-                <span class="dash-sub" id="dash-lib-count"></span>
-            </div>
-            <div class="filter-bar dash-tabs" role="tablist" id="dash-lib-tabs">
-                <button class="filter-btn active" data-kind="films" role="tab" aria-selected="true">Filme</button>
-                <button class="filter-btn" data-kind="shows" role="tab" aria-selected="false">Serien</button>
-                <button class="filter-btn" data-kind="watchlist" role="tab" aria-selected="false">Watchlist</button>
-            </div>
-            <div class="dash-controls">
-                <input type="search" id="dash-search" placeholder="Suchen …" aria-label="Titel suchen">
-                <select id="dash-status" aria-label="Status">
-                    <option value="all">Alle</option>
-                    <option value="watching">Gerade dabei</option>
-                    <option value="watched">Gesehen</option>
-                    <option value="paused">Pausiert</option>
-                    <option value="dropped">Abgebrochen</option>
-                </select>
-                <select id="dash-sort" aria-label="Sortieren">
-                    <option value="recent">Zuletzt geschaut</option>
-                    <option value="rating">Beste Bewertung</option>
-                    <option value="title">Titel A–Z</option>
-                    <option value="year">Neueste zuerst</option>
-                </select>
-            </div>
-            <div class="dash-grid" id="dash-library"></div>
-            <button class="filter-btn dash-more" id="dash-more" hidden>Mehr anzeigen</button>
-        </section>
+            <section class="dash-section">
+                <div class="dash-head">
+                    <h2>Zuletzt geschaut</h2>
+                </div>
+                <ol class="dash-diary" id="dash-diary"></ol>
+            </section>
+        </div>
+
+        <!-- FILME / SERIEN / WATCHLIST -->
+        <div class="dash-view" data-view="filme serien watchlist" role="tabpanel" hidden>
+            <section class="dash-section">
+                <div class="dash-head">
+                    <h2 id="dash-lib-title">Filme</h2>
+                    <span class="dash-sub" id="dash-lib-count"></span>
+                </div>
+                <div class="dash-controls">
+                    <input type="search" id="dash-search" placeholder="Suchen …" aria-label="Titel suchen">
+                    <select id="dash-status" aria-label="Status">
+                        <option value="all">Alle Serien</option>
+                        <option value="watching">Gerade dabei</option>
+                        <option value="watched">Gesehen</option>
+                        <option value="paused">Pausiert</option>
+                        <option value="dropped">Abgebrochen</option>
+                    </select>
+                    <select id="dash-sort" aria-label="Sortieren">
+                        <option value="recent">Zuletzt geschaut</option>
+                        <option value="rating">Beste Bewertung</option>
+                        <option value="title">Titel A–Z</option>
+                        <option value="year">Neueste zuerst</option>
+                    </select>
+                </div>
+                <div class="dash-grid" id="dash-library"></div>
+                <button class="filter-btn dash-more" id="dash-more" hidden>Mehr anzeigen</button>
+            </section>
+        </div>
+
+        <!-- FÜR MICH -->
+        <div class="dash-view" data-view="fuer-mich" role="tabpanel" hidden>
+            <section class="dash-section">
+                <div class="dash-head">
+                    <h2>Für mich</h2>
+                    <span class="dash-sub" id="dash-rec-sub">Passend zu meinem Geschmack</span>
+                </div>
+                <div class="filter-bar dash-tabs" role="tablist" id="dash-rec-tabs">
+                    <button class="filter-btn active" data-kind="shows" role="tab" aria-selected="true">Serien</button>
+                    <button class="filter-btn" data-kind="films" role="tab" aria-selected="false">Filme</button>
+                </div>
+                <div class="dash-grid" id="dash-recs"></div>
+            </section>
+        </div>
+
+        <!-- STATISTIKEN -->
+        <div class="dash-view" data-view="statistiken" role="tabpanel" hidden>
+            <section class="dash-section">
+                <div class="stats-grid dash-stats" id="dash-averages"></div>
+                <div class="dash-charts">
+                    <figure class="dash-chart dash-chart-wide">
+                        <figcaption>Aktivität der letzten 12 Monate</figcaption>
+                        <div class="dash-legend">
+                            <span><i style="background:var(--blue)"></i>Filme</span>
+                            <span><i style="background:var(--series-2)"></i>Folgen</span>
+                        </div>
+                        <div class="dash-chart-body" id="chart-activity"></div>
+                    </figure>
+                    <figure class="dash-chart">
+                        <figcaption>Meine Filmbewertungen <small>Letterboxd, von 5</small></figcaption>
+                        <div class="dash-chart-body" id="chart-films"></div>
+                    </figure>
+                    <figure class="dash-chart">
+                        <figcaption>Meine Folgenbewertungen <small>Serializd, von 10</small></figcaption>
+                        <div class="dash-chart-body" id="chart-episodes"></div>
+                    </figure>
+                </div>
+                <h3 class="dash-h3" style="margin-top:1.5rem">Lieblingsgenres</h3>
+                <div class="dash-genres" id="dash-genres"></div>
+            </section>
+        </div>
 
         <p class="dash-attribution">
             <img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg" alt="TMDB" width="80" height="11">
@@ -189,7 +206,7 @@
 
     <script src="js/index.js?v=3"></script>
     <script src="js/tmdb-config.js"></script>
-    <script src="js/dashboard.js?v=1"></script>
+    <script src="js/dashboard.js?v=3"></script>
     <script src="js/effects.js?v=3"></script>
 </body>
 </html>

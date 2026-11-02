@@ -73,20 +73,29 @@ async function pool(items, limit, fn) {
 }
 
 // ── STATS ─────────────────────────────────────
+const tilesHTML = tiles => tiles.map(([v, l]) =>
+    `<div class="stat-item"><div class="stat-number">${v}</div><div class="stat-label">${l}</div></div>`).join('');
+
 function renderStats() {
     const s = dash.data.stats;
     const year = new Date().getFullYear();
+    const tv = s.tvTime;   // as shown on Serializd: months / days / hours
     const tiles = [
         [fmtNum(s.films), 'Filme gesehen'],
         [fmtNum(s.filmsThisYear), `Filme ${year}`],
-        [fmtNum(s.shows), 'Serien'],
-        [fmtNum(s.episodesLogged), 'Folgen bewertet'],
-        ['~' + fmtNum(s.hours), 'Stunden geschaut'],
-        [`${fmt10(s.filmAvg)}<small>/5</small>`, 'Ø Film'],
-        [`${fmt10(s.episodeAvg)}<small>/10</small>`, 'Ø Folge'],
+        [fmtNum(s.showsWatched), 'Serien gesehen'],
+        [s.episodesWatched ? fmtNum(s.episodesWatched) : fmtNum(s.episodesLogged), 'Folgen gesehen'],
     ];
-    $('dash-stats').innerHTML = tiles.map(([v, l]) =>
-        `<div class="stat-item"><div class="stat-number">${v}</div><div class="stat-label">${l}</div></div>`).join('');
+    if (tv) tiles.push([`${tv.months}<small>M</small> ${tv.days}<small>T</small>`, 'Zeit mit Serien']);
+    tiles.push([`${fmtNum(s.filmHours)}<small>h</small>`, 'Zeit mit Filmen']);
+    $('dash-stats').innerHTML = tilesHTML(tiles);
+    $('dash-averages').innerHTML = tilesHTML([
+        [`${fmt10(s.filmAvg)}<small>/5</small>`, 'Ø Filmbewertung'],
+        [`${fmt10(s.episodeAvg)}<small>/10</small>`, 'Ø Folgenbewertung'],
+        [fmtNum(dash.data.films.filter(f => f.rating != null).length), 'Filme bewertet'],
+        [fmtNum(s.episodesLogged), 'Folgen im Tagebuch'],
+        [fmtNum(dash.data.films.filter(f => f.liked).length), 'Lieblingsfilme ♥'],
+    ]);
     $('dash-updated').textContent = `Stand: ${parseDay(dash.data.generated).toLocaleDateString('de-DE')}`;
 }
 
@@ -112,10 +121,13 @@ function renderWatching() {
 }
 
 // ── UPCOMING ──────────────────────────────────
+const CAL_LIMIT = 6;
+
 function calendarHTML(items, empty) {
     if (!items.length) return `<p class="dash-empty">${empty}</p>`;
     let html = '', lastDay = null;
-    for (const it of items) {
+    items.forEach((it, idx) => {
+        if (idx === CAL_LIMIT) html += '<div class="cal-more" hidden>';
         if (it.date !== lastDay) {
             const rel = relDay(it.date);
             const label = ['Heute', 'Morgen'].includes(rel) ? `${rel} · ${shortFmt.format(parseDay(it.date))}` : dayFmt.format(parseDay(it.date));
@@ -129,8 +141,21 @@ function calendarHTML(items, empty) {
                 <span class="cal-sub" style="display:block">${esc(it.sub)}</span>
             </span>
         </button>`;
+    });
+    if (items.length > CAL_LIMIT) {
+        html += `</div><button class="filter-btn cal-toggle" type="button">Alle ${items.length} anzeigen</button>`;
     }
     return html;
+}
+
+function initCalendarToggles() {
+    document.querySelector('.dash-upcoming').addEventListener('click', e => {
+        const btn = e.target.closest('.cal-toggle');
+        if (!btn) return;
+        const more = btn.previousElementSibling;
+        more.hidden = !more.hidden;
+        btn.textContent = more.hidden ? `Alle ${btn.parentElement.querySelectorAll('.cal-item').length} anzeigen` : 'Weniger anzeigen';
+    });
 }
 
 async function renderEpisodes() {
@@ -207,7 +232,7 @@ function renderRecs() {
 
 // ── DIARY ─────────────────────────────────────
 function renderDiary() {
-    const entries = dash.data.diary.slice(0, 15);
+    const entries = dash.data.diary.slice(0, 12);
     $('dash-diary').innerHTML = entries.map(e => {
         const isFilm = e.type === 'film';
         const item = isFilm ? dash.filmById.get(e.tmdb) : dash.showById.get(e.tmdb);
@@ -321,15 +346,11 @@ function renderCharts() {
     }
     const films = Object.fromEntries(months.map(m => [m, 0]));
     const eps = Object.fromEntries(months.map(m => [m, 0]));
-    const filmsInDiary = new Set();
+    // Diary entries only, like Letterboxd/Serializd count them
     for (const e of d.diary) {
         const m = (e.date || '').slice(0, 7);
-        if (e.type === 'film') { filmsInDiary.add(e.tmdb); if (m in films) films[m]++; }
+        if (e.type === 'film' && m in films) films[m]++;
         else if (e.type === 'episode' && m in eps) eps[m]++;
-    }
-    for (const f of d.films) {   // films logged without a diary date
-        const m = (f.watched || '').slice(0, 7);
-        if (!filmsInDiary.has(f.tmdb) && m in films) films[m]++;
     }
     const labels = months.map(m => monthFmt.format(new Date(m + '-15')).replace('.', ''));
     const mLong = new Intl.DateTimeFormat('de-DE', { month: 'long', year: 'numeric' });
@@ -409,17 +430,35 @@ function renderLibrary() {
     $('dash-more').hidden = items.length <= shown;
 }
 
-function initLibraryControls() {
-    $('dash-lib-tabs').addEventListener('click', e => {
-        const btn = e.target.closest('.filter-btn');
-        if (!btn) return;
-        $('dash-lib-tabs').querySelectorAll('.filter-btn').forEach(b => {
-            b.classList.toggle('active', b === btn);
-            b.setAttribute('aria-selected', String(b === btn));
-        });
-        Object.assign(dash.lib, { kind: btn.dataset.kind, shown: PAGE_SIZE });
-        renderLibrary();
+// ── VIEWS (tabs, linked via #hash) ────────────
+const VIEW_LIB = { filme: ['films', 'Filme'], serien: ['shows', 'Serien'], watchlist: ['watchlist', 'Watchlist'] };
+let chartsDrawn = false;
+
+function showView(view) {
+    if (!document.querySelector(`#dash-nav [data-view="${view}"]`)) view = 'uebersicht';
+    document.querySelectorAll('#dash-nav [data-view]').forEach(a => {
+        const on = a.dataset.view === view;
+        a.classList.toggle('active', on);
+        a.setAttribute('aria-selected', String(on));
     });
+    document.querySelectorAll('.dash-view').forEach(v => { v.hidden = !v.dataset.view.split(' ').includes(view); });
+    if (VIEW_LIB[view]) {
+        const [kind, title] = VIEW_LIB[view];
+        if (dash.lib.kind !== kind) Object.assign(dash.lib, { kind, shown: PAGE_SIZE, status: 'all' });
+        $('dash-status').value = dash.lib.status;
+        $('dash-lib-title').textContent = title;
+        renderLibrary();
+    }
+    if (view === 'statistiken' && !chartsDrawn) { renderCharts(); chartsDrawn = true; }   // needs a visible width
+}
+
+function initViews() {
+    const fromHash = () => showView(decodeURIComponent(location.hash.slice(1)) || 'uebersicht');
+    window.addEventListener('hashchange', fromHash);
+    fromHash();
+}
+
+function initLibraryControls() {
     let t;
     $('dash-search').addEventListener('input', e => {
         clearTimeout(t);
@@ -577,17 +616,18 @@ async function initDashboard() {
     renderWatching();
     renderRecs();
     renderDiary();
-    renderCharts();
-    let chartWidth = $('chart-activity').clientWidth, rt;
+    let chartWidth = 0, rt;
     window.addEventListener('resize', () => {
         clearTimeout(rt);
         rt = setTimeout(() => {
-            if ($('chart-activity').clientWidth !== chartWidth) { chartWidth = $('chart-activity').clientWidth; renderCharts(); }
+            const w = $('chart-activity').clientWidth;
+            if (w && w !== chartWidth) { chartWidth = w; renderCharts(); }
         }, 200);
     });
-    renderLibrary();
     initLibraryControls();
+    initViews();
     initModal();
+    initCalendarToggles();
     renderEpisodes();
     renderMovies();
 }

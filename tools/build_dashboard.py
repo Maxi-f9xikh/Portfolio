@@ -134,13 +134,14 @@ def build_films():
 
     # Ratings are keyed by film URI; diary/reviews use per-entry URIs, so match on name+year
     rating_by_film = {(r["Name"], r["Year"]): float(r["Rating"]) for r in ratings.values() if r["Rating"]}
-    seen_dates = defaultdict(list)
+    # A set per film: the RSS feed repeats diary entries that are already in the export
+    seen_dates = defaultdict(set)
     for d in diary:
-        seen_dates[(d["Name"], d["Year"])].append(d["Watched Date"] or d["Date"])
-    for r in rss:  # entries newer than the export
-        seen_dates[(r["title"], r["year"])].append(r["watched"])
+        seen_dates[(d["Name"], d["Year"])].add(d["Watched Date"] or d["Date"])
+    for r in reversed(rss):  # oldest → newest, so the latest rating wins over the export
+        seen_dates[(r["title"], r["year"])].add(r["watched"])
         if r["rating"]:
-            rating_by_film.setdefault((r["title"], r["year"]), r["rating"])
+            rating_by_film[(r["title"], r["year"])] = r["rating"]
         if r["liked"]:
             liked.add((r["title"], r["year"]))
 
@@ -168,6 +169,7 @@ def build_films():
             "rating": rating_by_film.get(k),
             "liked": k in liked,
             "watched": dates[-1] if dates else f["added"],
+            "logged": bool(dates),   # has diary entries (else only marked as watched)
             "views": max(len(dates), 1),
         })
     tmdb_by_key = dict(zip(keys, ids))
@@ -333,23 +335,22 @@ def main():
     rec_shows = recommend("tv", show_seeds, seen_shows, providers)
 
     year = str(date.today().year)
-    film_minutes = sum(f["runtime"] * f["views"] for f in films)
-    tv_minutes = 0
-    for s in shows:
-        if s["status"] == "watched" and s["episodes"]:
-            tv_minutes += s["episodes"] * s["runtime"]
-        else:
-            tv_minutes += s["episodesRated"] * s["runtime"]
+    sz = json.loads((DATA / "serializd.json").read_text(encoding="utf-8"))
+    profile = sz.get("profile", {})   # numbers as shown on the Serializd profile page
     diary = sorted(film_diary + show_diary, key=lambda e: e["date"] or "", reverse=True)
 
     dashboard = {
         "generated": date.today().isoformat(),
         "stats": {
             "films": len(films),
-            "filmsThisYear": sum(1 for f in films if (f["watched"] or "").startswith(year)),
-            "shows": sum(1 for s in shows if s["status"] in ("watched", "watching")),
+            # Same as Letterboxd's "this year": distinct films with a diary entry this year
+            "filmsThisYear": len({e["tmdb"] or e["title"] for e in film_diary if (e["date"] or "").startswith(year)}),
+            "filmHours": round(sum(f["runtime"] * f["views"] for f in films) / 60),
+            "showsWatched": len(sz["lists"].get("watched", [])),
+            "showsWatching": len(sz["lists"].get("watching", [])),
+            "episodesWatched": profile.get("episodesWatched"),
+            "tvTime": profile.get("tvTime"),
             "episodesLogged": sum(1 for e in show_diary if e["type"] == "episode"),
-            "hours": round((film_minutes + tv_minutes) / 60),
             "filmAvg": round(sum(f["rating"] for f in films if f["rating"]) / max(1, sum(1 for f in films if f["rating"])), 2),
             "episodeAvg": round(sum(e["rating"] for e in show_diary if e["type"] == "episode" and e["rating"])
                                 / max(1, sum(1 for e in show_diary if e["type"] == "episode" and e["rating"])), 2),
@@ -366,7 +367,7 @@ def main():
     (DATA / "reviews.json").write_text(json.dumps({**film_reviews, **show_reviews}, ensure_ascii=False,
                                                   separators=(",", ":")), encoding="utf-8")
     st = dashboard["stats"]
-    print(f"\nFertig: {st['films']} Filme, {st['shows']} Serien, {len(diary)} Tagebuch-Einträge, "
+    print(f"\nFertig: {st['films']} Filme, {st["showsWatched"]} Serien, {len(diary)} Tagebuch-Einträge, "
           f"{len(rec_films)} + {len(rec_shows)} Vorschläge")
     print(f"dashboard.json: {(DATA / 'dashboard.json').stat().st_size // 1024} KB")
 
