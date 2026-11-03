@@ -56,6 +56,43 @@
   });
   console.log('Tagebuch:', diary.length, 'Einträge');
 
+  // 1b) Reviews tab — catches entries logged while the diary was being read.
+  //     "See more" loads 24 at a time; sorting oldest-first makes page 1 load while we listen.
+  //     After my own reviews Serializd appends OTHER users' reviews → only keep author === me.
+  const me = location.pathname.split('/')[2].toLowerCase();
+  [...document.querySelectorAll('a')].find(a => a.innerText.trim() === 'Reviews').click();
+  for (let i = 0; i < 40 && !document.querySelector('select'); i++) await sleep(250);
+  await sleep(1500);
+  const allReviews = new Map();
+  const reviewCount = () => { for (const c of cap) for (const x of (json(c) || {}).items || []) if ('rating' in x && String(x.author).toLowerCase() === me) allReviews.set(x.id, x); return allReviews.size; };
+  const sortSel = document.querySelectorAll('select')[0];
+  Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value').set.call(sortSel, 'backdateAsc');
+  sortSel.dispatchEvent(new Event('change', { bubbles: true }));
+  for (let i = 0; i < 40 && reviewCount() === 0; i++) await sleep(250);
+  for (let stale = 0; stale < 3;) {
+    const more = [...document.querySelectorAll('button')].find(b => b.textContent.trim() === 'See more');
+    if (!more) break;
+    // once the list has moved on to other people's reviews, my own are complete
+    const lastBatch = cap.length ? (json(cap[cap.length - 1]) || {}).items || [] : [];
+    if (lastBatch.length && lastBatch.every(x => String(x.author).toLowerCase() !== me)) break;
+    const before = reviewCount(); more.click();
+    for (let i = 0; i < 40 && reviewCount() === before; i++) await sleep(250);
+    stale = reviewCount() === before ? stale + 1 : 0;
+    await sleep(300);
+  }
+  const inDiary = new Set(diary.map(d => d.id));
+  for (const x of allReviews.values()) {
+    if (inDiary.has(x.id)) continue;
+    const season = (x.showSeasons || []).find(s => s.id === x.seasonId);
+    diary.push({
+      id: x.id, show: x.showId, name: x.showName, banner: x.showBannerImage, premiere: x.showPremiereDate,
+      s: season ? season.seasonNumber : null, e: x.episodeNumber ?? null, ep: x.episodeName ?? null,
+      rating: x.rating, date: (x.backdate || x.dateAdded || '').slice(0, 10), rewatch: !!x.isRewatch,
+      review: x.reviewText || null
+    });
+  }
+  console.log('Reviews:', allReviews.size, '→ zusammen', diary.length, 'Einträge');
+
   // 2) Show lists — responses are told apart by their URL (…/watched, …/watchlist, …)
   [...document.querySelectorAll('a')].find(a => a.innerText.trim() === 'Shows').click();
   await sleep(4000);

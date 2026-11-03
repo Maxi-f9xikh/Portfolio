@@ -112,6 +112,14 @@ function lastEpisode(showId) {
     return dash.data.diary.find(e => e.tmdb === showId && e.type === 'episode');
 }
 
+// "S1E6–14" when several episodes of the same season were watched on the latest day
+function lastEpisodesLabel(last) {
+    const sameDay = dash.data.diary.filter(e => e.tmdb === last.tmdb && e.type === 'episode' && e.date === last.date && e.s === last.s);
+    const nums = sameDay.map(e => e.e);
+    const lo = Math.min(...nums), hi = Math.max(...nums);
+    return lo === hi ? `S${last.s}E${hi}` : `S${last.s}E${lo}–${hi}`;
+}
+
 function renderWatching() {
     const shows = dash.data.shows.filter(s => s.status === 'watching')
         .sort((a, b) => (b.lastWatched || '').localeCompare(a.lastWatched || ''));
@@ -119,7 +127,7 @@ function renderWatching() {
         const last = lastEpisode(s.tmdb);
         const score = showScore(s);
         const badge = score ? `<span class="star">★</span> ${fmt10(score)}` : '';
-        const sub = last ? `<span class="accent">S${last.s}E${last.e}</span> · ${relDay(last.date)}` : 'Noch nicht bewertet';
+        const sub = last ? `<span class="accent">${lastEpisodesLabel(last)}</span> · ${relDay(last.date)}` : 'Noch nicht bewertet';
         return `<button class="tile" data-kind="show" data-id="${s.tmdb}">
             ${posterHTML(s.poster, s.name, 'w185', badge)}
             <div class="tile-title">${esc(s.name)}</div>
