@@ -101,9 +101,10 @@ function renderStats() {
         [fmtNum(s.episodesLogged), 'Folgen im Tagebuch'],
         [fmtNum(dash.data.films.filter(f => f.liked).length), 'Lieblingsfilme ♥'],
     ]);
-    const lb = dash.feedTime ? new Date(dash.feedTime) : null;
+    // Letterboxd is checked automatically every few hours, so show the newest entry, not a check time
+    const newestFilm = dash.data.diary.find(e => e.type === 'film');
     $('dash-updated').textContent = `Serien: Stand ${parseDay(dash.data.generated).toLocaleDateString('de-DE')}`
-        + (lb ? ` · Filme: live von Letterboxd, ${lb.toLocaleDateString('de-DE')} ${lb.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}` : '');
+        + (newestFilm ? ` · Filme: automatisch von Letterboxd, neuester Eintrag ${parseDay(newestFilm.date).toLocaleDateString('de-DE')}` : '');
 }
 
 // ── CURRENTLY WATCHING ────────────────────────
@@ -668,7 +669,6 @@ function mergeLetterboxdFeed(feed) {
         filmsThisYear: new Set(d.diary.filter(e => e.type === 'film' && (e.date || '').startsWith(year)).map(e => e.tmdb)).size,
         filmAvg: rated.reduce((a, f) => a + f.rating, 0) / Math.max(1, rated.length),
     });
-    if (feed.fetched > d.generated) dash.feedTime = feed.fetched;
     return added;
 }
 
