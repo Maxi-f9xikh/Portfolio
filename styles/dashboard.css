@@ -379,7 +379,13 @@ body.dark-mode { --series-2: #d95926; }
   box-shadow: 0 30px 80px rgba(0,0,0,0.35);
   overflow: auto;
 }
-.dash-modal::backdrop { background: rgba(8,12,18,0.6); backdrop-filter: blur(3px); }
+/* No blur behind the dialog: re-blurring the whole page on every scroll step made it stutter */
+.dash-modal::backdrop { background: rgba(8,12,18,0.72); }
+.dash-modal { overscroll-behavior: contain; }
+.modal-review { contain: content; }
+/* Full-screen effects are hidden while the dialog is open */
+body:has(.dash-modal[open]) .cursor-glow,
+body:has(.dash-modal[open])::after { display: none; }
 .dash-modal[open] { animation: modal-in 0.22s ease; }
 @keyframes modal-in { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: none; } }
 .dash-modal-close {

@@ -13,11 +13,12 @@ function initCursorGlow() {
     document.body.appendChild(glow);
 
     let x = -999, y = -999;
+    glow.style.transform = `translate3d(${x}px, ${y}px, 0)`;   // off-screen until the mouse moves
     document.addEventListener('mousemove', e => {
         x = e.clientX;
         y = e.clientY;
-        glow.style.left = x + 'px';
-        glow.style.top  = y + 'px';
+        // transform only moves the existing layer (no repaint), left/top repainted 500px every move
+        glow.style.transform = `translate3d(${x}px, ${y}px, 0)`;
     });
 }
 
