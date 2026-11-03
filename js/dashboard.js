@@ -247,19 +247,43 @@ function renderRecs() {
 }
 
 // ── DIARY ─────────────────────────────────────
+// Episodes of one season watched on the same day become one row ("S1E6–14 · 9 Folgen")
+function diaryGroups(limit) {
+    const groups = [], byKey = new Map();
+    for (const e of dash.data.diary) {
+        const key = e.type === 'episode' ? `${e.tmdb}|${e.date}|${e.s}` : null;
+        if (key && byKey.has(key)) { byKey.get(key).push(e); continue; }
+        const group = [e];
+        groups.push(group);
+        if (key) byKey.set(key, group);
+    }
+    return groups.slice(0, limit);
+}
+
+const avg = xs => xs.reduce((a, x) => a + x, 0) / xs.length;
+
 function renderDiary() {
-    const entries = dash.data.diary.slice(0, 12);
-    $('dash-diary').innerHTML = entries.map(e => {
+    $('dash-diary').innerHTML = diaryGroups(12).map(group => {
+        const e = group[0];
         const isFilm = e.type === 'film';
         const item = isFilm ? dash.filmById.get(e.tmdb) : dash.showById.get(e.tmdb);
         const poster = item ? item.poster : null;
-        let sub;
-        if (isFilm) sub = `Film${item && item.year ? ' · ' + item.year : ''}`;
-        else if (e.type === 'episode') sub = `S${e.s}E${e.e}${e.ep ? ' · ' + e.ep : ''}`;
-        else if (e.type === 'season') sub = `Staffel ${e.s} komplett`;
-        else sub = 'Ganze Serie';
-        const rating = ratingHTML(e.rating, isFilm ? null : e.score);
-        const pills = (e.rewatch ? '<span class="pill">Rewatch</span>' : '') + (e.review ? '<span class="pill">Review</span>' : '');
+        let sub, rating;
+        if (group.length > 1) {
+            const nums = group.map(x => x.e);
+            sub = `S${e.s}E${Math.min(...nums)}–${Math.max(...nums)} · ${group.length} Folgen`;
+            const stars = group.filter(x => x.rating != null).map(x => x.rating);
+            const scores = group.filter(x => x.score != null).map(x => x.score);
+            rating = stars.length ? 'Ø ' + ratingHTML(Math.round(avg(stars) * 2) / 2, scores.length ? Math.round(avg(scores) * 10) / 10 : null) : '';
+        } else {
+            if (isFilm) sub = `Film${item && item.year ? ' · ' + item.year : ''}`;
+            else if (e.type === 'episode') sub = `S${e.s}E${e.e}${e.ep ? ' · ' + e.ep : ''}`;
+            else if (e.type === 'season') sub = `Staffel ${e.s} komplett`;
+            else sub = 'Ganze Serie';
+            rating = ratingHTML(e.rating, isFilm ? null : e.score);
+        }
+        const pills = (group.some(x => x.rewatch) ? '<span class="pill">Rewatch</span>' : '')
+            + (group.some(x => x.review) ? `<span class="pill">${group.length > 1 ? 'Reviews' : 'Review'}</span>` : '');
         return `<li class="diary-item" tabindex="0" data-kind="${isFilm ? 'film' : 'show'}" data-id="${e.tmdb}">
             ${thumb(poster)}
             <div class="diary-main">
@@ -597,7 +621,7 @@ async function openModal(kind, id) {
     if (kind === 'film') {
         revs = (reviews[`film-${id}`] || []).map(r => reviewHTML(`${relDay(r.date)}${r.rating != null ? ' · ' + starsHTML(r.rating) : ''}`, r.text));
     } else if (kind === 'show') {
-        revs = d.diary.filter(e => e.tmdb === id && e.review && reviews[`sz-${e.id}`]).slice(0, 10).map(e => {
+        revs = d.diary.filter(e => e.tmdb === id && e.review && reviews[`sz-${e.id}`]).slice(0, 40).map(e => {
             const what = e.type === 'episode' ? `S${e.s}E${e.e}` : e.type === 'season' ? `Staffel ${e.s}` : 'Serie';
             return reviewHTML(`${what} · ${relDay(e.date)}${e.rating ? ' · ' + ratingHTML(e.rating, e.score) : ''}`, reviews[`sz-${e.id}`]);
         });
