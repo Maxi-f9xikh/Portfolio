@@ -1,6 +1,5 @@
 // ── PROJEKT-ARRAY ──────────────────────────────────────────────────
-// Format: [Name, Beschreibung, Status, Featured, Link, Type]
-// Format: [Name, Beschreibung, Status, Featured, CurseForgeLink, Type, ModrinthLink?]
+// Format: [Name, Beschreibung, Status, Featured, Link (CurseForge for mods), Type, ModrinthLink?]
 const ProjektArray = [
     ["Nextblog Test",           "Erster Website-Test",                                    "fertig",   false, "Projekte/nextblog/index.html",                                  "web"],
     ["Javaskript Test",         "Taschenrechner-Test in JavaScript",                      "fertig",   false, "Projekte/Javaskript/index.html",                                "web"],
@@ -36,7 +35,13 @@ function getProjectIcon(type) {
     return `<svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
 }
 
-function renderProjekte(containerId, featuredOnly) {
+// CurseForge project ids by URL slug → download counts from data/curseforge.json
+const CF_IDS = { 'boat-fix': 1286312, 'underwater-torch': 1539858, 'all-stacks-to-67': 1532694, 'place-on-path-pop': 1586696 };
+const cfId = link => CF_IDS[(link.match(/curseforge\.com\/minecraft\/mc-mods\/([^/?#]+)/) || [])[1]];
+
+const DOWNLOAD_ICON = '<svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>';
+
+function renderProjekte(containerId, featuredOnly, { excludeType = null } = {}) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
@@ -47,6 +52,7 @@ function renderProjekte(containerId, featuredOnly) {
 
     sorted.forEach(([name, beschreibung, status, featured, link, type = 'default', modrinthLink = null]) => {
         if (featuredOnly && !featured) return;
+        if (excludeType && type === excludeType) return;
 
         const hasPlatformChoice = !!(modrinthLink && link && link !== '#');
         const statusText = getStatusText(status);
@@ -60,7 +66,13 @@ function renderProjekte(containerId, featuredOnly) {
         if (!hasPlatformChoice) {
             if (link !== '#') { karte.href = link; karte.target = '_blank'; karte.rel = 'noopener noreferrer'; }
             else { karte.href = '#'; }
+        } else {
+            // div with a choice overlay → make it reachable and usable by keyboard
+            karte.tabIndex = 0;
+            karte.setAttribute('role', 'button');
+            karte.setAttribute('aria-label', `${name}: auf CurseForge oder Modrinth öffnen`);
         }
+        const modId = cfId(link);
 
         karte.innerHTML = `
             <div class="projekt-card${hasPlatformChoice ? ' has-platform-choice' : ''}" data-type="${type}">
@@ -70,7 +82,10 @@ function renderProjekte(containerId, featuredOnly) {
                 <div class="projekt-card-body">
                     <h3>${name}</h3>
                     <p>${beschreibung}</p>
-                    <span class="status ${status}">${statusText}</span>
+                    <div class="card-foot">
+                        <span class="status ${status}">${statusText}</span>
+                        ${modId ? `<span class="dl-badge" data-mod="${modId}" hidden>${DOWNLOAD_ICON}<span></span></span>` : ''}
+                    </div>
                 </div>
                 ${hasPlatformChoice ? `
                 <div class="platform-overlay">
@@ -88,17 +103,53 @@ function renderProjekte(containerId, featuredOnly) {
                 if (!isActive) overlay.classList.add('active');
             });
             karte.querySelectorAll('.platform-btn').forEach(btn => btn.addEventListener('click', e => e.stopPropagation()));
+            karte.addEventListener('keydown', e => {
+                if ((e.key === 'Enter' || e.key === ' ') && e.target === karte) { e.preventDefault(); karte.click(); }
+            });
         }
 
         container.appendChild(karte);
     });
 
-    if (typeof initScrollAnimations === 'function') initScrollAnimations();
     if (typeof initCardTilt === 'function') initCardTilt();
 }
 
-renderProjekte('projekte_rein', false);
+// Small experiments as a compact list (home page)
+function renderMiniProjekte(containerId, type) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = ProjektArray.filter(p => p[5] === type).map(([name, beschreibung, , , link]) => `
+        <a class="mini-project" href="${link}">
+            <span class="mini-icon">${getProjectIcon(type)}</span>
+            <span><span class="mini-title">${name}</span><span class="mini-desc">${beschreibung}</span></span>
+        </a>`).join('');
+}
+
+// Fill in the per-mod download counts (data refreshed every 3 h by a GitHub Action)
+async function loadModDownloads() {
+    const badges = document.querySelectorAll('.dl-badge[data-mod]');
+    if (!badges.length) return;
+    for (const url of ['https://raw.githubusercontent.com/Maxi-f9xikh/Portfolio/main/data/curseforge.json', 'data/curseforge.json']) {
+        try {
+            const r = await fetch(url, { cache: 'no-cache' });
+            if (!r.ok) continue;
+            const { mods } = await r.json();
+            badges.forEach(b => {
+                const m = mods[b.dataset.mod];
+                if (!m) return;
+                b.querySelector('span').textContent = `${m.downloads.toLocaleString('de-DE')} Downloads`;
+                b.hidden = false;
+            });
+            return;
+        } catch { /* try the next source */ }
+    }
+}
+
+const onHome = !!document.getElementById('projekte_klein');
+renderProjekte('projekte_rein', false, { excludeType: onHome ? 'web' : null });
 renderProjekte('projekte_rein_featured', true);
+renderMiniProjekte('projekte_klein', 'web');
+loadModDownloads();
 
 // Close platform overlays when clicking outside
 document.addEventListener('click', e => {

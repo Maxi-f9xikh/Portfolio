@@ -114,23 +114,6 @@ function initTypewriter() {
     setTimeout(tick, 600);
 }
 
-// ── SCROLL ANIMATIONS ─────────────────────────
-function initScrollAnimations() {
-    const els = document.querySelectorAll('.fade-up');
-    if (!els.length) return;
-
-    const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                e.target.classList.add('visible');
-                obs.unobserve(e.target);
-            }
-        });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-    els.forEach(el => obs.observe(el));
-}
-
 // ── CARD TILT ─────────────────────────────────
 function initCardTilt() {
     document.querySelectorAll('.projekt-card').forEach(card => {
@@ -176,13 +159,6 @@ function initNavScroll() {
     window.addEventListener('scroll', () => {
         nav.classList.toggle('scrolled', window.scrollY > 60);
     }, { passive: true });
-}
-
-// ── STAGGER GRID ──────────────────────────────
-function initStaggerGrid() {
-    document.querySelectorAll('.projekt-link').forEach((el, i) => {
-        el.style.transitionDelay = `${i * 60}ms`;
-    });
 }
 
 // ── ANIMATED COUNTERS ─────────────────────────
@@ -410,11 +386,9 @@ function initEffects() {
     initCursorGlow();
     initHeroCanvas();
     initTypewriter();
-    initScrollAnimations();
     initCardTilt();
     initSkillBars();
     initNavScroll();
-    initStaggerGrid();
     initProjectFilter();
     pollCurseForgeStats();
 }

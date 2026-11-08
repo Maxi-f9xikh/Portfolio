@@ -339,14 +339,11 @@ nav {
 }
 
 /* ── SCROLL ANIMATIONS ── */
-.fade-up {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.55s ease, transform 0.55s ease;
-}
-.fade-up.visible {
-  opacity: 1;
-  transform: translateY(0);
+/* Short entrance when the page loads, content is never hidden until scrolled to */
+.fade-up { animation: fade-up-in 0.35s ease both; }
+@keyframes fade-up-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
 }
 
 /* ── PROJEKT CARDS ── */
@@ -367,15 +364,6 @@ nav {
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 80px 60px;
-}
-
-.ProjektHeadline {
-  text-align: center;
-  font-size: clamp(40px, 6vw, 80px);
-  font-weight: 900;
-  letter-spacing: -3px;
-  color: var(--text);
-  margin-bottom: 0;
 }
 
 .projekt-link { text-decoration: none; color: inherit; display: flex; cursor: pointer; }
@@ -414,7 +402,7 @@ nav {
 }
 
 .projekt-card-header {
-  height: 110px;
+  height: 84px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1478,4 +1466,37 @@ main { padding-top: calc(60px + env(safe-area-inset-top)); flex: 1; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
   .cursor-glow, .hero-canvas { display: none !important; }
+}
+
+/* ── HOME: PROJECTS ── */
+.home-projects { max-width: 1100px; padding: 80px 2rem 60px; }
+.home-projects .section-header { margin-bottom: 24px; }
+.home-projects .Projekt-grid { padding: 0; justify-content: start; }
+
+.card-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.dl-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--text-muted);
+}
+
+.section-sub {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted);
+  margin: 48px 0 14px;
+}
+.mini-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.mini-project {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  color: inherit; text-decoration: none;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.mini-project:hover { border-color: var(--blue-border); transform: translateY(-2px); }
+.mini-icon { display: inline-flex; color: var(--blue-text); font-size: 18px; }
+.mini-title { display: block; font-weight: 600; font-size: 14px; }
+.mini-desc { display: block; font-size: 12.5px; color: var(--text-muted); }
+
+@media (max-width: 768px) {
+  .home-projects { padding: 56px 1rem 40px; }
 }
