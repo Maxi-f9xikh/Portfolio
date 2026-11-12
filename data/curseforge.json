@@ -1,10 +1,10 @@
 {
- "fetched": "2026-11-12T00:49:24+00:00",
- "total": 17639,
+ "fetched": "2026-11-12T11:27:23+00:00",
+ "total": 17704,
  "mods": {
   "1286312": {
    "name": "BoatFix (Forge/Fabric)",
-   "downloads": 11296
+   "downloads": 11325
   },
   "1539858": {
    "name": "Underwater Torch",
@@ -16,7 +16,7 @@
   },
   "1586696": {
    "name": "Place on Path (PoP)",
-   "downloads": 5682
+   "downloads": 5718
   }
  }
 }
