@@ -1,6 +1,16 @@
 {
- "fetched": "2026-11-11T00:45:18+00:00",
+ "fetched": "2026-11-14T23:46:40+00:00",
  "entries": [
+  {
+   "title": "Godzilla Minus One",
+   "year": 2023,
+   "tmdb": 940721,
+   "date": "2026-11-14",
+   "rating": 4.0,
+   "rewatch": false,
+   "liked": true,
+   "review": "Really good movie. I definitely enjoyed this way more than the MonsterVerse Godzilla movies. I really liked how Godzilla actually felt terrifying for once. I also really liked the characters and how much the movie focused on them and their story. The visuals were also really good, although there were a few moments where I thought the CGI kinda looked like a video game. I also wasn't the biggest fan of the acting at times, but that's really just nitpicking at this point.\n4/5"
+  },
   {
    "title": "Clayface",
    "year": 2026,
@@ -490,16 +500,6 @@
    "rewatch": true,
    "liked": true,
    "review": "Peak"
-  },
-  {
-   "title": "The Platform",
-   "year": 2019,
-   "tmdb": 619264,
-   "date": "2026-08-06",
-   "rating": 3.0,
-   "rewatch": false,
-   "liked": false,
-   "review": "Pretty solid movie really liked it. I just didn’t liked that ending it was really buns ngl. This movie was entertaining but nothing more. Wouldn’t rewatch it, could’ve also been a 2.5/5 ngl.\n3/5"
   }
  ]
 }
