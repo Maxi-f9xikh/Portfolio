@@ -1,6 +1,16 @@
 {
- "fetched": "2026-11-14T23:46:40+00:00",
+ "fetched": "2026-11-19T01:22:35+00:00",
  "entries": [
+  {
+   "title": "The Hunger Games: Mockingjay – Part 1",
+   "year": 2014,
+   "tmdb": 131631,
+   "date": "2026-11-18",
+   "rating": 4.0,
+   "rewatch": false,
+   "liked": false,
+   "review": "Amazing movie. The whole atmosphere was really good, and I’m definitely hyped for Part 2.\nAlso, bro, we got T-Bag from Prison Break, Foggy Nelson the goat, and Margaery Tyrell from GOT.\n4/5"
+  },
   {
    "title": "Godzilla Minus One",
    "year": 2023,
@@ -490,16 +500,6 @@
    "rewatch": false,
    "liked": false,
    "review": "Pretty overrated. It was a decent watch and I enjoyed it for what it is, but it’s not something I’d ever rewatch.\"\n3/5"
-  },
-  {
-   "title": "Dune",
-   "year": 2021,
-   "tmdb": 438631,
-   "date": "2026-08-08",
-   "rating": 4.0,
-   "rewatch": true,
-   "liked": true,
-   "review": "Peak"
   }
  ]
 }
