@@ -1,6 +1,26 @@
 {
- "fetched": "2026-11-19T01:22:35+00:00",
+ "fetched": "2026-11-20T22:54:23+00:00",
  "entries": [
+  {
+   "title": "The Hunger Games: Sunrise on the Reaping",
+   "year": 2026,
+   "tmdb": 1300968,
+   "date": "2026-11-20",
+   "rating": 5.0,
+   "rewatch": false,
+   "liked": true,
+   "review": "HOLY SHIT. WHAT AN AMAZING MOVIE. Easily the best Hunger Games movie by far, and it’s not even close. This was actually insane. So many crazy and heartbreaking deaths and the way everything built up throughout the movie was just incredible.\nAnd bro the ending. Absolutely perfect. Seeing everyone again when they’re older, knowing that everything is finally over and the rebellion succeeded. I genuinely couldn’t have asked for a better ending. I also cried so much during it wow.\n5/5"
+  },
+  {
+   "title": "The Hunger Games: Mockingjay – Part 2",
+   "year": 2015,
+   "tmdb": 131634,
+   "date": "2026-11-19",
+   "rating": 4.0,
+   "rewatch": false,
+   "liked": false,
+   "review": "Really good movie and I especially liked the ending. Definitely a great conclusion to the story.\nBut after just watching Sunrise on the Reaping in the cinema, I honestly have to say that Mockingjay Part 2 doesn’t even come close for me.\nI also wish Haymitch had gotten more screentime. \nAfter everything that happened in Sunrise on the Reaping, I would’ve loved to see him have one last confrontation with Snow, maybe even punch him or something.\n4/5"
+  },
   {
    "title": "The Hunger Games: Mockingjay – Part 1",
    "year": 2014,
@@ -480,26 +500,6 @@
    "rewatch": true,
    "liked": true,
    "review": "Absolute cinema"
-  },
-  {
-   "title": "Mardi Gras: Spring Break",
-   "year": 2011,
-   "tmdb": 58231,
-   "date": "2026-08-10",
-   "rating": 2.5,
-   "rewatch": false,
-   "liked": false,
-   "review": "Really enjoyable especially because of the nude scenes \n2.5/5"
-  },
-  {
-   "title": "Hereditary",
-   "year": 2018,
-   "tmdb": 493922,
-   "date": "2026-08-09",
-   "rating": 3.0,
-   "rewatch": false,
-   "liked": false,
-   "review": "Pretty overrated. It was a decent watch and I enjoyed it for what it is, but it’s not something I’d ever rewatch.\"\n3/5"
   }
  ]
 }
